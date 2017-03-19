@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.supplychain.dao.base.SpcMaterialBaseDao">
+    
+	<sql id="spcMaterialBaseColumns">
+		a.id AS "id",
+		a.no AS "no",
+		a.name AS "name",
+		a.model AS "model",
+		a.mearureunit_id AS "mearureunitId.id",
+		a.price AS "price",
+		a.length AS "length",
+		a.width AS "width",
+		a.height AS "height",
+		a.netweight AS "netweight",
+		a.grossweight AS "grossweight",
+		a.in_date AS "inDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		t1.name AS "mearureunit.name"
+	</sql>
+	
+	<sql id="spcMaterialBaseJoins">
+	left join  SPC_MEASUREUNIT  t1 on a.mearureunit_id = t1.id
+	</sql>
+    
+	<select id="get" resultType="SpcMaterialBase">
+		SELECT 
+			<include refid="spcMaterialBaseColumns"/>
+		FROM spc_material_base a
+		<include refid="spcMaterialBaseJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SpcMaterialBase">
+		SELECT 
+			<include refid="spcMaterialBaseColumns"/>
+		FROM spc_material_base a
+		<include refid="spcMaterialBaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SpcMaterialBase">
+		SELECT 
+			<include refid="spcMaterialBaseColumns"/>
+		FROM spc_material_base a
+		<include refid="spcMaterialBaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO spc_material_base(
+			id,
+			no,
+			name,
+			model,
+			mearureunit_id,
+			price,
+			length,
+			width,
+			height,
+			netweight,
+			grossweight,
+			in_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{no},
+			#{name},
+			#{model},
+			#{mearureunitId.id},
+			#{price},
+			#{length},
+			#{width},
+			#{height},
+			#{netweight},
+			#{grossweight},
+			#{inDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE spc_material_base SET 	
+			no = #{no},
+			name = #{name},
+			model = #{model},
+			mearureunit_id = #{mearureunitId.id},
+			price = #{price},
+			length = #{length},
+			width = #{width},
+			height = #{height},
+			netweight = #{netweight},
+			grossweight = #{grossweight},
+			in_date = #{inDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE spc_material_base SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
