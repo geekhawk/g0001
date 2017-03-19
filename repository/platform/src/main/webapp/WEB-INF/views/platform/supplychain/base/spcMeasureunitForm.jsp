@@ -33,6 +33,14 @@
 	<form:form id="inputForm" modelAttribute="spcMeasureunit" action="${ctx}/supplychain/base/spcMeasureunit/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
+		
+		<div class="control-group">
+			<label class="control-label">编号：</label>
+			<div class="controls">
+				<form:input path="no" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
 		<div class="control-group">
 			<label class="control-label">名称：</label>
 			<div class="controls">
@@ -40,30 +48,7 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">归属用户：</label>
-			<div class="controls">
-				<sys:treeselect id="user" name="user.id" value="${spcMeasureunit.user.id}" labelName="user.name" labelValue="${spcMeasureunit.user.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">归属部门：</label>
-			<div class="controls">
-				<sys:treeselect id="office" name="office.id" value="${spcMeasureunit.office.id}" labelName="office.name" labelValue="${spcMeasureunit.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">归属区域：</label>
-			<div class="controls">
-				<sys:treeselect id="area" name="area.id" value="${spcMeasureunit.area.id}" labelName="area.name" labelValue="${spcMeasureunit.area.name}"
-					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
+		 
 		<div class="control-group">
 			<label class="control-label">加入日期：</label>
 			<div class="controls">

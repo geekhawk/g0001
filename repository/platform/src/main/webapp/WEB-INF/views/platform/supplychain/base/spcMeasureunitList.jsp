@@ -25,21 +25,14 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
+		
+		<li><label>编号：</label>
+				<form:input path="no" htmlEscape="false" maxlength="100" class="input-medium"/>
+			</li>
 			<li><label>名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>
-			<li><label>归属用户：</label>
-				<sys:treeselect id="user" name="user.id" value="${spcMeasureunit.user.id}" labelName="user.name" labelValue="${spcMeasureunit.user.name}"
-					title="用户" url="/sys/office/treeData?type=3" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-			</li>
-			<li><label>归属部门：</label>
-				<sys:treeselect id="office" name="office.id" value="${spcMeasureunit.office.id}" labelName="office.name" labelValue="${spcMeasureunit.office.name}"
-					title="部门" url="/sys/office/treeData?type=2" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-			</li>
-			<li><label>归属区域：</label>
-				<sys:treeselect id="area" name="area.id" value="${spcMeasureunit.area.id}" labelName="area.name" labelValue="${spcMeasureunit.area.name}"
-					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
-			</li>
+			 
 			<li><label>加入日期：</label>
 				<input name="inDate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
 					value="<fmt:formatDate value="${spcMeasureunit.inDate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
@@ -78,9 +71,8 @@
 		<thead>
 			<tr>
 				<th>名称</th>
-				<th>归属用户</th>
-				<th>归属部门</th>
-				<th>归属区域</th>
+				<th>编号</th>
+				 
 				<th>加入日期</th>
 				<th>创建者</th>
 				<th>创建时间</th>
@@ -98,14 +90,9 @@
 					${spcMeasureunit.name}
 				</a></td>
 				<td>
-					${spcMeasureunit.user.name}
+					${spcMeasureunit.no}
 				</td>
-				<td>
-					${spcMeasureunit.office.name}
-				</td>
-				<td>
-					${spcMeasureunit.area.name}
-				</td>
+				 
 				<td>
 					<fmt:formatDate value="${spcMeasureunit.inDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>

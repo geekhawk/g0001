@@ -21,9 +21,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class SpcMeasureunit extends DataEntity<SpcMeasureunit> {
 	
 	private static final long serialVersionUID = 1L;
-	private User user;		// 归属用户
-	private Office office;		// 归属部门
-	private Area area;		// 归属区域
+	private String no ; //编码 
 	private String name;		// 名称
 	private Date inDate;		// 加入日期
 	
@@ -35,32 +33,7 @@ public class SpcMeasureunit extends DataEntity<SpcMeasureunit> {
 		super(id);
 	}
 
-	@NotNull(message="归属用户不能为空")
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	@NotNull(message="归属部门不能为空")
-	public Office getOffice() {
-		return office;
-	}
-
-	public void setOffice(Office office) {
-		this.office = office;
-	}
-	
-	@NotNull(message="归属区域不能为空")
-	public Area getArea() {
-		return area;
-	}
-
-	public void setArea(Area area) {
-		this.area = area;
-	}
+	 
 	
 	@Length(min=1, max=100, message="名称长度必须介于 1 和 100 之间")
 	public String getName() {
@@ -71,6 +44,17 @@ public class SpcMeasureunit extends DataEntity<SpcMeasureunit> {
 		this.name = name;
 	}
 	
+	@Length(min =1,max =100,message="编号长度必须介于1到100之间")
+	public String getNo()
+	{
+		return no;
+	}
+
+	public void setNo(String no)
+	{
+		this.no = no;
+	}
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@NotNull(message="加入日期不能为空")
 	public Date getInDate() {
