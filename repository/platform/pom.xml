@@ -452,6 +452,7 @@
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		 
 		
 		<!-- fastjson json
 		<dependency>
@@ -598,8 +599,8 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/UserAgentUtils-1.13.jar</systemPath>
 		</dependency>
-		
-		<!-- 自定义jar依赖包
+	 
+		<!--   自定义jar依赖包
 		<dependency>
 			<groupId>com.thinkgem.jeesite</groupId>
 			<artifactId>test-core</artifactId>
