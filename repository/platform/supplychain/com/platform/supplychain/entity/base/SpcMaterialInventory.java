@@ -11,12 +11,12 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 物料信息Entity
  * @author 张江浩
- * @version 2017-03-08
+ * @version 2017-03-22
  */
 public class SpcMaterialInventory extends DataEntity<SpcMaterialInventory> {
 	
 	private static final long serialVersionUID = 1L;
-	private SpcMaterialBase spcMaterialBase;		// 业务主表ID 父类
+	private SpcMaterialBase spcMaterialBase ;		// 业务主表ID 父类
 	private Office office;		// 所属部门
 	private Double qty;		// 库存数量
 	
@@ -29,16 +29,16 @@ public class SpcMaterialInventory extends DataEntity<SpcMaterialInventory> {
 	}
 
 	public SpcMaterialInventory(SpcMaterialBase spcMaterialBase ){
-		this.spcMaterialBase = spcMaterialBase ;
+		this.spcMaterialBase  = spcMaterialBase ;
 	}
 
 	@Length(min=0, max=64, message="业务主表ID长度必须介于 0 和 64 之间")
-	public SpcMaterialBase getSpcMaterialBase () {
-		return spcMaterialBase;
+	public SpcMaterialBase getSpcMaterialBaseId() {
+		return spcMaterialBase ;
 	}
 
-	public void setSpcMaterialBase (SpcMaterialBase spcMaterialBase ) {
-		this.spcMaterialBase = spcMaterialBase ;
+	public void setSpcMaterialBaseId(SpcMaterialBase spcMaterialBase ) {
+		this.spcMaterialBase  = spcMaterialBase ;
 	}
 	
 	public Office getOffice() {

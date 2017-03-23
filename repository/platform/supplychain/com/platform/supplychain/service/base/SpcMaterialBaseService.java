@@ -20,7 +20,7 @@ import com.platform.supplychain.dao.base.SpcMaterialInventoryDao;
 /**
  * 物料信息Service
  * @author 张江浩
- * @version 2017-03-08
+ * @version 2017-03-22
  */
 @Service
 @Transactional(readOnly = true)
@@ -30,29 +30,29 @@ public class SpcMaterialBaseService extends CrudService<SpcMaterialBaseDao, SpcM
 	private SpcMaterialInventoryDao spcMaterialInventoryDao;
 	
 	public SpcMaterialBase get(String id) {
-		SpcMaterialBase pscMaterialBase = super.get(id);
-		pscMaterialBase.setSpcMaterialInventoryList(spcMaterialInventoryDao.findList(new SpcMaterialInventory(pscMaterialBase)));
-		return pscMaterialBase;
+		SpcMaterialBase spcMaterialBase = super.get(id);
+		spcMaterialBase.setSpcMaterialInventoryList(spcMaterialInventoryDao.findList(new SpcMaterialInventory(spcMaterialBase)));
+		return spcMaterialBase;
 	}
 	
-	public List<SpcMaterialBase> findList(SpcMaterialBase pscMaterialBase) {
-		return super.findList(pscMaterialBase);
+	public List<SpcMaterialBase> findList(SpcMaterialBase spcMaterialBase) {
+		return super.findList(spcMaterialBase);
 	}
 	
-	public Page<SpcMaterialBase> findPage(Page<SpcMaterialBase> page, SpcMaterialBase pscMaterialBase) {
-		return super.findPage(page, pscMaterialBase);
+	public Page<SpcMaterialBase> findPage(Page<SpcMaterialBase> page, SpcMaterialBase spcMaterialBase) {
+		return super.findPage(page, spcMaterialBase);
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(SpcMaterialBase pscMaterialBase) {
-		super.save(pscMaterialBase);
-		for (SpcMaterialInventory spcMaterialInventory : pscMaterialBase.getSpcMaterialInventoryList()){
+	public void save(SpcMaterialBase spcMaterialBase) {
+		super.save(spcMaterialBase);
+		for (SpcMaterialInventory spcMaterialInventory : spcMaterialBase.getSpcMaterialInventoryList()){
 			if (spcMaterialInventory.getId() == null){
 				continue;
 			}
 			if (SpcMaterialInventory.DEL_FLAG_NORMAL.equals(spcMaterialInventory.getDelFlag())){
 				if (StringUtils.isBlank(spcMaterialInventory.getId())){
-					spcMaterialInventory.setSpcMaterialBase (pscMaterialBase);
+					spcMaterialInventory.setSpcMaterialBaseId(spcMaterialBase);
 					spcMaterialInventory.preInsert();
 					spcMaterialInventoryDao.insert(spcMaterialInventory);
 				}else{
@@ -66,9 +66,9 @@ public class SpcMaterialBaseService extends CrudService<SpcMaterialBaseDao, SpcM
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(SpcMaterialBase pscMaterialBase) {
-		super.delete(pscMaterialBase);
-		spcMaterialInventoryDao.delete(new SpcMaterialInventory(pscMaterialBase));
+	public void delete(SpcMaterialBase spcMaterialBase) {
+		super.delete(spcMaterialBase);
+		spcMaterialInventoryDao.delete(new SpcMaterialInventory(spcMaterialBase));
 	}
 	
 }

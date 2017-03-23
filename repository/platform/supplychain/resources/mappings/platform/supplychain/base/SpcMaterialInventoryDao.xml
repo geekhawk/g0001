@@ -36,7 +36,7 @@
 		<include refid="spcMaterialInventoryJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="spcMaterialBase != null and spcMaterialBase.id != ''">
+			<if test="spcMaterialBase.id != null and spcMaterialBase.id != ''">
 				AND a.spc_material_base_id = #{spcMaterialBase.id}
 			</if>
 		</where>

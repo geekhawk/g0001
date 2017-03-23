@@ -10,7 +10,7 @@ import com.platform.supplychain.entity.base.SpcMaterialBase;
 /**
  * 物料信息DAO接口
  * @author 张江浩
- * @version 2017-03-08
+ * @version 2017-03-22
  */
 @MyBatisDao
 public interface SpcMaterialBaseDao extends CrudDao<SpcMaterialBase> {

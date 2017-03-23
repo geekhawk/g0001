@@ -86,9 +86,9 @@
 		<div class="control-group">
 			<label class="control-label">计量单位：</label>
 			<div class="controls">
-				<form:select path="mearureunitId.id" class="input-xlarge required">
+				<form:select path="mearureunit.id" class="input-xlarge required">
 					<form:option value="" label=""/>
-					<form:options items="${muList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
+					<form:options items="${spcMeasureunitList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

@@ -15,7 +15,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 物料信息Entity
  * @author 张江浩
- * @version 2017-03-08
+ * @version 2017-03-22
  */
 public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	
@@ -23,7 +23,7 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	private String no;		// 编码
 	private String name;		// 名称
 	private String model;		// 规格
-	private SpcMeasureunit  mearureunitId;		// 计量单位
+	private SpcMeasureunit mearureunit;		// 计量单位
 	private Double price;		// 单价
 	private Double length;		// 长度
 	private Double width;		// 宽度
@@ -31,6 +31,10 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	private Double netweight;		// 净重
 	private Double grossweight;		// 毛重
 	private Date inDate;		// 加入日期
+	private Date beginInDate;		// 开始 加入日期
+	private Date endInDate;		// 结束 加入日期
+	private Date beginUpdateDate;		// 开始 更新时间
+	private Date endUpdateDate;		// 结束 更新时间
 	private List<SpcMaterialInventory> spcMaterialInventoryList = Lists.newArrayList();		// 子表列表
 	
 	public SpcMaterialBase() {
@@ -69,12 +73,12 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	}
 	
 	@NotNull(message="计量单位不能为空")
-	public SpcMeasureunit getMearureunitId() {
-		return mearureunitId;
+	public SpcMeasureunit getMearureunit() {
+		return mearureunit;
 	}
 
-	public void setMearureunitId(SpcMeasureunit mearureunitId) {
-		this.mearureunitId = mearureunitId;
+	public void setMearureunit(SpcMeasureunit mearureunit) {
+		this.mearureunit = mearureunit;
 	}
 	
 	public Double getPrice() {
@@ -134,6 +138,38 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 		this.inDate = inDate;
 	}
 	
+	public Date getBeginInDate() {
+		return beginInDate;
+	}
+
+	public void setBeginInDate(Date beginInDate) {
+		this.beginInDate = beginInDate;
+	}
+	
+	public Date getEndInDate() {
+		return endInDate;
+	}
+
+	public void setEndInDate(Date endInDate) {
+		this.endInDate = endInDate;
+	}
+		
+	public Date getBeginUpdateDate() {
+		return beginUpdateDate;
+	}
+
+	public void setBeginUpdateDate(Date beginUpdateDate) {
+		this.beginUpdateDate = beginUpdateDate;
+	}
+	
+	public Date getEndUpdateDate() {
+		return endUpdateDate;
+	}
+
+	public void setEndUpdateDate(Date endUpdateDate) {
+		this.endUpdateDate = endUpdateDate;
+	}
+		
 	public List<SpcMaterialInventory> getSpcMaterialInventoryList() {
 		return spcMaterialInventoryList;
 	}

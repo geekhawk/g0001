@@ -29,7 +29,7 @@ import com.platform.supplychain.service.base.SpcMeasureunitService;
 /**
  * 物料信息Controller
  * @author 张江浩
- * @version 2017-03-08
+ * @version 2017-03-22
  */
 @Controller
 @RequestMapping(value = "${adminPath}/supplychain/base/spcMaterialBase")
@@ -38,9 +38,9 @@ public class SpcMaterialBaseController extends BaseController {
 	@Autowired
 	private SpcMaterialBaseService spcMaterialBaseService;
 	@Autowired
-	private SpcMeasureunitService   spcMeasureunitService;
+	private SpcMeasureunitService spcMeasureunitService;
 	
-	 @ModelAttribute
+	@ModelAttribute
 	public SpcMaterialBase get(@RequestParam(required=false) String id) {
 		SpcMaterialBase entity = null;
 		if (StringUtils.isNotBlank(id)){
@@ -56,18 +56,21 @@ public class SpcMaterialBaseController extends BaseController {
 	@RequestMapping(value = {"list", ""})
 	public String list(SpcMaterialBase spcMaterialBase, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<SpcMaterialBase> page = spcMaterialBaseService.findPage(new Page<SpcMaterialBase>(request, response), spcMaterialBase); 
+		List<?> spcMeasureunitList = spcMeasureunitService.findList(new SpcMeasureunit());
+		System.out.println(spcMeasureunitList.size());
+		model.addAttribute("spcMeasureunitList",spcMeasureunitList );
 		model.addAttribute("page", page);
-		 
 		return "platform/supplychain/base/spcMaterialBaseList";
 	}
 
 	@RequiresPermissions("supplychain:base:spcMaterialBase:view")
 	@RequestMapping(value = "form")
 	public String form(SpcMaterialBase spcMaterialBase, Model model) {
+		
+		List<?> spcMeasureunitList = spcMeasureunitService.findList(new SpcMeasureunit());
+		System.out.println(spcMeasureunitList.size());
+		model.addAttribute("spcMeasureunitList",spcMeasureunitList );
 		model.addAttribute("spcMaterialBase", spcMaterialBase);
-		List<SpcMeasureunit> muList1 = spcMeasureunitService.findList(new SpcMeasureunit() );
-		 System.out.println(muList1.size());
-		model.addAttribute("muList",muList1);
 		return "platform/supplychain/base/spcMaterialBaseForm";
 	}
 
