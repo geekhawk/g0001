@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.Billcoder;
 import com.thinkgem.jeesite.modules.sys.service.BillcoderService;
+import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
 
 /**
  * 编码规则表Controller
@@ -57,11 +58,10 @@ public class BillcoderController extends BaseController {
 	@RequiresPermissions("sys:billcoder:view")
 	@RequestMapping(value = "form")
 	public String form(Billcoder billcoder, Model model) {
+		//新建页面，按编码规则取出编码
 		if(billcoder.getNo()==null)
 		{  
-			Billcoder	bc =  new Billcoder(); 
-			bc.setNo("BMGZ0001"); 
-		  billcoder.setNo(billcoderService.createCode(billcoderService.findList(bc).get(0)));
+	       billcoder.setNo(BillorderUtils.createCode( "BMGZ00000001")) ;
 		}
 		model.addAttribute("billcoder", billcoder);
 		return "modules/sys/billcoderForm";

@@ -39,8 +39,7 @@
 			<include refid="billcoderColumns"/>
 		FROM sys_billcoder a
 		<include refid="billcoderJoins"/>
-		<where>
-			a.del_flag = #{DEL_FLAG_NORMAL}
+		<where> 
 			<if test="no != null and no != ''">
 				AND a.no LIKE 
 					<if test="dbName == 'oracle'">'%'||#{no}||'%'</if>
@@ -158,6 +157,7 @@
 	<update id="update">
 		UPDATE sys_billcoder SET 	
 			name = #{name},
+			no = #{no},
 			expression = #{expression},
 			isunique = #{isunique},
 			last_flow_date = #{lastFlowDate},

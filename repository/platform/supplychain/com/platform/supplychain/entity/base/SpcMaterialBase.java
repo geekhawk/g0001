@@ -35,6 +35,7 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	private Date endInDate;		// 结束 加入日期
 	private Date beginUpdateDate;		// 开始 更新时间
 	private Date endUpdateDate;		// 结束 更新时间
+	private SpcMaterialGroupBase  groupBase  ; //物料基本分类
 	private List<SpcMaterialInventory> spcMaterialInventoryList = Lists.newArrayList();		// 子表列表
 	
 	public SpcMaterialBase() {
@@ -170,6 +171,18 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 		this.endUpdateDate = endUpdateDate;
 	}
 		
+	 
+
+	public SpcMaterialGroupBase getGroupBase()
+	{
+		return groupBase;
+	}
+
+	public void setGroupBase(SpcMaterialGroupBase groupBase)
+	{
+		this.groupBase = groupBase;
+	}
+
 	public List<SpcMaterialInventory> getSpcMaterialInventoryList() {
 		return spcMaterialInventoryList;
 	}

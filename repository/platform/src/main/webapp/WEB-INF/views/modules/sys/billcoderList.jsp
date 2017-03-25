@@ -78,7 +78,7 @@
 			<li><label>备注信息：</label>
 				<form:input path="remarks" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<li><label>删除标记（0：正常；1：删除）：</label>
+			<li><label>删除标记 ：</label>
 				<form:radiobuttons path="delFlag" items="${fns:getDictList('del_flag')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>

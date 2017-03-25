@@ -93,6 +93,22 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		
+		
+		<div class="control-group">
+			<label class="control-label">基本分类：</label>
+			<div class="controls">
+				<sys:treeselect id="groupBase" name="groupBase.id" 
+				value="${spcMaterialBase.groupBase.id}" labelName="groupBase.name" 
+				labelValue="${spcMaterialBase.groupBase.name}"
+					title="父级编号" url="/supplychain/base/spcMaterialGroupBase/treeData" 
+					extId="${spcMaterialBase.id}" cssClass="" allowClear="true"/>
+			
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		
+		
 		<div class="control-group">
 			<label class="control-label">单价：</label>
 			<div class="controls">

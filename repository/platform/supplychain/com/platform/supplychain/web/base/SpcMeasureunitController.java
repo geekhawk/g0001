@@ -19,6 +19,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
 import com.platform.supplychain.entity.base.SpcMeasureunit;
 import com.platform.supplychain.service.base.SpcMeasureunitService;
 
@@ -57,6 +58,11 @@ public class SpcMeasureunitController extends BaseController {
 	@RequiresPermissions("supplychain:base:spcMeasureunit:view")
 	@RequestMapping(value = "form")
 	public String form(SpcMeasureunit spcMeasureunit, Model model) {
+		//新建页面，按编码规则取出编码
+				if(spcMeasureunit.getNo()==null)
+				{  
+					spcMeasureunit.setNo(BillorderUtils.createCode( "BMGZ00000002")) ;
+				}
 		model.addAttribute("spcMeasureunit", spcMeasureunit);
 		return "platform/supplychain/base/spcMeasureunitForm";
 	}

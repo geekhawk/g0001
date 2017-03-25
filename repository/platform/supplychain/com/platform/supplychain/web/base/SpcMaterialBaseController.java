@@ -21,6 +21,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
 import com.platform.supplychain.entity.base.SpcMaterialBase;
 import com.platform.supplychain.entity.base.SpcMeasureunit;
 import com.platform.supplychain.service.base.SpcMaterialBaseService;
@@ -68,7 +69,11 @@ public class SpcMaterialBaseController extends BaseController {
 	public String form(SpcMaterialBase spcMaterialBase, Model model) {
 		
 		List<?> spcMeasureunitList = spcMeasureunitService.findList(new SpcMeasureunit());
-		System.out.println(spcMeasureunitList.size());
+		//新建页面，按编码规则取出编码
+		if(spcMaterialBase.getNo()==null)
+		{  
+			spcMaterialBase.setNo(BillorderUtils.createCode( "BMGZ00000005")) ;
+		}
 		model.addAttribute("spcMeasureunitList",spcMeasureunitList );
 		model.addAttribute("spcMaterialBase", spcMaterialBase);
 		return "platform/supplychain/base/spcMaterialBaseForm";

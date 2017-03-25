@@ -20,17 +20,19 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag",
-		 
+		a.del_flag AS "delFlag", 
 		u7.name AS "createBy.name",
 		u9.name AS "updateBy.name",
-		u10.name AS "mearureunit.name"
+		u10.name AS "mearureunit.name",
+		u11.id AS "groupBase.id",
+		u11.name AS  "groupBase.name"
 	</sql>
 	
 	<sql id="spcMaterialBaseJoins">
 	LEFT JOIN sys_user u7 ON u7.id = a.create_by
 	LEFT JOIN sys_user u9 ON u9.id = a.update_by
 	LEFT JOIN spc_measureunit u10 on u10.id= a.mearureunit_id
+	LEFT JOIN spc_material_group_base u11 on u11.id =  a.group_base_id
 	</sql>
     
 	<select id="get" resultType="SpcMaterialBase">
@@ -84,6 +86,11 @@
 			<if test="beginUpdateDate != null and endUpdateDate != null and beginUpdateDate != '' and endUpdateDate != ''">
 				AND a.update_date BETWEEN #{beginUpdateDate} AND #{endUpdateDate}
 			</if>
+			
+			
+			<if test="groupBase != null  and groupBase != ''">
+				AND a.group_base_id  = #{groupBase.id}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -132,7 +139,8 @@
 			update_by,
 			update_date,
 			remarks,
-			del_flag
+			del_flag,
+			group_base_id
 		) VALUES (
 			#{id},
 			#{no},
@@ -151,7 +159,8 @@
 			#{updateBy.id},
 			#{updateDate},
 			#{remarks},
-			#{delFlag}
+			#{delFlag},
+			#{groupBase.id}
 		)
 	</insert>
 	
@@ -170,7 +179,8 @@
 			in_date = #{inDate},
 			update_by = #{updateBy.id},
 			update_date = #{updateDate},
-			remarks = #{remarks}
+			remarks = #{remarks},
+			group_base_id = #{groupBase.id}
 		WHERE id = #{id}
 	</update>
 	

@@ -40,7 +40,20 @@
 					<form:options items="${spcMeasureunitList}" itemLabel="name" itemValue="id" htmlEscape="false"/>
 				</form:select>
 			</li>
-			<li><label>单价：</label>
+			
+			<li>
+			 
+			<label class="control-label">基本分类：</label>
+		 
+				<sys:treeselect id="groupBase" name="groupBase.id" 
+				value="${spcMaterialBase.groupBase.id}" labelName="groupBase.name" 
+				labelValue="${spcMaterialBase.groupBase.name}"
+					title="父级编号" url="/supplychain/base/spcMaterialGroupBase/treeData" 
+					extId="${spcMaterialBase.id}" cssClass="" allowClear="true"/>
+			 
+		</li>
+			
+			<li> <label>单价：</label>
 				<form:input path="price" htmlEscape="false" class="input-medium"/>
 			</li>
 			<li><label>加入日期：</label>
@@ -88,6 +101,7 @@
 				<th>编码</th>
 				<th>名称</th>
 				<th>规格</th>
+				<th>基本分类</th>
 				<th>计量单位</th>
 				<th>单价</th>
 				<th>创建者</th>
@@ -109,6 +123,10 @@
 				</td>
 				<td>
 					${spcMaterialBase.model}
+				</td>
+				
+				<td>
+					${spcMaterialBase.groupBase.name}
 				</td>
 				<td>
 					${spcMaterialBase.mearureunit.name}
