@@ -42,9 +42,9 @@
 		</div>
 		<div class="control-group">
 			<label class="control-label">归属区域:</label>
-			<div class="controls">
-                <sys:treeselect id="area" name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
-					title="区域" url="/sys/area/treeData" cssClass="required"/>
+			<div class="controls">   
+                <sys:treeselectSyn id="area" parentIds="${office.area.parentIds}"   name="area.id" value="${office.area.id}" labelName="area.name" labelValue="${office.area.name}"
+					title="区域" url="/sys/area/treeData"  urlSyn="/sys/area/treeDataSyn"  cssClass="required"/>
 			</div>
 		</div>
 		<div class="control-group">

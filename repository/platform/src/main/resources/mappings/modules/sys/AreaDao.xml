@@ -37,10 +37,22 @@
 		FROM sys_area a
 		<include refid="areaJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		and a.type in ('1','2','3','4')
-		<!-- 数据范围过滤 -->
+		<if test="parent != null   and parent.id !=null  and parent.id != ''">
+				AND a.parent_id =  #{parent.id}
+			</if>
+			
+			<if test="id != null and  id != ''">
+				AND a.id =  #{id}
+			</if>
+			
+			
+			<if test="name != null and  name != ''">
+				AND a.name like '%'||#{name}||'%'
+			</if>
+		 
+		<!-- 数据范围过滤 
 		${sqlMap.dsf}
-		OR a.id = #{currentUser.office.area.id}
+		OR a.id = #{currentUser.office.area.id}-->
 		ORDER BY a.code
 	</select>
 	
@@ -50,7 +62,7 @@
 		FROM sys_area a
 		<include refid="areaJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		and a.type in ('1','2','3','4')
+		and a.type in ( '5')
 		ORDER BY a.code
 	</select>
 	

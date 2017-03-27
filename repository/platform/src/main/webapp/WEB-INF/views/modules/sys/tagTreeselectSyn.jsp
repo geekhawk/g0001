@@ -1,14 +1,14 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>数据选择</title>
-	<meta name="decorator" content="blank"/>
-	<%@include file="/WEB-INF/views/include/treeview.jsp" %>
-	<script type="text/javascript">
+<title>数据选择</title>
+<meta name="decorator" content="blank" />
+<%@include file="/WEB-INF/views/include/treeview.jsp"%>
+<script type="text/javascript">
 		var key, lastValue = "", nodeList = [], type = getQueryString("type", "${url}");
 		var tree, setting = {view:{selectedMulti:false,dblClickExpand:false},check:{enable:"${checked}",nocheckInherit:true},
-				async:{enable:(type==3),url:"${ctx}/sys/user/treeData",autoParam:["id=officeId"]},
+				async:{enable:(true),url:"${ctx}${urlSyn}",autoParam:["id=pId"]},
 				data:{simpleData:{enable:true}},callback:{<%--
 					beforeClick: function(treeId, treeNode){
 						if("${checked}" == "true"){
@@ -17,8 +17,7 @@
 						}
 					}, --%>
 					onClick:function(event, treeId, treeNode){
-					 tree.reAsyncChildNodes(treeNode,"!refresh",true);
-						tree.expandNode(treeNode);
+					     tree.expandNode(treeNode);
 					},onCheck: function(e, treeId, treeNode){
 						var nodes = tree.getCheckedNodes(true);
 						for (var i=0, l=nodes.length; i<l; i++) {
@@ -26,12 +25,14 @@
 						}
 						return false;
 					},onAsyncSuccess: function(event, treeId, treeNode, msg){
+					 
 						var nodes = tree.getNodesByParam("pId", treeNode.id, null);
-						for (var i=0, l=nodes.length; i<l; i++) {
+					     for (var i=0, l=nodes.length; i<l; i++) {
 							try{tree.checkNode(nodes[i], treeNode.checked, true);}catch(e){}
-							//tree.selectNode(nodes[i], false);
-						}
-						selectCheckNode();
+							 } 
+							 
+						  selectCheckNode();
+						  
 					},onDblClick: function(){//<c:if test="${!checked}">
 						top.$.jBox.getBox().find("button[value='ok']").trigger("click");
 						//$("input[type='text']", top.mainFrame.document).focus();//</c:if>
@@ -48,17 +49,27 @@
 			}
 		}
 		$(document).ready(function(){
-			$.get("${ctx}${url}${fn:indexOf(url,'?')==-1?'?':'&'}&extId=${extId}&isAll=${isAll}&module=${module}&t="
-					+ new Date().getTime(), function(zNodes){
+		initTree("${ctx}${url}${fn:indexOf(url,'?')==-1?'?':'&'}&extId=${extId}&isAll=${isAll}&module=${module}&t="
+					+ new Date().getTime());
+		
+		});
+		
+		
+		function initTree(url)
+		{
+		
+		
+		
+			$.get(url, function(zNodes){
 				 
 				// 初始化树结构
 				tree = $.fn.zTree.init($("#tree"), setting, zNodes);
 				
 				// 默认展开一级节点
-				var nodes = tree.getNodesByParam("level", 0);
-				for(var i=0; i<nodes.length; i++) {
-					tree.expandNode(nodes[i], true, false, false);
-				}
+				// var nodes = tree.getNodesByParam("level", 0);
+				// for(var i=0; i<nodes.length; i++) {
+				// tree.expandNode(nodes[i], true, false, false);
+				// }
 				//异步加载子节点（加载用户）
 				//var nodesOne = tree.getNodesByParam("isParent", true);
 				//for(var j=0; j<nodesOne.length; j++) {
@@ -70,11 +81,30 @@
 			key.bind("focus", focusKey).bind("blur", blurKey).bind("change cut input propertychange", searchNode);
 			key.bind('keydown', function (e){if(e.which == 13){searchNode();}});
 			setTimeout("search();", "300");
-		});
 		
+		
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		var parentIds = "${parentIds}".split(",");
+	    var parentIdsIndex =  1 ;
 		// 默认选择节点
-		function selectCheckNode(){
-			var ids = "${selectIds}".split(",");
+		function selectCheckNode(){ 
+		//先同步后台数据
+		 if(  parentIdsIndex <parentIds.length  ) { 
+		 if(parentIds[parentIdsIndex]!="" )
+		 {
+		      var node = tree.getNodeByParam("id", parentIds[parentIdsIndex]); 
+			   tree.expandNode(node, true, false, false); 
+			}
+		     parentIdsIndex++;
+			var ids = "${selectIds}".split(","); 
 			for(var i=0; i<ids.length; i++) {
 				var node = tree.getNodeByParam("id", (type==3?"u_":"")+ids[i]);
 				if("${checked}" == "true"){
@@ -83,8 +113,9 @@
 				}else{
 					tree.selectNode(node, true);
 				}
-			}
+			}}
 		}
+		 
 	  	function focusKey(e) {
 			if (key.hasClass("empty")) {
 				key.removeClass("empty");
@@ -96,6 +127,8 @@
 			}
 			searchNode(e);
 		}
+		
+		
 		
 		//搜索节点
 		function searchNode() {
@@ -112,16 +145,21 @@
 			if (lastValue === value) {
 				return;
 			}
-			
+			 
 			// 保存最后一次
 			lastValue = value;
 			
 			var nodes = tree.getNodes();
 			// 如果要查空字串，就退出不查了。
 			if (value == "") {
+			initTree("${ctx}${url}${fn:indexOf(url,'?')==-1?'?':'&'}&extId=${extId}&isAll=${isAll}&module=${module}&t="
+					+ new Date().getTime());
 				showAllNode(nodes);
 				return;
 			}
+			else if (value != "")
+			{initTree( "${ctx}${urlSyn}?nameLike="+value+"&t="
+					+ new Date().getTime());}
 			hideAllNode(nodes);
 			nodeList = tree.getNodesByParamFuzzy(keyType, value);
 			updateNodes(nodeList);
@@ -184,12 +222,15 @@
 	</script>
 </head>
 <body>
-	<div style="position:absolute;right:8px;top:5px;cursor:pointer;" onclick="search();">
+	<div style="position:absolute;right:8px;top:5px;cursor:pointer;"
+		onclick="search();">
 		<i class="icon-search"></i><label id="txt">搜索</label>
 	</div>
-	<div id="search" class="form-search hide" style="padding:10px 0 0 13px;">
+	<div id="search" class="form-search hide"
+		style="padding:10px 0 0 13px;">
 		<label for="key" class="control-label" style="padding:5px 5px 3px 0;">关键字：</label>
-		<input type="text" class="empty" id="key" name="key" maxlength="50" style="width:110px;">
+		<input type="text" class="empty" id="key" name="key" maxlength="50"
+			style="width:110px;">
 		<button class="btn" id="btn" onclick="searchNode()">搜索</button>
 	</div>
 	<div id="tree" class="ztree" style="padding:15px 20px;"></div>

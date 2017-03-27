@@ -115,7 +115,9 @@ public class AreaController extends BaseController {
 	@RequestMapping(value = "treeData")
 	public List<Map<String, Object>> treeData(@RequestParam(required=false) String extId, HttpServletResponse response) {
 		List<Map<String, Object>> mapList = Lists.newArrayList();
-		List<Area> list = areaService.findAll();
+		Area area = new Area();
+		area.setId("1");
+		List<Area> list = areaService.findList(area) ;
 		for (int i=0; i<list.size(); i++){
 			Area e = list.get(i);
 			if (StringUtils.isBlank(extId) || (extId!=null && !extId.equals(e.getId()) && e.getParentIds().indexOf(","+extId+",")==-1)){
@@ -123,9 +125,67 @@ public class AreaController extends BaseController {
 				map.put("id", e.getId());
 				map.put("pId", e.getParentId());
 				map.put("name", e.getName());
+				if(!"5".equals(e.getType()))
+				{
+				 map.put("isParent", true);
+				}
+				else
+				{
+				  map.put("isParent", false);	
+					
+				}
 				mapList.add(map);
 			}
 		}
+		 
+		return mapList;
+	}
+	
+	
+	@RequiresPermissions("user")
+	@ResponseBody
+	@RequestMapping(value = "treeDataSyn")
+	public List<Map<String, Object>> treeDataSyn(@RequestParam(required=false) String pId,@RequestParam(required=false) String nameLike, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+	 
+		
+		Area area = new Area();
+		
+		if(!"".equals(pId)&&pId!=null )
+		{
+		  Area pArea = new Area();
+		  pArea.setId(pId);
+		  area.setParent(pArea); 
+		}
+		else if(!"".equals(nameLike)&&nameLike!=null )
+		{
+		  
+		  area.setName(nameLike);  
+		}
+		else{return mapList;}
+		
+		
+		List<Area> list = areaService.findList(area) ;
+		for (int i=0; i<list.size(); i++){
+			Area e = list.get(i);
+			 
+				Map<String, Object> map = Maps.newHashMap();
+				map.put("id", e.getId());
+				map.put("pId", e.getParentId());
+				map.put("name", e.getName()); 
+				if(!"5".equals(e.getType()))
+				{
+				 map.put("isParent", true);
+				}
+				else
+				{
+				  map.put("isParent", false);	
+					
+				}
+				mapList.add(map); 
+			 
+		}
+		  
 		return mapList;
 	}
 }
