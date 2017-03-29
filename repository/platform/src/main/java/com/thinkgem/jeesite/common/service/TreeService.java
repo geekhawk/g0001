@@ -52,8 +52,14 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 		
 		// 保存或更新实体
 		super.save(entity);
+	 //如果节点的上级节点发生变化，更新所有的子节点“parentIds”,"longName"	
 		
-		// 更新子节点 parentIds
+      //如果节点的名称，更新所有的子节点 ,"longName"	
+		
+		
+		
+		
+		/*  更新子节点 parentIds
 		T o = null;
 		try {
 			o = entityClass.newInstance();
@@ -69,6 +75,7 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 				dao.updateParentIds(e);
 			}
 		}
+		*/
 		
 	}
 	

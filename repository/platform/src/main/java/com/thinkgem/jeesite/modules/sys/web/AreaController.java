@@ -137,9 +137,51 @@ public class AreaController extends BaseController {
 				mapList.add(map);
 			}
 		}
+ /*  临时作用，获取longname
+		List<Area> list1 = areaService.findAll();
+		for(int i=0;i<list1.size();i++)
+		{
+			Area area1 = list1.get(i);
+			  String names[] =  area1.getName().split("-");
+		       area1.setName(names[names.length-1]);
+		   area1.setRemarks(getLongName(area1, areaService ));
+		   names  =  area1.getName().split("-");
+	       area1.setName(names[names.length-1]);
+		   System.out.println( area1.getRemarks() ); 
+		   areaService.save(area1);
+		}
+		 
+		  */
 		 
 		return mapList;
 	}
+	
+
+/**
+* 临时作用，获取longname
+*/
+	
+	public static String getLongName(Area area,AreaService areaService )
+	{
+		Area areaP = area.getParent();
+		while(areaP!=null&& areaP.getName()!=null)
+		{  String names[] =  areaP.getName().split("-");
+		     areaP.setName(names[names.length-1]);
+		    area.setName(areaP.getName()+"-"+area.getName());
+		    areaP = areaService.get(areaP.getId());
+		    if(areaP!=null)
+		    areaP = areaP.getParent();
+		     
+		}
+		
+		return area.getName();
+		
+		
+		
+	}
+	
+	
+	
 	
 	
 	@RequiresPermissions("user")
@@ -180,8 +222,10 @@ public class AreaController extends BaseController {
 				else
 				{
 				  map.put("isParent", false);	
+				
 					
-				}
+				}  
+				map.put("title",  e.getRemarks());	
 				mapList.add(map); 
 			 
 		}

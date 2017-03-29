@@ -20,7 +20,7 @@
 	</sql>
 	
 	<sql id="areaJoins">
-		LEFT JOIN sys_office p ON p.id = a.parent_id
+		LEFT JOIN sys_area p ON p.id = a.parent_id
     </sql>
     
 	<select id="get" resultType="Area">
@@ -62,8 +62,8 @@
 		FROM sys_area a
 		<include refid="areaJoins"/>
 		WHERE a.del_flag = #{DEL_FLAG_NORMAL}
-		and a.type in ( '5')
-		ORDER BY a.code
+		 
+		ORDER BY   to_number( a.id)
 	</select>
 	
 	<select id="findByParentIdsLike" resultType="Area">

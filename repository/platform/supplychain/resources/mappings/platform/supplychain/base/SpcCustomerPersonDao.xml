@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.supplychain.dao.base.SpcCustomerPersonDao">
+    
+	<sql id="spcCustomerPersonColumns">
+		a.id AS "id",
+		a.spc_customer_base_id AS "spcCustomerBaseId",
+		a.person_id AS "person.id",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u3.name AS "person.name",
+		u4.name AS "createBy.name",
+		u6.name AS "updateBy.name"
+	</sql>
+	
+	<sql id="spcCustomerPersonJoins">
+		LEFT JOIN spc_customer_base b ON b.id = a.spc_customer_base_id
+		LEFT JOIN sys_user u3 ON u3.id = a.person_id
+		LEFT JOIN sys_user u4 ON u4.id = a.create_by
+		LEFT JOIN sys_user u6 ON u6.id = a.update_by
+	</sql>
+    
+	<select id="get" resultType="SpcCustomerPerson">
+		SELECT 
+			<include refid="spcCustomerPersonColumns"/>
+		FROM spc_customer_person a
+		<include refid="spcCustomerPersonJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SpcCustomerPerson">
+		SELECT 
+			<include refid="spcCustomerPersonColumns"/>
+		FROM spc_customer_person a
+		<include refid="spcCustomerPersonJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="spcCustomerBaseId != null and spcCustomerBaseId != ''">
+				AND a.spc_customer_base_id = #{spcCustomerBaseId}
+			</if>
+			<if test="person != null and person.id != null and person.id != ''">
+				AND a.person_id = #{person.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="updateBy != null and updateBy.id != null and updateBy.id != ''">
+				AND a.update_by = #{updateBy.id}
+			</if>
+			<if test="beginUpdateDate != null and endUpdateDate != null and beginUpdateDate != '' and endUpdateDate != ''">
+				AND a.update_date BETWEEN #{beginUpdateDate} AND #{endUpdateDate}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SpcCustomerPerson">
+		SELECT 
+			<include refid="spcCustomerPersonColumns"/>
+		FROM spc_customer_person a
+		<include refid="spcCustomerPersonJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO spc_customer_person(
+			id,
+			spc_customer_base_id,
+			person_id,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{spcCustomerBaseId},
+			#{person.id},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE spc_customer_person SET 	
+			spc_customer_base_id = #{spcCustomerBaseId},
+			person_id = #{person.id},
+			create_by = #{createBy.id},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE spc_customer_person SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE spc_customer_base_id = #{spcCustomerBaseId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>

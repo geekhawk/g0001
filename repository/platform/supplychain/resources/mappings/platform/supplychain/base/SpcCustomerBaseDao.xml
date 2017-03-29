@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.supplychain.dao.base.SpcCustomerBaseDao">
+    
+	<sql id="spcCustomerBaseColumns">
+		a.id AS "id",
+		a.person_id AS "person.id",
+		a.no AS "no",
+		a.saleperson_id AS "saleperson.id",
+		a.office_id AS "office.id",
+		a.area_id AS "area.id",
+		a.address AS "address",
+		a.con_person AS "conPerson",
+		a.con_person_position AS "conPersonPosition",
+		a.office_phone AS "officePhone",
+		a.mobile_phone AS "mobilePhone",
+		a.fax AS "fax",
+		a.email AS "email",
+		a.invoice_type AS "invoiceType",
+		a.tax_no AS "taxNo",
+		a.tax_bank AS "taxBank",
+		a.tax_bank_no AS "taxBankNo",
+		a.tax_address AS "taxAddress",
+		a.tax_phone AS "taxPhone",
+		a.in_date AS "inDate",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u2.name AS "person.name",
+		u4.name AS "saleperson.name",
+		o5.name AS "office.name",
+		a6.name AS "area.name",
+		a6.remarks AS "area.remarks"
+	</sql>
+	
+	<sql id="spcCustomerBaseJoins">
+		LEFT JOIN sys_user u2 ON u2.id = a.person_id
+		LEFT JOIN sys_user u4 ON u4.id = a.saleperson_id
+		LEFT JOIN sys_office o5 ON o5.id = a.office_id
+		LEFT JOIN sys_area a6 ON a6.id = a.area_id
+	</sql>
+    
+	<select id="get" resultType="SpcCustomerBase">
+		SELECT 
+			<include refid="spcCustomerBaseColumns"/>
+		FROM spc_customer_base a
+		<include refid="spcCustomerBaseJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SpcCustomerBase">
+		SELECT 
+			<include refid="spcCustomerBaseColumns"/>
+		FROM spc_customer_base a
+		<include refid="spcCustomerBaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="no != null and no != ''">
+				AND a.no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{no}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{no}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{no},'%')</if>
+			</if>
+			<if test="saleperson != null and saleperson.id != null and saleperson.id != ''">
+				AND a.saleperson_id = #{saleperson.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SpcCustomerBase">
+		SELECT 
+			<include refid="spcCustomerBaseColumns"/>
+		FROM spc_customer_base a
+		<include refid="spcCustomerBaseJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO spc_customer_base(
+			id,
+			no,
+			saleperson_id,
+			office_id,
+			area_id,
+			address,
+			con_person,
+			con_person_position,
+			office_phone,
+			mobile_phone,
+			fax,
+			email,
+			invoice_type,
+			tax_no,
+			tax_bank,
+			tax_bank_no,
+			tax_address,
+			tax_phone,
+			in_date,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{no},
+			#{saleperson.id},
+			#{office.id},
+			#{area.id},
+			#{address},
+			#{conPerson},
+			#{conPersonPosition},
+			#{officePhone},
+			#{mobilePhone},
+			#{fax},
+			#{email},
+			#{invoiceType},
+			#{taxNo},
+			#{taxBank},
+			#{taxBankNo},
+			#{taxAddress},
+			#{taxPhone},
+			#{inDate},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE spc_customer_base SET 	
+			no = #{no},
+			saleperson_id = #{saleperson.id},
+			office_id = #{office.id},
+			area_id = #{area.id},
+			address = #{address},
+			con_person = #{conPerson},
+			con_person_position = #{conPersonPosition},
+			office_phone = #{officePhone},
+			mobile_phone = #{mobilePhone},
+			fax = #{fax},
+			email = #{email},
+			invoice_type = #{invoiceType},
+			tax_no = #{taxNo},
+			tax_bank = #{taxBank},
+			tax_bank_no = #{taxBankNo},
+			tax_address = #{taxAddress},
+			tax_phone = #{taxPhone},
+			in_date = #{inDate},
+			create_by = #{createBy.id},
+			create_date = #{createDate},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE spc_customer_base SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

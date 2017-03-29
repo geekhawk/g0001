@@ -1031,20 +1031,20 @@ form {
 }
 
 fieldset {
-  padding: 0;
-  margin: 0;
-  border: 0;
+	padding: .35em .625em .75em;
+	margin: 0 2px;
+	border: 1px solid #bbb
 }
 
 legend {
-  display: block;
-  width: 100%;
-  padding: 0;
+		padding: .5em;
+	border: 0;
+	width: auto;
+  display: block; 
   margin-bottom: 20px;
   font-size: 21px;
   line-height: 40px;
-  color: #333333;
-  border: 0;
+  color: #333333; 
   border-bottom: 1px solid #e5e5e5;
 }
 

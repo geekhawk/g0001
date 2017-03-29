@@ -87,7 +87,7 @@
 						$(menuId + " .accordion-inner a").click(function(){
 							var href = $(this).attr("data-href");
 							if($(href).length > 0){
-								$(href).toggle().parent().toggle();
+								$(href).toggle().parent().toggle(); 
 								return false;
 							}
 							// <c:if test="${tabmode eq '1'}"> 打开显示页签
@@ -187,7 +187,7 @@
 							<c:if test="${menu.parent.id eq '1'&&menu.isShow eq '1'}">
 								<li class="menu ${not empty firstMenu && firstMenu ? ' active' : ''}">
 									<c:if test="${empty menu.href}">
-										<a class="menu" href="javascript:" data-href="${ctx}/sys/menu/tree?parentId=${menu.id}" data-id="${menu.id}"><span>${menu.name}</span></a>
+										<a class="menu" href="javascript:" data-href="${ctx}/sys/menu/tree?parentId=${menu.id}&t="<%=new java.util.Date().getTime() %> data-id="${menu.id}"><span>${menu.name}</span></a>
 									</c:if>
 									<c:if test="${not empty menu.href}">
 										<a class="menu" href="${fn:indexOf(menu.href, '://') eq -1 ? ctx : ''}${menu.href}" data-id="${menu.id}" target="mainFrame"><span>${menu.name}</span></a>
