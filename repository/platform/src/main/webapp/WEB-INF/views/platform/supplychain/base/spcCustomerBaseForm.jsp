@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-<title>物料信息管理</title>
+<title>客户信息管理</title>
 <meta name="decorator" content="default" />
 <script type="text/javascript">
 	$(document).ready(
@@ -84,9 +84,9 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/supplychain/base/spcCustomerBase/">物料信息列表</a></li>
+		<li><a href="${ctx}/supplychain/base/spcCustomerBase/">客户信息列表</a></li>
 		<li class="active"><a
-			href="${ctx}/supplychain/base/spcCustomerBase/form?id=${spcCustomerBase.id}">物料信息<shiro:hasPermission
+			href="${ctx}/supplychain/base/spcCustomerBase/form?id=${spcCustomerBase.id}">客户信息<shiro:hasPermission
 					name="supplychain:base:spcCustomerBase:edit">${not empty spcCustomerBase.id?'修改':'添加'}</shiro:hasPermission>
 				<shiro:lacksPermission name="supplychain:base:spcCustomerBase:edit">查看</shiro:lacksPermission></a></li>
 	</ul>
@@ -167,7 +167,7 @@
 		<fieldset>
 			<legend>
 				<a data-toggle="collapse" data-parent="#accordion"
-					href="#collapseLianxixinxi"> 基本信息 </a>:
+					href="#collapseLianxixinxi"> 联系信息 </a>:
 			</legend>
 			<div id="collapseLianxixinxi" class="panel-collapse collapse in">
 				<%-- 可折叠fieldset--%>
@@ -312,7 +312,7 @@
 					<div class="control-group">
 
 						<div class="controls">
-							<table id="contentTable"
+							<table id="contentTable" style="width:60%"
 								class="table table-striped table-bordered table-condensed">
 								<thead>
 									<tr>
@@ -321,7 +321,7 @@
 
 										<shiro:hasPermission
 											name="supplychain:base:spcCustomerBase:edit">
-											<th width="10">&nbsp;</th>
+											<th style="width:10">&nbsp;</th>
 										</shiro:hasPermission>
 									</tr>
 								</thead>
@@ -333,7 +333,7 @@
 										<tr>
 											<td colspan="4"><a href="javascript:"
 												onclick="addRow('#spcCustomerPersonList', spcCustomerPersonRowIdx, spcCustomerPersonTpl);spcCustomerPersonRowIdx = spcCustomerPersonRowIdx + 1;"
-												class="btn">新增</a></td>
+												class="btn">新增</a></td> 
 										</tr>
 									</tfoot>
 								</shiro:hasPermission>
@@ -355,10 +355,7 @@
 						</tr>//-->
 					</script>
 							<script type="text/javascript">
-								var spcCustomerPersonRowIdx = 0, spcCustomerPersonTpl = $(
-										"#spcCustomerPersonTpl").html()
-										.replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,
-												"");
+								var spcCustomerPersonRowIdx = 0, spcCustomerPersonTpl = $( "#spcCustomerPersonTpl").html() .replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
 								$(document)
 										.ready(
 												function()

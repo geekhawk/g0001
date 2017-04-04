@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>物料信息管理</title>
+	<title>客户信息管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,8 +18,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/supplychain/base/spcCustomerBase/">物料信息列表</a></li>
-		<shiro:hasPermission name="supplychain:base:spcCustomerBase:edit"><li><a href="${ctx}/supplychain/base/spcCustomerBase/form">物料信息添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/supplychain/base/spcCustomerBase/">客户信息列表</a></li>
+		<shiro:hasPermission name="supplychain:base:spcCustomerBase:edit"><li><a href="${ctx}/supplychain/base/spcCustomerBase/form">客户信息添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="spcCustomerBase" action="${ctx}/supplychain/base/spcCustomerBase/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -68,7 +68,7 @@
 				</td>
 				<shiro:hasPermission name="supplychain:base:spcCustomerBase:edit"><td>
     				<a href="${ctx}/supplychain/base/spcCustomerBase/form?id=${spcCustomerBase.id}">修改</a>
-					<a href="${ctx}/supplychain/base/spcCustomerBase/delete?id=${spcCustomerBase.id}" onclick="return confirmx('确认要删除该物料信息吗？', this.href)">删除</a>
+					<a href="${ctx}/supplychain/base/spcCustomerBase/delete?id=${spcCustomerBase.id}" onclick="return confirmx('确认要删除该客户信息吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

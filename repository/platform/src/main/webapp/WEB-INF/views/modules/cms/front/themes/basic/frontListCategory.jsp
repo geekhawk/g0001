@@ -11,7 +11,7 @@
 <body>
 	<div class="row">
 	   <div class="span2">
-	   	 <h4>栏目列表</h4>
+	   	 <h4>栏目列表1</h4>
 		 <ol>
 		 	<cms:frontCategoryList categoryList="${categoryList}"/>
 		 </ol>

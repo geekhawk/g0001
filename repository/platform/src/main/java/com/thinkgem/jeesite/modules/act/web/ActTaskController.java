@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,10 +113,15 @@ public class ActTaskController extends BaseController {
 		
 		// 获取流程XML上的表单KEY
 		String formKey = actTaskService.getFormKey(act.getProcDefId(), act.getTaskDefKey());
+		this.logger.debug("formKey:"+formKey);
 
 		// 获取流程实例对象
 		if (act.getProcInsId() != null){
-			act.setProcIns(actTaskService.getProcIns(act.getProcInsId()));
+			
+			ProcessInstance  processInstance = 	actTaskService.getProcIns(act.getProcInsId());
+			this.logger.debug("processInstance.getProcessInstanceId():"+processInstance.getProcessInstanceId());
+			
+			act.setProcIns(processInstance);
 		}
 		
 		return "redirect:" + ActUtils.getFormUrl(formKey, act);
