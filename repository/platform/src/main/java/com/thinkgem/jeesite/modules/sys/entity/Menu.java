@@ -1,14 +1,9 @@
-/**
- * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
- */
+ 
 package com.thinkgem.jeesite.modules.sys.entity;
 
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
+import java.util.List; 
+import javax.validation.constraints.NotNull; 
+import org.hibernate.validator.constraints.Length; 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
@@ -29,8 +24,7 @@ public class Menu extends DataEntity<Menu> {
 	private String icon; 	// 图标
 	private Integer sort; 	// 排序
 	private String isShow; 	// 是否在菜单中显示（1：显示；0：不显示）
-	private String permission; // 权限标识
-	
+	private String permission; // 权限标识 
 	private String userId;
 	
 	public Menu(){

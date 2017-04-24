@@ -58,7 +58,7 @@ public class ModelSaveRestResource implements ModelDataJsonConstants {
 	@ResponseStatus(value = HttpStatus.OK)
 	public void saveModel(@PathVariable String modelId, @RequestBody MultiValueMap<String, String> values) {
 		try {
-
+			LOGGER.debug(values.toString());
 			Model model = repositoryService.getModel(modelId);
 
 			ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());

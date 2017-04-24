@@ -54,15 +54,18 @@ public class ModelEditorJsonRestResource implements ModelDataJsonConstants {
 		if (model != null) {
 			try {
 				if (StringUtils.isNotEmpty(model.getMetaInfo())) {
+					 
 					modelNode = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+					LOGGER.debug(modelNode.toString());
 				} else {
 					modelNode = objectMapper.createObjectNode();
 					modelNode.put(MODEL_NAME, model.getName());
 				}
 				modelNode.put(MODEL_ID, model.getId());
-				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()),
-						"utf-8"));
+				LOGGER.debug(modelNode.toString());
+				ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(new String(repositoryService.getModelEditorSource(model.getId()), "utf-8"));
 				modelNode.put("model", editorJsonNode);
+				LOGGER.debug(modelNode.toString());
 
 			} catch (Exception e) {
 				LOGGER.error("Error creating model JSON", e);
