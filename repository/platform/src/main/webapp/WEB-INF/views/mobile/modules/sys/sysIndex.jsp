@@ -16,6 +16,13 @@
                     <strong>用户管理</strong>
                 </a>
             </li>
+            
+            <li data-icon="next" data-selected="selected">
+                <span class="icon user"></span>
+                <a href="${ctx}/supplychain/base/spcMaterialBase/form" >
+                    <strong>用户管理</strong>
+                </a>
+            </li>
         </ul>
         </div>
     </article>

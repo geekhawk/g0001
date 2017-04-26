@@ -4,7 +4,7 @@
     
 	<sql id="spcCustomerPersonColumns">
 		a.id AS "id",
-		a.spc_customer_base_id AS "spcCustomerBaseId",
+		a.spc_customer_base_id AS "spcCustomerBase.id",
 		a.person_id AS "person.id",
 		a.create_by AS "createBy.id",
 		a.create_date AS "createDate",
@@ -39,8 +39,8 @@
 		<include refid="spcCustomerPersonJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="spcCustomerBaseId != null and spcCustomerBaseId != ''">
-				AND a.spc_customer_base_id = #{spcCustomerBaseId}
+			<if test="spcCustomerBase.id != null and spcCustomerBase.id != ''">
+				AND a.spc_customer_base_id = #{spcCustomerBase.id}
 			</if>
 			<if test="person != null and person.id != null and person.id != ''">
 				AND a.person_id = #{person.id}
@@ -99,7 +99,7 @@
 			del_flag
 		) VALUES (
 			#{id},
-			#{spcCustomerBaseId},
+			#{spcCustomerBase.id},
 			#{person.id},
 			#{createBy.id},
 			#{createDate},
@@ -112,7 +112,7 @@
 	
 	<update id="update">
 		UPDATE spc_customer_person SET 	
-			spc_customer_base_id = #{spcCustomerBaseId},
+			spc_customer_base_id = #{spcCustomerBase.id},
 			person_id = #{person.id},
 			create_by = #{createBy.id},
 			create_date = #{createDate},
@@ -130,7 +130,7 @@
 				WHERE id = #{id}
 			</when>
 			<otherwise>
-				WHERE spc_customer_base_id = #{spcCustomerBaseId}
+				WHERE spc_customer_base_id = #{spcCustomerBase.id}
 			</otherwise>
 		</choose>
 	</update>

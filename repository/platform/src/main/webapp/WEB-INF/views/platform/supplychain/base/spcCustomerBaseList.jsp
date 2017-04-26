@@ -41,6 +41,7 @@
 		<thead>
 			<tr>
 				<th>营业执照编号</th>
+				<th>名称</th>
 				<th>业务代表</th>
 				<th>所在地</th>
 				<th>更新时间</th>
@@ -54,6 +55,9 @@
 				<td><a href="${ctx}/supplychain/base/spcCustomerBase/form?id=${spcCustomerBase.id}">
 					${spcCustomerBase.no}
 				</a></td>
+				<td> 
+					${spcCustomerBase.name}
+				 </td>
 				<td>
 					${spcCustomerBase.saleperson.name}
 				</td>

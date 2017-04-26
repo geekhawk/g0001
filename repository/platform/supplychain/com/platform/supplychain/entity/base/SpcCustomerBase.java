@@ -4,14 +4,21 @@
 package com.platform.supplychain.entity.base;
 
 import org.hibernate.validator.constraints.Length;
-import com.thinkgem.jeesite.modules.sys.entity.Office;
-import javax.validation.constraints.NotNull;
-import com.thinkgem.jeesite.modules.sys.entity.Area;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.List;
-import com.google.common.collect.Lists;
 
+import com.thinkgem.jeesite.modules.sys.entity.Office;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+
+import javax.validation.constraints.NotNull;
+
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
 /**
@@ -22,9 +29,10 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class SpcCustomerBase extends DataEntity<SpcCustomerBase> {
 	
 	private static final long serialVersionUID = 1L;
-	private String person;		// 人员
+	 
 	private String no;		// 营业执照编号
-	private String saleperson;		// 业务代表
+	private String name;		//名称
+	private User saleperson;		// 业务代表
 	private Office office;		// 部门
 	private Area area;		// 所在地
 	private String address;		// 地址
@@ -50,16 +58,7 @@ public class SpcCustomerBase extends DataEntity<SpcCustomerBase> {
 	public SpcCustomerBase(String id){
 		super(id);
 	}
-
-	@Length(min=1, max=64, message="人员长度必须介于 1 和 64 之间")
-	public String getPerson() {
-		return person;
-	}
-
-	public void setPerson(String person) {
-		this.person = person;
-	}
-	
+ 
 	@Length(min=1, max=64, message="营业执照编号长度必须介于 1 和 64 之间")
 	public String getNo() {
 		return no;
@@ -69,12 +68,21 @@ public class SpcCustomerBase extends DataEntity<SpcCustomerBase> {
 		this.no = no;
 	}
 	
-	@Length(min=1, max=64, message="业务代表长度必须介于 1 和 64 之间")
-	public String getSaleperson() {
+	
+	@Length(min=1, max=64, message="名称长度必须介于 1 和 64 之间")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	 
+	public User getSaleperson() {
 		return saleperson;
 	}
 
-	public void setSaleperson(String saleperson) {
+	public void setSaleperson(User saleperson) {
 		this.saleperson = saleperson;
 	}
 	

@@ -4,9 +4,11 @@
 package com.platform.supplychain.entity.base;
 
 import org.hibernate.validator.constraints.Length;
+
 import java.util.Date;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 
 /**
  * 物料信息Entity
@@ -16,8 +18,8 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class SpcCustomerPerson extends DataEntity<SpcCustomerPerson> {
 	
 	private static final long serialVersionUID = 1L;
-	private SpcCustomerBase spcCustomerBaseId;		// 客户主表ID 父类
-	private String person;		// 人员
+	private SpcCustomerBase spcCustomerBase;		// 客户主表ID 父类
+	private User person;		// 人员
 	private Date beginCreateDate;		// 开始 创建时间
 	private Date endCreateDate;		// 结束 创建时间
 	private Date beginUpdateDate;		// 开始 更新时间
@@ -31,25 +33,25 @@ public class SpcCustomerPerson extends DataEntity<SpcCustomerPerson> {
 		super(id);
 	}
 
-	public SpcCustomerPerson(SpcCustomerBase spcCustomerBaseId){
-		this.spcCustomerBaseId = spcCustomerBaseId;
+	public SpcCustomerPerson(SpcCustomerBase spcCustomerBase){
+		this.spcCustomerBase = spcCustomerBase;
 	}
 
 	@Length(min=0, max=64, message="客户主表ID长度必须介于 0 和 64 之间")
 	public SpcCustomerBase getSpcCustomerBaseId() {
-		return spcCustomerBaseId;
+		return spcCustomerBase;
 	}
 
-	public void setSpcCustomerBaseId(SpcCustomerBase spcCustomerBaseId) {
-		this.spcCustomerBaseId = spcCustomerBaseId;
+	public void setSpcCustomerBaseId(SpcCustomerBase spcCustomerBase) {
+		this.spcCustomerBase = spcCustomerBase;
 	}
 	
 	@Length(min=0, max=64, message="人员长度必须介于 0 和 64 之间")
-	public String getPerson() {
+	public User getPerson() {
 		return person;
 	}
 
-	public void setPerson(String person) {
+	public void setPerson(User person) {
 		this.person = person;
 	}
 	

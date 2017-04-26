@@ -116,6 +116,7 @@ public class SpcMaterialGroupBaseController extends BaseController {
 				map.put("id", e.getId());
 				map.put("pId", e.getParentId());
 				map.put("name", e.getName());
+				  map.put("isParent", true);	
 				mapList.add(map);
 			}
 		}

@@ -3,9 +3,9 @@
 <mapper namespace="com.platform.supplychain.dao.base.SpcCustomerBaseDao">
     
 	<sql id="spcCustomerBaseColumns">
-		a.id AS "id",
-		a.person_id AS "person.id",
+		a.id AS "id", 
 		a.no AS "no",
+		a.name AS "name",
 		a.saleperson_id AS "saleperson.id",
 		a.office_id AS "office.id",
 		a.area_id AS "area.id",
@@ -29,7 +29,7 @@
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
 		a.del_flag AS "delFlag",
-		u2.name AS "person.name",
+	 
 		u4.name AS "saleperson.name",
 		o5.name AS "office.name",
 		a6.name AS "area.name",
@@ -37,7 +37,7 @@
 	</sql>
 	
 	<sql id="spcCustomerBaseJoins">
-		LEFT JOIN sys_user u2 ON u2.id = a.person_id
+		 
 		LEFT JOIN sys_user u4 ON u4.id = a.saleperson_id
 		LEFT JOIN sys_office o5 ON o5.id = a.office_id
 		LEFT JOIN sys_area a6 ON a6.id = a.area_id
@@ -100,6 +100,7 @@
 		INSERT INTO spc_customer_base(
 			id,
 			no,
+			name,
 			saleperson_id,
 			office_id,
 			area_id,
@@ -126,6 +127,7 @@
 		) VALUES (
 			#{id},
 			#{no},
+			#{name},
 			#{saleperson.id},
 			#{office.id},
 			#{area.id},
@@ -155,6 +157,7 @@
 	<update id="update">
 		UPDATE spc_customer_base SET 	
 			no = #{no},
+			name = #{name},
 			saleperson_id = #{saleperson.id},
 			office_id = #{office.id},
 			area_id = #{area.id},

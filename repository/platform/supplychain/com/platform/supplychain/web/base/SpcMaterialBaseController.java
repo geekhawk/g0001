@@ -4,6 +4,7 @@
 package com.platform.supplychain.web.base;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,14 +16,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.platform.supplychain.entity.base.SpcMaterialBase;
+import com.platform.supplychain.entity.base.SpcMaterialGroupBase;
 import com.platform.supplychain.entity.base.SpcMeasureunit;
 import com.platform.supplychain.service.base.SpcMaterialBaseService;
 import com.platform.supplychain.service.base.SpcMeasureunitService;
@@ -96,6 +102,50 @@ public class SpcMaterialBaseController extends BaseController {
 		spcMaterialBaseService.delete(spcMaterialBase);
 		addMessage(redirectAttributes, "删除物料信息成功");
 		return "redirect:"+Global.getAdminPath()+"/supplychain/base/spcMaterialBase/?repage";
+	}
+	
+	
+ 
+	@ResponseBody
+	@RequestMapping(value = "treeDataSyn")
+	public List<Map<String, Object>> treeDataSyn(@RequestParam(required=false) String pId,@RequestParam(required=false) String nameLike, HttpServletResponse response) {
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+	      SpcMaterialBase spcMaterialBase = new SpcMaterialBase();
+	     
+		if(!"".equals(pId)&&pId!=null )
+		{
+			 SpcMaterialGroupBase spcMaterialGroupBase = new SpcMaterialGroupBase();
+			 spcMaterialGroupBase.setId(pId);
+			 spcMaterialBase.setGroupBase(spcMaterialGroupBase);
+		}
+		else if(!"".equals(nameLike)&&nameLike!=null )
+		{
+		  
+			spcMaterialBase.setName(nameLike);  
+		}
+		else{return mapList;}
+		
+		
+		List<SpcMaterialBase> list = spcMaterialBaseService.findList(spcMaterialBase) ;
+		for (int i=0; i<list.size(); i++){
+			SpcMaterialBase e = list.get(i);
+			 
+				Map<String, Object> map = Maps.newHashMap();
+				map.put("id", e.getId());
+				map.put("pId", e.getGroupBase().getId());
+				map.put("name", e.getName()); 
+				 
+				{
+				  map.put("isParent", false);	
+				
+					
+				}  
+				map.put("title",  e.getRemarks());	
+				mapList.add(map); 
+			 
+		}
+		  
+		return mapList;
 	}
 
 }
