@@ -1,5 +1,6 @@
 .mymetadata
-.checkstyle 
+.checkstyle
+.classpath
 .project
 .class
 .war
