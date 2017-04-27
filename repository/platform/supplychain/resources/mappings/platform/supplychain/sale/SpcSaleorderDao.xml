@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.supplychain.dao.sale.SpcSaleorderDao">
+    
+	<sql id="spcSaleorderColumns">
+		a.id AS "id",
+		a.no AS "no",
+		a.customerid AS "customer.id",
+		a.orderdate AS "orderdate",
+		a.totalamount AS "totalamount",
+		a.totalvolume AS "totalvolume",
+		a.totalweight AS "totalweight",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u8.name AS "createBy.name",
+		u10.name AS "updateBy.name",
+		u11.name AS "customer.name"
+	</sql>
+	
+	<sql id="spcSaleorderJoins">
+		LEFT JOIN sys_user u8 ON u8.id = a.create_by
+		LEFT JOIN sys_user u10 ON u10.id = a.update_by
+		LEFT JOIN spc_customer_base u11 ON u11.id = a.customerid 
+	</sql>
+    
+	<select id="get" resultType="SpcSaleorder">
+		SELECT 
+			<include refid="spcSaleorderColumns"/>
+		FROM spc_saleorder a
+		<include refid="spcSaleorderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SpcSaleorder">
+		SELECT 
+			<include refid="spcSaleorderColumns"/>
+		FROM spc_saleorder a
+		<include refid="spcSaleorderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="no != null and no != ''">
+				AND a.no LIKE 
+					<if test="dbName == 'oracle'">'%'||#{no}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{no}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{no},'%')</if>
+			</if>
+			<if test="customer != null and customer.id != null and customer.id != ''">
+				AND a.customerid = #{customer.id}
+			</if>
+			<if test="beginOrderdate != null and endOrderdate != null and beginOrderdate != '' and endOrderdate != ''">
+				AND a.orderdate BETWEEN #{beginOrderdate} AND #{endOrderdate}
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by = #{createBy.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+			<if test="updateBy != null and updateBy.id != null and updateBy.id != ''">
+				AND a.update_by = #{updateBy.id}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				AND a.del_flag = #{delFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SpcSaleorder">
+		SELECT 
+			<include refid="spcSaleorderColumns"/>
+		FROM spc_saleorder a
+		<include refid="spcSaleorderJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO spc_saleorder(
+			id,
+			no,
+			customerid,
+			orderdate,
+			totalamount,
+			totalvolume,
+			totalweight,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{no},
+			#{customer.id},
+			#{orderdate},
+			#{totalamount},
+			#{totalvolume},
+			#{totalweight},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE spc_saleorder SET 	
+			no = #{no},
+			customerid = #{customer.id},
+			orderdate = #{orderdate},
+			totalamount = #{totalamount},
+			totalvolume = #{totalvolume},
+			totalweight = #{totalweight},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE spc_saleorder SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

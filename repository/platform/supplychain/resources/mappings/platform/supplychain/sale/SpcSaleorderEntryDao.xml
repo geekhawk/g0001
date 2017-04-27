@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.supplychain.dao.sale.SpcSaleorderEntryDao">
+    
+	<sql id="spcSaleorderEntryColumns">
+		a.id AS "id",
+		a.main_id AS "spcSaleorder.id",
+		a.material_id AS "material.id",
+		a.measureunit_id AS "measureunit.id",
+		a.isgift AS "isgift",
+		a.qty AS "qty",
+		a.price AS "price",
+		a.amount AS "amount",
+		a.unitvolume AS "unitvolume",
+		a.volume AS "volume",
+		a.unitweight AS "unitweight",
+		a.weight AS "weight",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		u13.name AS "createBy.name",
+		u15.name AS "updateBy.name",
+		u16.name AS "material.name"
+	</sql>
+	
+	<sql id="spcSaleorderEntryJoins">
+		LEFT JOIN spc_saleorder b ON b.id = a.main_id
+		LEFT JOIN sys_user u13 ON u13.id = a.create_by
+		LEFT JOIN sys_user u15 ON u15.id = a.update_by
+		LEFT JOIN spc_material_base u16 ON u16.id = a.material_id
+	</sql>
+    
+	<select id="get" resultType="SpcSaleorderEntry">
+		SELECT 
+			<include refid="spcSaleorderEntryColumns"/>
+		FROM spc_saleorder_entry a
+		<include refid="spcSaleorderEntryJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SpcSaleorderEntry">
+		SELECT 
+			<include refid="spcSaleorderEntryColumns"/>
+		FROM spc_saleorder_entry a
+		<include refid="spcSaleorderEntryJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="spcSaleorder.id != null and spcSaleorder.id != ''">
+				AND a.main_id = #{spcSaleorder.id}
+			</if>
+			<if test="material != null and material.id != null and material.id != ''">
+				AND a.material_id = #{material.id}
+			</if>
+			<if test="isgift != null and isgift != ''">
+				AND a.isgift = #{isgift}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SpcSaleorderEntry">
+		SELECT 
+			<include refid="spcSaleorderEntryColumns"/>
+		FROM spc_saleorder_entry a
+		<include refid="spcSaleorderEntryJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.create_date ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO spc_saleorder_entry(
+			id,
+			main_id,
+			material_id,
+			measureunit_id,
+			isgift,
+			qty,
+			price,
+			amount,
+			unitvolume,
+			volume,
+			unitweight,
+			weight,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{spcSaleorder.id},
+			#{material.id},
+			#{measureunit.id},
+			#{isgift},
+			#{qty},
+			#{price},
+			#{amount},
+			#{unitvolume},
+			#{volume},
+			#{unitweight},
+			#{weight},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE spc_saleorder_entry SET 	
+			main_id = #{spcSaleorder.id},
+			material_id = #{material.id},
+			measureunit_id = #{measureunit.id},
+			isgift = #{isgift},
+			qty = #{qty},
+			price = #{price},
+			amount = #{amount},
+			unitvolume = #{unitvolume},
+			volume = #{volume},
+			unitweight = #{unitweight},
+			weight = #{weight},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE spc_saleorder_entry SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE main_id = #{spcSaleorder.id}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
