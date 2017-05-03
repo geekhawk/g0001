@@ -24,6 +24,8 @@
 <%@ attribute name="hideBtn" type="java.lang.Boolean" required="false" description="是否显示按钮"%>
 <%@ attribute name="disabled" type="java.lang.String" required="false" description="是否限制选择，如果限制，设置为disabled"%>
 <%@ attribute name="dataMsgRequired" type="java.lang.String" required="false" description=""%>
+<%@ attribute name="onChange" type="java.lang.String" required="false" description=""%>
+
 <div class="input-append">
 	<input id="${id}Id" name="${name}" class="${cssClass}" type="hidden" value="${value}"/>
 	<input id="${id}Name" name="${labelName}" ${allowInput?'':'readonly="readonly"'} type="text" value="${labelValue}" data-msg-required="${dataMsgRequired}"
@@ -69,8 +71,8 @@
 						names.push(nodes[i].name);//<c:if test="${!checked}">
 						break; // 如果为非复选框选择，则返回第一个选择  </c:if>
 					}
-					$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));
-					$("#${id}Name").val(names.join(","));
+					$("#${id}Id").val(ids.join(",").replace(/u_/ig,""));${onChange};
+					$("#${id}Name").val(names.join(",")); 
 				}//<c:if test="${allowClear}">
 				else if (v=="clear"){
 					$("#${id}Id").val("");

@@ -39,6 +39,7 @@
 					}
 				}
 			}); 
+			 
 			spcSaleorderEntryRowIdx++;
 			compute();
 		}
@@ -173,7 +174,9 @@ title="选择产品"
 url="/supplychain/base/spcMaterialGroupBase/treeData" 
 cssClass="required" 
 allowClear="true" 
-notAllowSelectParent="true"/>
+notAllowSelectParent="true" 
+onChange=" getMaterialInfo($(spcSaleorderEntryList{{idx}}_materialId).val(),{{idx}});" 
+/>
 							</td>
 							<td>
 								<select id="spcSaleorderEntryList{{idx}}_measureunit" name="spcSaleorderEntryList[{{idx}}].measureunit.id" data-value="{{row.measureunit.id}}" class="input-small required">
@@ -185,7 +188,9 @@ notAllowSelectParent="true"/>
 							</td>
 							<td>
 								<c:forEach items="${fns:getDictList('isgiftFLag')}" var="dict" varStatus="dictStatus">
-									<span><input id="spcSaleorderEntryList{{idx}}_isgift${dictStatus.index}" name="spcSaleorderEntryList[{{idx}}].isgift" type="radio" value="${dict.value}" data-value="{{row.isgift}}">
+									<span><input id="spcSaleorderEntryList{{idx}}_isgift${dictStatus.index}" name="spcSaleorderEntryList[{{idx}}].isgift" type="radio" value="${dict.value}" data-value="{{row.isgift}}"
+ <c:if  test="${row.isgift==null&&dict.value=='0'}"> checked="checked"</c:if>  
+>
                                             <label for="spcSaleorderEntryList{{idx}}_isgift${dictStatus.index}">${dict.label}</label></span>
 								</c:forEach>
 							</td>
@@ -241,34 +246,45 @@ notAllowSelectParent="true"/>
 						   
 						  //行金额计算
 						    var amount = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_price").val()
-						    $("#spcSaleorderEntryList"+i+"_amount").val(amount);
+						    $("#spcSaleorderEntryList"+i+"_amount").val(amount.toFixed(4));
 						    totalAmount += amount;
 						    
 						    //行体积计算
 						    var volume = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_unitvolume").val()
-						    $("#spcSaleorderEntryList"+i+"_volume").val(volume);
+						    $("#spcSaleorderEntryList"+i+"_volume").val(volume.toFixed(4));
 						    totalVolume  +=  volume;
 						    
 						    //行重量计算
 						    var weight = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_unitweight").val()
-						    $("#spcSaleorderEntryList"+i+"_weight").val(weight);
+						    $("#spcSaleorderEntryList"+i+"_weight").val(weight.toFixed(4));
 						    totalWeight +=  weight;
 						    }
 						  }
-						 $("#totalamount").val(totalAmount);
-						 $("#totalvolume").val(totalVolume);
-						 $("#totalweight").val(totalWeight);
+						 $("#totalamount").val(totalAmount.toFixed(4));
+						 $("#totalvolume").val(totalVolume.toFixed(4));
+						 $("#totalweight").val(totalWeight.toFixed(4));
 						}
 						
-						 function synMaterialInfo(   )
-						 {
-						    $.get("/supplychain/base/spcMaterialBase/get",function(data,status){
-                            alert("数据：" + data + "\n状态：" + status);
-                              });
-						 
-						 }
-						 
-						 
+						
+						
+						function getMaterialInfo(materialid,idx)
+						{
+							 
+							strs = {};
+							strs['materialid'] = materialid  ;
+
+							$.post( "${ctx}/supplychain/base/spcMaterialBase/getMaterialInfo",
+											strs, function(result)
+											{  
+											 
+											  $("#spcSaleorderEntryList"+idx+"_measureunit").val(result.mearureunit.id);
+											  $("#spcSaleorderEntryList"+idx+"_price").val(result.price);
+											  $("#spcSaleorderEntryList"+idx+"_unitvolume").val(result.volume);
+											  $("#spcSaleorderEntryList"+idx+"_unitweight").val(result.weight);
+											    compute();
+											});
+
+						}
 					</script>
 				</div>
 			 

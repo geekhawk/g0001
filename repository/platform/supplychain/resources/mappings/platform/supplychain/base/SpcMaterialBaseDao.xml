@@ -12,6 +12,7 @@
 		a.length AS "length",
 		a.width AS "width",
 		a.height AS "height",
+		a.volume AS "volume",
 		a.netweight AS "netweight",
 		a.grossweight AS "grossweight",
 		a.in_date AS "inDate",
@@ -88,7 +89,7 @@
 			</if>
 			
 			
-			<if test="groupBase != null  and groupBase != ''">
+			<if test="groupBase != null  and groupBase != '' and groupBase.id != null  and groupBase.id != ''">
 				AND a.group_base_id  = #{groupBase.id}
 			</if>
 		</where>
@@ -131,6 +132,7 @@
 			length,
 			width,
 			height,
+			volume,
 			netweight,
 			grossweight,
 			in_date,
@@ -151,6 +153,7 @@
 			#{length},
 			#{width},
 			#{height},
+			#{volume},
 			#{netweight},
 			#{grossweight},
 			#{inDate},
@@ -174,6 +177,7 @@
 			length = #{length},
 			width = #{width},
 			height = #{height},
+			volume = #{volume},
 			netweight = #{netweight},
 			grossweight = #{grossweight},
 			in_date = #{inDate},

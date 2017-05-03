@@ -28,6 +28,7 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 	private Double length;		// 长度
 	private Double width;		// 宽度
 	private Double height;		// 高度
+	private Double volume; //体积
 	private Double netweight;		// 净重
 	private Double grossweight;		// 毛重
 	private Date inDate;		// 加入日期
@@ -114,6 +115,18 @@ public class SpcMaterialBase extends DataEntity<SpcMaterialBase> {
 		this.height = height;
 	}
 	
+	
+	
+	public Double getVolume()
+	{
+		return volume;
+	}
+
+	public void setVolume(Double volume)
+	{
+		this.volume = volume;
+	}
+
 	public Double getNetweight() {
 		return netweight;
 	}

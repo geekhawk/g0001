@@ -148,4 +148,28 @@ public class SpcMaterialBaseController extends BaseController {
 		return mapList;
 	}
 
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "getMaterialInfo")
+	public Map<String, Object> getMaterialInfo(@RequestParam(required = true) String materialid, HttpServletResponse response)
+	{  System.out.println("materialid:"+materialid);
+		List<Map<String, Object>> mapList = Lists.newArrayList();
+		SpcMaterialBase spcMaterialBase = new SpcMaterialBase();
+
+		spcMaterialBase = spcMaterialBaseService.get(materialid);
+
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("mearureunit", spcMaterialBase.getMearureunit());
+		map.put("price", spcMaterialBase.getPrice());
+		map.put("volume", spcMaterialBase.getVolume());
+		map.put("weight", spcMaterialBase.getGrossweight());
+
+		mapList.add(map);
+
+		return map;
+	}
+	
+	
+	
 }

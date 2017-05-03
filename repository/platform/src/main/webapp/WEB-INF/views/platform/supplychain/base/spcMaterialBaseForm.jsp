@@ -112,25 +112,32 @@
 		<div class="control-group">
 			<label class="control-label">单价：</label>
 			<div class="controls">
-				<form:input path="price" htmlEscape="false" class="input-xlarge  number"/>
+				<form:input path="price" htmlEscape="false" class="input-xlarge  number" />
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">长度：</label>
 			<div class="controls">
-				<form:input path="length" htmlEscape="false" class="input-xlarge  number"/>
+				<form:input path="length" htmlEscape="false" class="input-xlarge  number" onChange="computeVolume();"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">宽度：</label>
 			<div class="controls">
-				<form:input path="width" htmlEscape="false" class="input-xlarge  number"/>
+				<form:input path="width" htmlEscape="false" class="input-xlarge  number" onChange="computeVolume();"/>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">高度：</label>
 			<div class="controls">
-				<form:input path="height" htmlEscape="false" class="input-xlarge  number"/>
+				<form:input path="height" htmlEscape="false" class="input-xlarge  number" onChange="computeVolume();" />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">体积：</label>
+			<div class="controls">
+				<form:input path="volume" htmlEscape="false" class="input-xlarge  number"/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -208,6 +215,14 @@
 								spcMaterialInventoryRowIdx = spcMaterialInventoryRowIdx + 1;
 							}
 						});
+						
+						function computeVolume()
+						{
+						
+						 $("#volume").val(   ($("#length").val()* $("#width").val()* $("#height").val()).toFixed(4)   );
+						
+						}
+						
 					</script>
 				</div>
 			</div>
