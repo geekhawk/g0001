@@ -189,4 +189,29 @@
 		WHERE id = #{id}
 	</update>
 	
+	
+	
+	
+ 
+	
+	<select id="findListByIds" resultType="SpcCustomerBase">
+		SELECT 
+			<include refid="spcCustomerBaseColumns"/>
+		FROM spc_customer_base a
+		<include refid="spcCustomerBaseJoins"/>
+		<where>
+			a.del_flag = '0'
+			 <if test="list != null and list.size() == 0 ">  
+			 and a.id ='0'
+			</if>
+			<if test="list != null and list.size() != 0 ">  
+			and a.id in 
+				<foreach collection="list" index="index" item="id" open="("
+                  separator="," close=")">
+                      #{id} 
+                     </foreach>
+			</if>
+		</where>
+		 
+	</select>
 </mapper>

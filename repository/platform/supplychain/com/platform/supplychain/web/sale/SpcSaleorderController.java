@@ -3,6 +3,7 @@
  */
 package com.platform.supplychain.web.sale;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,11 +22,15 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.entity.User;
 import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.platform.supplychain.entity.base.SpcCustomerBase;
+import com.platform.supplychain.entity.base.SpcCustomerPerson;
 import com.platform.supplychain.entity.base.SpcMeasureunit;
 import com.platform.supplychain.entity.sale.SpcSaleorder;
 import com.platform.supplychain.service.base.SpcCustomerBaseService;
+import com.platform.supplychain.service.base.SpcCustomerPersonService;
 import com.platform.supplychain.service.base.SpcMeasureunitService;
 import com.platform.supplychain.service.sale.SpcSaleorderService;
 
@@ -44,7 +49,8 @@ public class SpcSaleorderController extends BaseController {
 	private SpcCustomerBaseService spcCustomerBaseService;
 	@Autowired
 	private SpcMeasureunitService spcMeasureunitService;
-	
+	@Autowired
+	private SpcCustomerPersonService spcCustomerPersonService;
 	@ModelAttribute
 	public SpcSaleorder get(@RequestParam(required=false) String id) {
 		SpcSaleorder entity = null;
@@ -68,7 +74,19 @@ public class SpcSaleorderController extends BaseController {
 	@RequiresPermissions("supplychain:sale:spcSaleorder:view")
 	@RequestMapping(value = "form")
 	public String form(SpcSaleorder spcSaleorder, Model model) {
-		List<?> spcCustomerBaseList = spcCustomerBaseService.findList(new SpcCustomerBase());
+		//先获取包含当前用户的人员客户
+		SpcCustomerPerson   SpcCustomerPerson = new SpcCustomerPerson();
+		User currentUser = UserUtils.getUser();
+		SpcCustomerPerson.setPerson(currentUser);
+		List<SpcCustomerPerson> spcCustomerPersonList   =    spcCustomerPersonService.findList(SpcCustomerPerson);
+		List<String>  ids   = new ArrayList<String>();
+		for( SpcCustomerPerson scp : spcCustomerPersonList )
+		{
+			ids.add(scp.getSpcCustomerBaseId().getId());
+			
+		}
+		
+		List<?> spcCustomerBaseList = spcCustomerBaseService.findListByIds(ids);
 		List<?> spcMeasureunitList = spcMeasureunitService.findList(new SpcMeasureunit());
 		//新建页面，按编码规则取出编码
 		if(spcSaleorder.getNo()==null)

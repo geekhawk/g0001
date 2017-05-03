@@ -3,6 +3,8 @@
  */
 package com.platform.supplychain.dao.base;
 
+import java.util.List;
+
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.platform.supplychain.entity.base.SpcCustomerBase;
@@ -14,5 +16,5 @@ import com.platform.supplychain.entity.base.SpcCustomerBase;
  */
 @MyBatisDao
 public interface SpcCustomerBaseDao extends CrudDao<SpcCustomerBase> {
-	
+	public List<SpcCustomerBase> findListByIds( List<String > ids );
 }

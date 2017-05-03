@@ -39,7 +39,7 @@
 		<include refid="spcCustomerPersonJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="spcCustomerBase.id != null and spcCustomerBase.id != ''">
+			<if test="spcCustomerBase  != null  and spcCustomerBase.id != null and spcCustomerBase.id != ''">
 				AND a.spc_customer_base_id = #{spcCustomerBase.id}
 			</if>
 			<if test="person != null and person.id != null and person.id != ''">

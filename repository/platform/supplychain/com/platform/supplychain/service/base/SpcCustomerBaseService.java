@@ -28,6 +28,9 @@ public class SpcCustomerBaseService extends CrudService<SpcCustomerBaseDao, SpcC
 
 	@Autowired
 	private SpcCustomerPersonDao spcCustomerPersonDao;
+	@Autowired
+	private SpcCustomerBaseDao spcCustomerBaseDao;
+	
 	
 	public SpcCustomerBase get(String id) {
 		SpcCustomerBase spcCustomerBase = super.get(id);
@@ -69,6 +72,10 @@ public class SpcCustomerBaseService extends CrudService<SpcCustomerBaseDao, SpcC
 	public void delete(SpcCustomerBase spcCustomerBase) {
 		super.delete(spcCustomerBase);
 		spcCustomerPersonDao.delete(new SpcCustomerPerson(spcCustomerBase));
+	}
+	
+	public List<SpcCustomerBase> findListByIds(List<String > ids ) {
+		return spcCustomerBaseDao.findListByIds(   ids );
 	}
 	
 }
