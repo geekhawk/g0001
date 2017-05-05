@@ -34,8 +34,7 @@ public class SqlExecuterForRelationalDatabase implements SqlExecuter
 	public SqlExecuterForRelationalDatabase(String dataSourceSpringBeanId) throws Exception
 	{
 		this.dataSourceSpringBeanId = dataSourceSpringBeanId;
-
-		WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
+        WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
 		this.dataSource = (com.alibaba.druid.pool.DruidDataSource) wac.getBean(this.dataSourceSpringBeanId);
 		this.connection = this.dataSource.getConnection();
 

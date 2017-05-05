@@ -18,13 +18,13 @@ import com.thinkgem.jeesite.common.persistence.BaseDao;
 /**
  * DAO支持类实现
  * 
- * @author EntityhinkGem
+ * @author zjh
  * @version 2014-05-16
  * @param <Entity>
  */
 
 @SuppressWarnings("rawtypes")
-public class BaseDaoHBT<Entity> implements IDaoHBT<Entity>
+public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +34,8 @@ public class BaseDaoHBT<Entity> implements IDaoHBT<Entity>
 	 */
 	@Autowired
 	protected SessionFactory sessionFactoryK3;
+	
+	
 	protected Class<Entity> entityClass;
 
 	public Session getSession()

@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * DAO支持类实现
  * 
- * @author ThinkGem
+ * @author zjh
  * @version 2014-05-16
  * @param <T>
  */
 @Transactional(readOnly = true)
-public class BaseServiceHBT<Entity extends IEntityHBT, Dao extends IDaoHBT<Entity>> implements IServiceHBT<Entity>
+public class BaseServiceHBT<Entity extends EntityInterfaceHBT, Dao extends DaoInterFaceHBT<Entity>> implements ServiceInterfaceHBT<Entity>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -28,24 +28,28 @@ public class BaseServiceHBT<Entity extends IEntityHBT, Dao extends IDaoHBT<Entit
 		{
 			dao.add(entity);
 		}
+
 	@Transactional(readOnly = false)
 	@Override
 	public void delete(Entity entity)
 		{
 			dao.delete(entity);
 		}
+
 	@Transactional(readOnly = false)
 	@Override
 	public Entity merge(Entity entity)
 		{
 			return dao.merge(entity);
 		}
+
 	@Transactional(readOnly = false)
 	@Override
 	public void saveOrUpdate(Entity entity)
 		{
 			dao.saveOrUpdate(entity);
 		}
+
 	@Transactional(readOnly = false)
 	@Override
 	public void attachClean(Entity entity)
@@ -66,10 +70,10 @@ public class BaseServiceHBT<Entity extends IEntityHBT, Dao extends IDaoHBT<Entit
 		}
 
 	@Override
-	public List<Entity> findByPropertys(Map<String,Object>  map)
-		{  
-			
-			 return dao.findByPropertys(map);
+	public List<Entity> findByPropertys(Map<String, Object> map)
+		{
+
+			return dao.findByPropertys(map);
 		}
 
 }

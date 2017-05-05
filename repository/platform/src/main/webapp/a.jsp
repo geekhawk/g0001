@@ -31,7 +31,12 @@
 			WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
 			UserServiceHBT us = (UserServiceHBT) wac.getBean("userServiceHBT"); 
 			UserInfoBean user = new UserInfoBean();
-			user.setNickName("1212");
+			//user.setNickName("1212");
+			user = us.findById("402880e45bd8c70f015bd8c770ef0001");
+			user.setNickName("3");
+			java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
+			user.setDate(date);
+			us.merge(user);
 			out.println(us.findByExample(user).size());
 
 			 

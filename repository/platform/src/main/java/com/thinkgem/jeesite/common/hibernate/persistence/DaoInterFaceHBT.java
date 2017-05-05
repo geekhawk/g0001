@@ -7,12 +7,12 @@ import java.util.Map;
 /**
  * DAO支持类实现
  * 
- * @author EntityhinkGem
+ * @author zjh
  * @version 2014-05-16
  * @param <Entity>
  */
 
-public interface IDaoHBT<Entity>  extends Serializable
+public interface DaoInterFaceHBT<Entity>  extends Serializable
 {
 
 	public void add( Entity t);
@@ -30,6 +30,8 @@ public interface IDaoHBT<Entity>  extends Serializable
 	public List<Entity> findByExample(Entity t);
 
 	public List<Entity> findByPropertys(Map<String,Object>  map);
+
+	
  
 
 }
