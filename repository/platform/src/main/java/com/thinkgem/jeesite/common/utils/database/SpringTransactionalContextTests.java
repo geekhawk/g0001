@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.common.test;
+package com.thinkgem.jeesite.common.utils.database;
 
 import javax.sql.DataSource;
 
