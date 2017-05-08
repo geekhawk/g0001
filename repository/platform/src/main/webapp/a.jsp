@@ -8,6 +8,8 @@
 <%@page import="com.tester.hibernate.*"%>
 <%@page import="org.springframework.web.context.ContextLoader"%>
 <%@page import="org.springframework.web.context.WebApplicationContext"%>
+<%@page import="com.qq.k3.seOrder.service.*"%>
+<%@page import="com.qq.k3.seOrder.pojo.*"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -24,21 +26,23 @@
 
 <body>
 	<%
-		    //SqlExecuterForRelationalDatabase sqlExe = new SqlExecuterForRelationalDatabase("dataSourceK3");
-			//sqlExe.setSqlAndParameters("SELECT * from  t_Organization  ", null);
-			// out.println(sqlExe.returnTable());
-
-			WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
+		    WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
+			/*
 			UserServiceHBT us = (UserServiceHBT) wac.getBean("userServiceHBT"); 
 			UserInfoBean user = new UserInfoBean();
 			//user.setNickName("1212");
-			user = us.findById("402880e45bd8c70f015bd8c770ef0001");
+			//user = us.findById("402880e45bd8c70f015bd8c770ef0001");
+			user.setId("402880e45bd8c70f015bd8c770ef0001");
 			user.setNickName("3");
 			java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
 			user.setDate(date);
 			us.merge(user);
-			out.println(us.findByExample(user).size());
-
+			us.saveOrUpdate(user);
+			us.saveOrUpdate(user); 
+			//out.println(us.findByExample(user).size());
+  */
+      SeorderService seorderService = (SeorderService) wac.getBean("seorderService"); 
+  
 			 
 	%>
 </body>

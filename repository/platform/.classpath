@@ -19,6 +19,7 @@
 	</classpathentry>
 	<classpathentry excluding="resources/|resources/mappings/platform/supplychain/base/" kind="src" path="supplychain"/>
 	<classpathentry excluding="mappings/platform/supplychain/base/|mappings/platform/supplychain/|mappings/platform/|mappings/" kind="src" path="supplychain/resources"/>
+	<classpathentry kind="src" path="K3"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

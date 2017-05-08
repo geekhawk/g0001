@@ -45,7 +45,7 @@ public class UserInfoBean  implements EntityInterfaceHBT
 	}
 
 	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.hex")
+	@GenericGenerator(name = "generator", strategy = "org.hibernate.id.UUIDGenerator")
 	@Id
 	@GeneratedValue(generator = "generator")
 	@Column(name = "id", length = 50)

@@ -1,19 +1,16 @@
 package com.thinkgem.jeesite.common.hibernate.persistence;
- 
+
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
 import org.hibernate.LockOptions;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.thinkgem.jeesite.common.persistence.BaseDao;
 
 /**
  * DAO支持类实现
@@ -23,7 +20,6 @@ import com.thinkgem.jeesite.common.persistence.BaseDao;
  * @param <Entity>
  */
 
-@SuppressWarnings("rawtypes")
 public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 {
 
@@ -34,8 +30,7 @@ public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 	 */
 	@Autowired
 	protected SessionFactory sessionFactoryK3;
-	
-	
+
 	protected Class<Entity> entityClass;
 
 	public Session getSession()
@@ -60,18 +55,18 @@ public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 	}
 
 	@Override
-	public void add(Entity t)
+	public void add(Entity entity)
 		{
 			Session session = getSession();
-			session.save(t);
+			session.save(entity);
 		}
 
 	@Override
-	public void delete(Entity t)
+	public void delete(Entity entity)
 		{
 
 			Session session = getSession();
-			session.delete(t);
+			session.delete(entity);
 		}
 
 	@Override
@@ -102,43 +97,37 @@ public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 	@SuppressWarnings("unchecked")
 	public Entity findById(String id)
 		{
-
 			Session session = getSession();
 			Entity t = (Entity) session.get(entityClass, id);
 			return t;
-
 		}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Entity> findByExample(Entity entity)
 		{
-
 			Session session = getSession();
 			List<Entity> results = session.createCriteria(entityClass).add(Example.create(entity)).list();
 			return results;
-
 		}
 
 	@Override
-	public List<Entity> findByPropertys(Map<String,Object>  map )
+	public List<Entity> findByPropertys(Map<String, Object> map)
 		{
 			return null;
 			/*
-			
-			Session session = getSession();
-			String queryString = "from "+entityClass+" as model where 1=1 " ;
-			for (Map.Entry<String, Object> entry : map.entrySet()) {
-				queryString = queryString +" and " + propertyName + "= ?"  
-			    System.out.println("key= " + entry.getKey() + " and value= "
-				                      + entry.getValue());
-				         }
-			
-				model." + propertyName + "= ?"
-			Query queryObject = session.createQuery(queryString);
-			queryObject.setParameter(0, value);
-			return queryObject.list();
-*/
+			 * 
+			 * Session session = getSession(); String queryString =
+			 * "from "+entityClass+" as model where 1=1 " ; for
+			 * (Map.Entry<String, Object> entry : map.entrySet()) { queryString
+			 * = queryString +" and " + propertyName + "= ?"
+			 * System.out.println("key= " + entry.getKey() + " and value= " +
+			 * entry.getValue()); }
+			 * 
+			 * model." + propertyName + "= ?" Query queryObject =
+			 * session.createQuery(queryString); queryObject.setParameter(0,
+			 * value); return queryObject.list();
+			 */
 		}
 
 }
