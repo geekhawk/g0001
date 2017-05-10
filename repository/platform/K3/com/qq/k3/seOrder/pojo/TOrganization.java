@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -22,7 +23,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "t_Organization", schema = "dbo", catalog = "AIS20170502093932")
-public class TOrganization implements EntityInterfaceHBT
+public class TOrganization extends BaseEntityHBT<TOrganization>
 {
 
 	// Fields
@@ -132,7 +133,7 @@ public class TOrganization implements EntityInterfaceHBT
 	private Integer fflat;
 	private Integer fclassTypeId;
 	private Integer f102;
-	private Set<Seorder> seorders = new HashSet<Seorder>(0);
+	private Set<SeOrder> seorders = new HashSet<SeOrder>(0);
 
 	// Constructors
 
@@ -198,7 +199,7 @@ public class TOrganization implements EntityInterfaceHBT
 			Timestamp fpaperPeriod, Integer falarmPeriod, Boolean flicAndPermit, Integer fotherAracctId, Integer fotherApacctId, Integer fpreApacctId, Integer fsaleId,
 			String fhelpCode, String fmodifyTime, String fnameEn, String faddrEn, String fciqcode, Integer fregion, String fmobilePhone, Integer fpayCondition,
 			Integer fmanageType, Integer fclass, String fvalue, Integer fregUserId, Timestamp flastModifyDate, Timestamp frecentContactDate, Timestamp fregDate, Integer fflat,
-			Integer fclassTypeId, Integer f102, Set<Seorder> seorders)
+			Integer fclassTypeId, Integer f102, Set<SeOrder> seorders)
 	{
 		this.faddress = faddress;
 		this.fcity = fcity;
@@ -307,10 +308,8 @@ public class TOrganization implements EntityInterfaceHBT
 		this.seorders = seorders;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@Id 
 	@Column(name = "FItemID", unique = true, nullable = false)
 	public Integer getFitemId()
 		{
@@ -1467,12 +1466,12 @@ public class TOrganization implements EntityInterfaceHBT
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TOrganization")
-	public Set<Seorder> getSeorders()
+	public Set<SeOrder> getSeorders()
 		{
 			return this.seorders;
 		}
 
-	public void setSeorders(Set<Seorder> seorders)
+	public void setSeorders(Set<SeOrder> seorders)
 		{
 			this.seorders = seorders;
 		}

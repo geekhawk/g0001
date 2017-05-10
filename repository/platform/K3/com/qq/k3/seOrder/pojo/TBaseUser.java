@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -24,7 +25,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "t_Base_User", schema = "dbo", catalog = "AIS20170502093932", uniqueConstraints = @UniqueConstraint(columnNames = "FName"))
-public class TBaseUser implements EntityInterfaceHBT
+public class TBaseUser extends BaseEntityHBT<TBaseUser>
 {
 
 	// Fields
@@ -54,7 +55,7 @@ public class TBaseUser implements EntityInterfaceHBT
 	private Integer fauthRight;
 	private Integer fuserTypeId;
 	private String fportUser;
-	private Set<Seorder> seorders = new HashSet<Seorder>(0);
+	private Set<SeOrder> seorders = new HashSet<SeOrder>(0);
 
 	// Constructors
 
@@ -74,7 +75,7 @@ public class TBaseUser implements EntityInterfaceHBT
 	public TBaseUser(String fname, String fsid, Short fprimaryGroup, String fdescription, Boolean fforbidden, byte[] fright, Integer fempId, Integer fdataVokeType,
 			Boolean fisNeedOffline, Boolean frightChanged, Boolean fofflineRefeshEachTime, Integer fsafeMode, Integer fhruser, String fssousername, String fscpwd, String uuid,
 			String fmodifyTime, Integer faccessUuid, Timestamp fuinValidDate, Timestamp fpwCreateDate, Integer fpwValidDay, Integer fauthRight, Integer fuserTypeId,
-			String fportUser, Set<Seorder> seorders)
+			String fportUser, Set<SeOrder> seorders)
 	{
 		this.fname = fname;
 		this.fsid = fsid;
@@ -103,10 +104,8 @@ public class TBaseUser implements EntityInterfaceHBT
 		this.seorders = seorders;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@Id 
 	@Column(name = "FUserID", unique = true, nullable = false)
 	public Integer getFuserId()
 		{
@@ -384,12 +383,12 @@ public class TBaseUser implements EntityInterfaceHBT
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TBaseUser")
-	public Set<Seorder> getSeorders()
+	public Set<SeOrder> getSeorders()
 		{
 			return this.seorders;
 		}
 
-	public void setSeorders(Set<Seorder> seorders)
+	public void setSeorders(Set<SeOrder> seorders)
 		{
 			this.seorders = seorders;
 		}

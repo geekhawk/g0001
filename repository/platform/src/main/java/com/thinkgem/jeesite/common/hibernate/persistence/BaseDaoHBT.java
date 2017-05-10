@@ -1,16 +1,26 @@
 package com.thinkgem.jeesite.common.hibernate.persistence;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.LockOptions;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.thinkgem.jeesite.common.persistence.Page;
 
 /**
  * DAO支持类实现
@@ -20,7 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @param <Entity>
  */
 
-public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
+public class BaseDaoHBT<Entity extends BaseEntityHBT<Entity>> implements DaoInterFaceHBT<Entity>
 {
 
 	private static final long serialVersionUID = 1L;
@@ -95,7 +105,7 @@ public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public Entity findById(String id)
+	public Entity findById(Serializable id)
 		{
 			Session session = getSession();
 			Entity t = (Entity) session.get(entityClass, id);
@@ -104,30 +114,77 @@ public class BaseDaoHBT<Entity> implements DaoInterFaceHBT<Entity>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Entity> findByExample(Entity entity)
+	public List<Entity> findListByExample(Entity entity)
 		{
 			Session session = getSession();
 			List<Entity> results = session.createCriteria(entityClass).add(Example.create(entity)).list();
 			return results;
 		}
 
+	/**
+	 * 根据任意条件获取集合
+	 * 
+	 * @param entity
+	 * 
+	 * @param orderlist
+	 * @example exapple criteria.add(Restrictions.like("chanpin", "冰箱", MatchMode.ANYWHERE)); criteria.addOrder(Order.asc(""));
+	 */
+
 	@Override
-	public List<Entity> findByPropertys(Map<String, Object> map)
+	@SuppressWarnings("unchecked")
+	public List<Entity> findList(Entity entity, List<Order> orderList, List<Criterion> criterionList)
 		{
-			return null;
-			/*
-			 * 
-			 * Session session = getSession(); String queryString =
-			 * "from "+entityClass+" as model where 1=1 " ; for
-			 * (Map.Entry<String, Object> entry : map.entrySet()) { queryString
-			 * = queryString +" and " + propertyName + "= ?"
-			 * System.out.println("key= " + entry.getKey() + " and value= " +
-			 * entry.getValue()); }
-			 * 
-			 * model." + propertyName + "= ?" Query queryObject =
-			 * session.createQuery(queryString); queryObject.setParameter(0,
-			 * value); return queryObject.list();
-			 */
+			Session session = getSession();
+			Criteria criteria = session.createCriteria(entityClass);
+
+			// 添加过滤条件
+			if(criterionList!=null)
+			for (Criterion criterion : criterionList)
+			{
+				criteria.add(criterion);
+			}
+
+			// 添加排序
+			if(orderList!=null)
+			for (Order order : orderList)
+			{
+				criteria.addOrder(order);
+			}
+			List<Entity> results = criteria.list();
+			return results;
+		}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Page<Entity> findPage(Page<Entity> page, Entity entity, List<Order> orderList, List<Criterion> criterionList)
+		{
+			Session session = getSession();
+			Criteria criteria = session.createCriteria(entityClass);
+            // 添加过滤条件
+			if (criterionList != null)
+				for (Criterion criterion : criterionList)
+				{
+					criteria.add(criterion);
+				}
+              // 设置总纲数
+			entity.setPage(page);
+			entity.getPage().setCount((Long) criteria.setProjection(Projections.rowCount()).uniqueResult());
+			criteria.setProjection(null);
+			 // 添加排序
+						if (orderList != null)
+							for (Order order : orderList)
+							{
+								criteria.addOrder(order);
+							}
+            //初始化分页
+			entity.getPage().initialize();
+			// 添加分页
+			criteria.setMaxResults((entity.getPage().getPageNo()) * entity.getPage().getPageSize());
+			criteria.setFirstResult((entity.getPage().getPageNo() - 1) * entity.getPage().getPageSize());
+
+			List<Entity> results = criteria.list();
+			entity.getPage().setList(results);
+			return entity.getPage();
 		}
 
 }

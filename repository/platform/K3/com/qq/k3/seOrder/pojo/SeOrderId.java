@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
  * SeorderId entity. @author MyEclipse Persistence Tools
  */
 @Embeddable
-public class SeorderId implements java.io.Serializable
+public class SeOrderId implements java.io.Serializable
 {
 
 	// Fields
@@ -18,12 +18,12 @@ public class SeorderId implements java.io.Serializable
 	// Constructors
 
 	/** default constructor */
-	public SeorderId()
+	public SeOrderId()
 	{
 	}
 
 	/** full constructor */
-	public SeorderId(String fbrNo, Integer finterId)
+	public SeOrderId(String fbrNo, Integer finterId)
 	{
 		this.fbrNo = fbrNo;
 		this.finterId = finterId;
@@ -59,9 +59,9 @@ public class SeorderId implements java.io.Serializable
 				return true;
 			if ((other == null))
 				return false;
-			if (!(other instanceof SeorderId))
+			if (!(other instanceof SeOrderId))
 				return false;
-			SeorderId castOther = (SeorderId) other;
+			SeOrderId castOther = (SeOrderId) other;
 
 			return ((this.getFbrNo() == castOther.getFbrNo()) || (this.getFbrNo() != null && castOther.getFbrNo() != null && this.getFbrNo().equals(castOther.getFbrNo())))
 					&& ((this.getFinterId() == castOther.getFinterId()) || (this.getFinterId() != null && castOther.getFinterId() != null && this.getFinterId().equals(

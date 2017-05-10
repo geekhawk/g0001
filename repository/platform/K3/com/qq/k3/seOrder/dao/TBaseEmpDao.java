@@ -2,7 +2,7 @@ package com.qq.k3.seOrder.dao;
 
 import org.springframework.stereotype.Repository;
 
-import com.qq.k3.seOrder.pojo.Seorder;
+import com.qq.k3.seOrder.pojo.SeOrder;
 import com.qq.k3.seOrder.pojo.TBaseEmp;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseDaoHBT; 
 @Repository

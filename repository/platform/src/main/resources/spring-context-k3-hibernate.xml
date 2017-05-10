@@ -85,7 +85,7 @@
 			</value>
 		</property>
 		<!-- 自动扫描实体对象 tdxy.bean的包结构中存放实体类 -->
-		<property name="packagesToScan" value="com.tester.hibernate" />
+		<property name="packagesToScan" value="com.qq.k3" />
 	</bean>
 	
 	
@@ -98,7 +98,7 @@
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 
 	<!-- 扫描有注解的文件 base-package 包路径 -->
-	<context:component-scan base-package="com.tester.hibernate" />
+	<context:component-scan base-package="com.qq.k3" />
 
 	<tx:advice id="txAdviceK3" transaction-manager="transactionManagerK3">
 		<tx:attributes>
@@ -119,7 +119,7 @@
 
 	<!-- 定义切面，在 * tdxy.*.service.*ServiceImpl.*(..) 中执行有关的hibernate session的事务操作 -->
 	<aop:config>    
-		<aop:pointcut id="serviceOperationK3" expression="execution(* com.tester.*.hibernate.*Service.*(..))" />
+		<aop:pointcut id="serviceOperationK3" expression="execution(* com.qq.k3.*.service.*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceK3" pointcut-ref="serviceOperationK3" />
 	</aop:config>
 	

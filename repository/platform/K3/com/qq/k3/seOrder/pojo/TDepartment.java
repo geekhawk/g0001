@@ -11,9 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+ 
 
-import org.hibernate.annotations.GenericGenerator;
 
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -21,7 +22,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "t_Department", schema = "dbo", catalog = "AIS20170502093932")
-public class TDepartment implements EntityInterfaceHBT
+public class TDepartment extends BaseEntityHBT<TDepartment>
 {
 
 	// Fields
@@ -49,7 +50,7 @@ public class TDepartment implements EntityInterfaceHBT
 	private Integer fpreAracctId;
 	private Integer fpreApacctId;
 	private Boolean fisCreditMgr;
-	private Set<Seorder> seorders = new HashSet<Seorder>(0);
+	private Set<SeOrder> seorders = new HashSet<SeOrder>(0);
 
 	// Constructors
 
@@ -79,7 +80,7 @@ public class TDepartment implements EntityInterfaceHBT
 	/** full constructor */
 	public TDepartment(String fbrNo, Integer fmanager, String fphone, String ffax, String fnote, String fnumber, String fname, Integer fparentId, Integer fdproperty,
 			Integer fdstock, Short fdeleted, String fshortNumber, Integer facctId, Integer fcostAccountType, String fmodifyTime, Integer fcalId, Integer fplanArea,
-			Integer fotherAracctId, Integer fotherApacctId, Integer fpreAracctId, Integer fpreApacctId, Boolean fisCreditMgr, Set<Seorder> seorders)
+			Integer fotherAracctId, Integer fotherApacctId, Integer fpreAracctId, Integer fpreApacctId, Boolean fisCreditMgr, Set<SeOrder> seorders)
 	{
 		this.fbrNo = fbrNo;
 		this.fmanager = fmanager;
@@ -106,10 +107,8 @@ public class TDepartment implements EntityInterfaceHBT
 		this.seorders = seorders;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@Id 
 	@Column(name = "FItemID", unique = true, nullable = false)
 	public Integer getFitemId()
 		{
@@ -364,12 +363,12 @@ public class TDepartment implements EntityInterfaceHBT
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TDepartment")
-	public Set<Seorder> getSeorders()
+	public Set<SeOrder> getSeorders()
 		{
 			return this.seorders;
 		}
 
-	public void setSeorders(Set<Seorder> seorders)
+	public void setSeorders(Set<SeOrder> seorders)
 		{
 			this.seorders = seorders;
 		}

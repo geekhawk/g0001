@@ -2,18 +2,22 @@ package com.qq.k3.seOrder.dao;
 
 import org.springframework.stereotype.Repository;
 
-import com.qq.k3.seOrder.pojo.Seorder;
-import com.qq.k3.seOrder.pojo.SeorderEntry;
+import com.qq.k3.seOrder.pojo.SeOrder;
+import com.qq.k3.seOrder.pojo.SeOrderId;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseDaoHBT; 
 @Repository
-public class SeorderEntryDao extends BaseDaoHBT<SeorderEntry>
+public class SeOrderDao extends BaseDaoHBT<SeOrder>
 {
  
 	private static final long serialVersionUID = 1L;
 
-	public SeorderEntryDao()
+	public SeOrderDao()
 	{
 		// TODO Auto-generated constructor stub
 	}
 
+	 
+	
+	
+	
 }

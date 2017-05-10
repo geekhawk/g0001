@@ -3,6 +3,11 @@ package com.thinkgem.jeesite.common.hibernate.persistence;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+
+import com.thinkgem.jeesite.common.persistence.Page;
  
 /**
  * DAO支持类实现
@@ -15,9 +20,9 @@ import java.util.Map;
 public interface ServiceInterfaceHBT<Entity> extends Serializable
 {
 
-	public void add( Entity entity);
+	public void add(Entity t);
 
-	public void delete(Entity entity);
+	public void delete(Entity t);
 
 	public Entity merge(Entity entity);
 
@@ -25,13 +30,12 @@ public interface ServiceInterfaceHBT<Entity> extends Serializable
 
 	public void attachClean(Entity entity);
 
-	public Entity findById(String id);
+	public Entity findById(Serializable id);
 
-	public List<Entity> findByExample(Entity entity);
+	public List<Entity> findListByExample(Entity t);
 
-	public List<Entity> findByPropertys(Map<String,Object>  map);
+	public List<Entity> findList(Entity entity, List<Order> orderList, List<Criterion> criterionList);
 
-	 
- 
+	public Page<Entity> findPage(Page<Entity> page,Entity entity, List<Order> orderList, List<Criterion> criterionList);
 
 }

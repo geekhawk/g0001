@@ -24,26 +24,29 @@
 	-->
 </head>
 
-<body>
+<body> 
 	<%
-		    WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
-			/*
-			UserServiceHBT us = (UserServiceHBT) wac.getBean("userServiceHBT"); 
-			UserInfoBean user = new UserInfoBean();
-			//user.setNickName("1212");
-			//user = us.findById("402880e45bd8c70f015bd8c770ef0001");
-			user.setId("402880e45bd8c70f015bd8c770ef0001");
-			user.setNickName("3");
-			java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
-			user.setDate(date);
-			us.merge(user);
-			us.saveOrUpdate(user);
-			us.saveOrUpdate(user); 
-			//out.println(us.findByExample(user).size());
-  */
-      SeorderService seorderService = (SeorderService) wac.getBean("seorderService"); 
-  
-			 
-	%>
+ 		WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();
+ 	 	 		/*
+ 	 	 		UserServiceHBT us = (UserServiceHBT) wac.getBean("userServiceHBT"); 
+ 	 	 		UserInfoBean user = new UserInfoBean();
+ 	 	 		//user.setNickName("1212");
+ 	 	 		//user = us.findById("402880e45bd8c70f015bd8c770ef0001");
+ 	 	 		user.setId("402880e45bd8c70f015bd8c770ef0001");
+ 	 	 		user.setNickName("3");
+ 	 	 		java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
+ 	 	 		user.setDate(date);
+ 	 	 		us.merge(user);
+ 	 	 		us.saveOrUpdate(user);
+ 	 	 		us.saveOrUpdate(user); 
+ 	 	 		//out.println(us.findByExample(user).size());
+ 	 	 		 */
+ 	 	 		SeOrderService seorderService = (SeOrderService) wac.getBean("seorderService");
+ 	 	 		SeOrderId seorderId = new SeOrderId("0", 1152);
+ 	 	 		SeOrder order = seorderService.findById(seorderId);
+ 	 	 		seorderId = new SeOrderId("0", 1153);
+ 	 	 		order.setId(seorderId);
+ 	 	 		seorderService.add(order);
+ 	%>
 </body>
 </html>

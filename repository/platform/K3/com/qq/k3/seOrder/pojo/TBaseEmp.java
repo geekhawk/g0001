@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -22,7 +23,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "t_Base_Emp", schema = "dbo", catalog = "AIS20170502093932")
-public class TBaseEmp implements EntityInterfaceHBT
+public class TBaseEmp  extends BaseEntityHBT<TBaseEmp>
 {
 
 	// Fields
@@ -66,7 +67,7 @@ public class TBaseEmp implements EntityInterfaceHBT
 	private Integer fpreApacctId;
 	private String fmobilePhone;
 	private String fmodifyTime;
-	private Set<Seorder> seorders = new HashSet<Seorder>(0);
+	private Set<SeOrder> seorders = new HashSet<SeOrder>(0);
 
 	// Constructors
 
@@ -86,7 +87,7 @@ public class TBaseEmp implements EntityInterfaceHBT
 			Timestamp fleaveDate, Integer fempGroupId, Integer fitemDepId, Integer fbankId, String fbankAccount, String fnote, String fbrNo, String fname, Integer fparentId,
 			Short fdeleted, Integer fdepartmentId, Integer fempGroup, String fnumber, String fshortNumber, Boolean fisCreditMgr, Integer fcreditPeriod, Integer fcreditLevel,
 			Integer fprofessionalGroup, Integer foperationGroup, Integer fjobTypeId, Double fallotPercent, Integer fcreditDays, Double fcreditAmount, Integer fotherAracctId,
-			Integer fotherApacctId, Integer fpreAracctId, Integer fpreApacctId, String fmobilePhone, String fmodifyTime, Set<Seorder> seorders)
+			Integer fotherApacctId, Integer fpreAracctId, Integer fpreApacctId, String fmobilePhone, String fmodifyTime, Set<SeOrder> seorders)
 	{
 		this.fgender = fgender;
 		this.fbirthday = fbirthday;
@@ -129,10 +130,8 @@ public class TBaseEmp implements EntityInterfaceHBT
 		this.seorders = seorders;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@Id 
 	@Column(name = "FItemID", unique = true, nullable = false)
 	public Integer getFitemId()
 		{
@@ -563,12 +562,12 @@ public class TBaseEmp implements EntityInterfaceHBT
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TBaseEmp")
-	public Set<Seorder> getSeorders()
+	public Set<SeOrder> getSeorders()
 		{
 			return this.seorders;
 		}
 
-	public void setSeorders(Set<Seorder> seorders)
+	public void setSeorders(Set<SeOrder> seorders)
 		{
 			this.seorders = seorders;
 		}

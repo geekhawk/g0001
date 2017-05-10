@@ -1,10 +1,15 @@
 package com.thinkgem.jeesite.common.hibernate.persistence;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.thinkgem.jeesite.common.persistence.Page;
 
 /**
  * DAO支持类实现
@@ -14,13 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @param <T>
  */
 @Transactional(readOnly = true)
-public class BaseServiceHBT<Entity extends EntityInterfaceHBT, Dao extends DaoInterFaceHBT<Entity>> implements ServiceInterfaceHBT<Entity>
+public class BaseServiceHBT<Entity extends BaseEntityHBT<Entity>, Dao extends DaoInterFaceHBT<Entity>> implements ServiceInterfaceHBT<Entity>
 {
 
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	Dao dao;
+	protected Dao dao;
 
 	@Transactional(readOnly = false)
 	@Override
@@ -58,22 +63,29 @@ public class BaseServiceHBT<Entity extends EntityInterfaceHBT, Dao extends DaoIn
 		}
 
 	@Override
-	public Entity findById(String id)
+	public Entity findById(Serializable  id)
 		{
 			return dao.findById(id);
 		}
 
 	@Override
-	public List<Entity> findByExample(Entity entity)
+	public List<Entity> findListByExample(Entity entity)
 		{
-			return dao.findByExample(entity);
+			return dao.findListByExample(entity);
 		}
 
 	@Override
-	public List<Entity> findByPropertys(Map<String, Object> map)
+	public List<Entity> findList(Entity entity, List<Order> orderList, List<Criterion> criterionList)
 		{
+			// TODO Auto-generated method stub
+			return dao.findList(entity, orderList, criterionList);
+		}
 
-			return dao.findByPropertys(map);
+	@Override
+	public Page<Entity> findPage(Page<Entity> page,Entity entity, List<Order> orderList, List<Criterion> criterionList)
+		{
+			// TODO Auto-generated method stub
+			return dao.findPage(  page,entity, orderList, criterionList);
 		}
 
 }

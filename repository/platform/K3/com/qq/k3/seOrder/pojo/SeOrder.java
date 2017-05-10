@@ -1,6 +1,6 @@
 package com.qq.k3.seOrder.pojo;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,31 +15,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT; 
 
 /**
  * Seorder entity. @author MyEclipse Persistence Tools
  */
 @Entity
 @Table(name = "SEOrder", schema = "dbo", catalog = "AIS20170502093932")
-public class Seorder implements EntityInterfaceHBT
+public class SeOrder extends BaseEntityHBT<SeOrder>
 {
 
 	// Fields
 
-	private SeorderId id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private SeOrderId id;
 	private TDepartment TDepartment;
 	private TOrganization TOrganization;
 	private TBaseUser TBaseUser;
 	private TBaseEmp TBaseEmp;
 	private String fbillNo;
 	private Integer fcurrencyId;
-	private Timestamp fdate;
+	private Date fdate;
+	private Date fBegindate;
+	private Date fEnddate;
 	private String fpayStyle;
-	private Timestamp fpayDate;
+	private Date fpayDate;
 	private String ffetchStyle;
-	private Timestamp ffetchDate;
+	private Date ffetchDate;
 	private String ffetchAdd;
 	private Integer fsaleStyle;
 	private Integer fcheckerId;
@@ -60,12 +67,12 @@ public class Seorder implements EntityInterfaceHBT
 	private Integer fmultiCheckLevel4;
 	private Integer fmultiCheckLevel5;
 	private Integer fmultiCheckLevel6;
-	private Timestamp fmultiCheckDate1;
-	private Timestamp fmultiCheckDate2;
-	private Timestamp fmultiCheckDate3;
-	private Timestamp fmultiCheckDate4;
-	private Timestamp fmultiCheckDate5;
-	private Timestamp fmultiCheckDate6;
+	private Date fmultiCheckDate1;
+	private Date fmultiCheckDate2;
+	private Date fmultiCheckDate3;
+	private Date fmultiCheckDate4;
+	private Date fmultiCheckDate5;
+	private Date fmultiCheckDate6;
 	private Integer fcurCheckLevel;
 	private Float ftransitAheadTime;
 	private String fpoordBillNo;
@@ -74,12 +81,12 @@ public class Seorder implements EntityInterfaceHBT
 	private Integer forderAffirm;
 	private Integer ftranStatus;
 	private String fuuid;
-	private String foperDate;
+	private byte[] foperDate;
 	private Integer fsystemType;
 	private String fcashDiscount;
-	private Timestamp fcheckDate;
+	private Date fcheckDate;
 	private String fexplanation;
-	private Timestamp fsettleDate;
+	private Date fsettleDate;
 	private Integer fselTranType;
 	private Integer fchildren;
 	private Integer fbrId;
@@ -87,18 +94,18 @@ public class Seorder implements EntityInterfaceHBT
 	private Integer fclassTypeId;
 	private Integer fmanageType;
 	private Short fsysStatus;
-	private Set<SeorderEntry> seorderEntries = new HashSet<SeorderEntry>(0);
+	private Set<SeOrderEntry> seorderEntries = new HashSet<SeOrderEntry>(0);
 
 	// Constructors
 
 	/** default constructor */
-	public Seorder()
+	public SeOrder()
 	{
 	}
 
 	/** minimal constructor */
-	public Seorder(SeorderId id, String fbillNo, Short fclosed, Integer ftranType, Short fbclosed, Boolean fdiscountType, Short fstatus, Boolean fcancellation, Integer fimport,
-			String fuuid, String foperDate, Integer fsystemType, String fcashDiscount, String fexplanation, Integer fselTranType, Integer fchildren, Integer fareaPs,
+	public SeOrder(SeOrderId id, String fbillNo, Short fclosed, Integer ftranType, Short fbclosed, Boolean fdiscountType, Short fstatus, Boolean fcancellation, Integer fimport,
+			String fuuid, byte[] foperDate, Integer fsystemType, String fcashDiscount, String fexplanation, Integer fselTranType, Integer fchildren, Integer fareaPs,
 			Integer fclassTypeId, Short fsysStatus)
 	{
 		this.id = id;
@@ -123,15 +130,15 @@ public class Seorder implements EntityInterfaceHBT
 	}
 
 	/** full constructor */
-	public Seorder(SeorderId id, TDepartment TDepartment, TOrganization TOrganization, TBaseUser TBaseUser, TBaseEmp TBaseEmp, String fbillNo, Integer fcurrencyId,
-			Timestamp fdate, String fpayStyle, Timestamp fpayDate, String ffetchStyle, Timestamp ffetchDate, String ffetchAdd, Integer fsaleStyle, Integer fcheckerId,
+	public SeOrder(SeOrderId id, TDepartment TDepartment, TOrganization TOrganization, TBaseUser TBaseUser, TBaseEmp TBaseEmp, String fbillNo, Integer fcurrencyId,
+			Date fdate, String fpayStyle, Date fpayDate, String ffetchStyle, Date ffetchDate, String ffetchAdd, Integer fsaleStyle, Integer fcheckerId,
 			String fnote, Short fclosed, Integer ftranType, Short finvoiceClosed, Short fbclosed, Integer fmangerId, Integer fsettleId, Double fexchangeRate,
 			Boolean fdiscountType, Short fstatus, Boolean fcancellation, Integer fmultiCheckLevel1, Integer fmultiCheckLevel2, Integer fmultiCheckLevel3,
-			Integer fmultiCheckLevel4, Integer fmultiCheckLevel5, Integer fmultiCheckLevel6, Timestamp fmultiCheckDate1, Timestamp fmultiCheckDate2, Timestamp fmultiCheckDate3,
-			Timestamp fmultiCheckDate4, Timestamp fmultiCheckDate5, Timestamp fmultiCheckDate6, Integer fcurCheckLevel, Float ftransitAheadTime, String fpoordBillNo,
-			Integer frelateBrId, Integer fimport, Integer forderAffirm, Integer ftranStatus, String fuuid, String foperDate, Integer fsystemType, String fcashDiscount,
-			Timestamp fcheckDate, String fexplanation, Timestamp fsettleDate, Integer fselTranType, Integer fchildren, Integer fbrId, Integer fareaPs, Integer fclassTypeId,
-			Integer fmanageType, Short fsysStatus, Set<SeorderEntry> seorderEntries)
+			Integer fmultiCheckLevel4, Integer fmultiCheckLevel5, Integer fmultiCheckLevel6, Date fmultiCheckDate1, Date fmultiCheckDate2, Date fmultiCheckDate3,
+			Date fmultiCheckDate4, Date fmultiCheckDate5, Date fmultiCheckDate6, Integer fcurCheckLevel, Float ftransitAheadTime, String fpoordBillNo,
+			Integer frelateBrId, Integer fimport, Integer forderAffirm, Integer ftranStatus, String fuuid, byte[] foperDate, Integer fsystemType, String fcashDiscount,
+			Date fcheckDate, String fexplanation, Date fsettleDate, Integer fselTranType, Integer fchildren, Integer fbrId, Integer fareaPs, Integer fclassTypeId,
+			Integer fmanageType, Short fsysStatus, Set<SeOrderEntry> seorderEntries)
 	{
 		this.id = id;
 		this.TDepartment = TDepartment;
@@ -200,17 +207,17 @@ public class Seorder implements EntityInterfaceHBT
 	@AttributeOverrides(
 	{ @AttributeOverride(name = "fbrNo", column = @Column(name = "FBrNo", nullable = false, length = 10)),
 			@AttributeOverride(name = "finterId", column = @Column(name = "FInterID", nullable = false)) })
-	public SeorderId getId()
+	public SeOrderId getId()
 		{
 			return this.id;
 		}
 
-	public void setId(SeorderId id)
+	public void setId(SeOrderId id)
 		{
 			this.id = id;
 		}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FDeptID")
 	public TDepartment getTDepartment()
 		{
@@ -222,7 +229,7 @@ public class Seorder implements EntityInterfaceHBT
 			this.TDepartment = TDepartment;
 		}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FCustID")
 	public TOrganization getTOrganization()
 		{
@@ -234,7 +241,7 @@ public class Seorder implements EntityInterfaceHBT
 			this.TOrganization = TOrganization;
 		}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FBillerID")
 	public TBaseUser getTBaseUser()
 		{
@@ -246,7 +253,7 @@ public class Seorder implements EntityInterfaceHBT
 			this.TBaseUser = TBaseUser;
 		}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FEmpID")
 	public TBaseEmp getTBaseEmp()
 		{
@@ -281,12 +288,12 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FDate", length = 23)
-	public Timestamp getFdate()
+	public Date getFdate()
 		{
 			return this.fdate;
 		}
 
-	public void setFdate(Timestamp fdate)
+	public void setFdate(Date fdate)
 		{
 			this.fdate = fdate;
 		}
@@ -303,12 +310,12 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FPayDate", length = 23)
-	public Timestamp getFpayDate()
+	public Date getFpayDate()
 		{
 			return this.fpayDate;
 		}
 
-	public void setFpayDate(Timestamp fpayDate)
+	public void setFpayDate(Date fpayDate)
 		{
 			this.fpayDate = fpayDate;
 		}
@@ -325,12 +332,12 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FFetchDate", length = 23)
-	public Timestamp getFfetchDate()
+	public Date getFfetchDate()
 		{
 			return this.ffetchDate;
 		}
 
-	public void setFfetchDate(Timestamp ffetchDate)
+	public void setFfetchDate(Date ffetchDate)
 		{
 			this.ffetchDate = ffetchDate;
 		}
@@ -556,67 +563,67 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FMultiCheckDate1", length = 23)
-	public Timestamp getFmultiCheckDate1()
+	public Date getFmultiCheckDate1()
 		{
 			return this.fmultiCheckDate1;
 		}
 
-	public void setFmultiCheckDate1(Timestamp fmultiCheckDate1)
+	public void setFmultiCheckDate1(Date fmultiCheckDate1)
 		{
 			this.fmultiCheckDate1 = fmultiCheckDate1;
 		}
 
 	@Column(name = "FMultiCheckDate2", length = 23)
-	public Timestamp getFmultiCheckDate2()
+	public Date getFmultiCheckDate2()
 		{
 			return this.fmultiCheckDate2;
 		}
 
-	public void setFmultiCheckDate2(Timestamp fmultiCheckDate2)
+	public void setFmultiCheckDate2(Date fmultiCheckDate2)
 		{
 			this.fmultiCheckDate2 = fmultiCheckDate2;
 		}
 
 	@Column(name = "FMultiCheckDate3", length = 23)
-	public Timestamp getFmultiCheckDate3()
+	public Date getFmultiCheckDate3()
 		{
 			return this.fmultiCheckDate3;
 		}
 
-	public void setFmultiCheckDate3(Timestamp fmultiCheckDate3)
+	public void setFmultiCheckDate3(Date fmultiCheckDate3)
 		{
 			this.fmultiCheckDate3 = fmultiCheckDate3;
 		}
 
 	@Column(name = "FMultiCheckDate4", length = 23)
-	public Timestamp getFmultiCheckDate4()
+	public Date getFmultiCheckDate4()
 		{
 			return this.fmultiCheckDate4;
 		}
 
-	public void setFmultiCheckDate4(Timestamp fmultiCheckDate4)
+	public void setFmultiCheckDate4(Date fmultiCheckDate4)
 		{
 			this.fmultiCheckDate4 = fmultiCheckDate4;
 		}
 
 	@Column(name = "FMultiCheckDate5", length = 23)
-	public Timestamp getFmultiCheckDate5()
+	public Date getFmultiCheckDate5()
 		{
 			return this.fmultiCheckDate5;
 		}
 
-	public void setFmultiCheckDate5(Timestamp fmultiCheckDate5)
+	public void setFmultiCheckDate5(Date fmultiCheckDate5)
 		{
 			this.fmultiCheckDate5 = fmultiCheckDate5;
 		}
 
 	@Column(name = "FMultiCheckDate6", length = 23)
-	public Timestamp getFmultiCheckDate6()
+	public Date getFmultiCheckDate6()
 		{
 			return this.fmultiCheckDate6;
 		}
 
-	public void setFmultiCheckDate6(Timestamp fmultiCheckDate6)
+	public void setFmultiCheckDate6(Date fmultiCheckDate6)
 		{
 			this.fmultiCheckDate6 = fmultiCheckDate6;
 		}
@@ -709,13 +716,13 @@ public class Seorder implements EntityInterfaceHBT
 			this.fuuid = fuuid;
 		}
 
-	@Column(name = "FOperDate", nullable = false)
-	public String getFoperDate()
+	@Column(name = "FOperDate", nullable = false,insertable  = false,updatable  = false)
+	public byte[] getFoperDate()
 		{
 			return this.foperDate;
 		}
 
-	public void setFoperDate(String foperDate)
+	public void setFoperDate(byte[] foperDate)
 		{
 			this.foperDate = foperDate;
 		}
@@ -743,12 +750,12 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FCheckDate", length = 23)
-	public Timestamp getFcheckDate()
+	public Date getFcheckDate()
 		{
 			return this.fcheckDate;
 		}
 
-	public void setFcheckDate(Timestamp fcheckDate)
+	public void setFcheckDate(Date fcheckDate)
 		{
 			this.fcheckDate = fcheckDate;
 		}
@@ -765,12 +772,12 @@ public class Seorder implements EntityInterfaceHBT
 		}
 
 	@Column(name = "FSettleDate", length = 23)
-	public Timestamp getFsettleDate()
+	public Date getFsettleDate()
 		{
 			return this.fsettleDate;
 		}
 
-	public void setFsettleDate(Timestamp fsettleDate)
+	public void setFsettleDate(Date fsettleDate)
 		{
 			this.fsettleDate = fsettleDate;
 		}
@@ -852,15 +859,39 @@ public class Seorder implements EntityInterfaceHBT
 			this.fsysStatus = fsysStatus;
 		}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "seorder")
-	public Set<SeorderEntry> getSeorderEntries()
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "seorder")
+	public Set<SeOrderEntry> getSeorderEntries()
 		{
 			return this.seorderEntries;
 		}
 
-	public void setSeorderEntries(Set<SeorderEntry> seorderEntries)
+	public void setSeorderEntries(Set<SeOrderEntry> seorderEntries)
 		{
 			this.seorderEntries = seorderEntries;
 		}
 
+	
+	@Transient
+	public Date getfBegindate()
+		{
+			return fBegindate;
+		}
+
+	public void setfBegindate(Date fBegindate)
+		{
+			this.fBegindate = fBegindate;
+		}
+	@Transient
+	public Date getfEnddate()
+		{
+			return fEnddate;
+		}
+
+	public void setfEnddate(Date fEnddate)
+		{
+			this.fEnddate = fEnddate;
+		}
+
+	
+	
 }

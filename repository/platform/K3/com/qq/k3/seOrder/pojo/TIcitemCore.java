@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -21,7 +22,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "t_ICItemCore", schema = "dbo", catalog = "AIS20170502093932")
-public class TIcitemCore implements EntityInterfaceHBT
+public class TIcitemCore  extends BaseEntityHBT<TIcitemCore>
 {
 
 	// Fields
@@ -50,7 +51,7 @@ public class TIcitemCore implements EntityInterfaceHBT
 	private Integer faracctId;
 	private Short fplanPriceMethod;
 	private Short fplanClass;
-	private Set<SeorderEntry> seorderEntries = new HashSet<SeorderEntry>(0);
+	private Set<SeOrderEntry> seorderEntries = new HashSet<SeOrderEntry>(0);
 
 	// Constructors
 
@@ -69,7 +70,7 @@ public class TIcitemCore implements EntityInterfaceHBT
 	public TIcitemCore(String fmodel, String fname, String fhelpCode, Short fdeleted, String fshortNumber, String fnumber, String fmodifyTime, Integer fparentId, String fbrNo,
 			Integer ftopId, Short frp, Short fomortize, Short fomortizeScale, Boolean fforSale, Double fstaCost, Double forderPrice, Integer forderMethod,
 			Integer fpriceFixingType, Integer fsalePriceFixingType, Double fperWastage, Integer faracctId, Short fplanPriceMethod, Short fplanClass,
-			Set<SeorderEntry> seorderEntries)
+			Set<SeOrderEntry> seorderEntries)
 	{
 		this.fmodel = fmodel;
 		this.fname = fname;
@@ -97,10 +98,8 @@ public class TIcitemCore implements EntityInterfaceHBT
 		this.seorderEntries = seorderEntries;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@Id 
 	@Column(name = "FItemID", unique = true, nullable = false)
 	public Integer getFitemId()
 		{
@@ -366,12 +365,12 @@ public class TIcitemCore implements EntityInterfaceHBT
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TIcitemCore")
-	public Set<SeorderEntry> getSeorderEntries()
+	public Set<SeOrderEntry> getSeorderEntries()
 		{
 			return this.seorderEntries;
 		}
 
-	public void setSeorderEntries(Set<SeorderEntry> seorderEntries)
+	public void setSeorderEntries(Set<SeOrderEntry> seorderEntries)
 		{
 			this.seorderEntries = seorderEntries;
 		}

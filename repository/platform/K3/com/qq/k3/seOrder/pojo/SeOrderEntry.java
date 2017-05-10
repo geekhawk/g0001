@@ -6,14 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.Table; 
 
-import org.hibernate.annotations.GenericGenerator;
-
+import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
@@ -21,13 +21,13 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
  */
 @Entity
 @Table(name = "SEOrderEntry", schema = "dbo", catalog = "AIS20170502093932")
-public class SeorderEntry implements EntityInterfaceHBT
+public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 {
 
-	// Fields
-
+	// Fields  
+	private static final long serialVersionUID = 1L;
 	private Integer fdetailId;
-	private Seorder seorder;
+	private SeOrder seorder;
 	private TIcitemCore TIcitemCore;
 	private Integer fentryId;
 	private Double fqty;
@@ -128,12 +128,12 @@ public class SeorderEntry implements EntityInterfaceHBT
 	// Constructors
 
 	/** default constructor */
-	public SeorderEntry()
+	public SeOrderEntry()
 	{
 	}
 
 	/** minimal constructor */
-	public SeorderEntry(Seorder seorder, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxAmount, Double ftax, Double finvoiceQty,
+	public SeOrderEntry(SeOrder seorder, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxAmount, Double ftax, Double finvoiceQty,
 			Double fbcommitQty, Integer ftranLeadTime, Integer fatpdeduct, Integer fcostObjectId, Integer funitId, Double fauxBcommitQty, Double fauxCommitQty,
 			Double fauxInvoiceQty, Double fauxPrice, Double fauxQty, Double funiDiscount, Double ffinalAmount, Integer fsourceEntryId, Double fstockQty, Double fauxStockQty,
 			String fbatchNo, Double fcess, Integer fbomInterId, String fmapNumber, Integer flockFlag, Double fallAmount, Double fallStdAmount, Integer fauxPropId,
@@ -231,7 +231,7 @@ public class SeorderEntry implements EntityInterfaceHBT
 	}
 
 	/** full constructor */
-	public SeorderEntry(Seorder seorder, TIcitemCore TIcitemCore, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxRate,
+	public SeOrderEntry(SeOrder seorder, TIcitemCore TIcitemCore, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxRate,
 			Double ftaxAmount, Double ftax, Float fdiscount, String fnote, Timestamp fdate, Double fdiscountAmount, Double finvoiceQty, Double fbcommitQty, Integer ftranLeadTime,
 			Integer fatpdeduct, Integer fcostObjectId, Integer funitId, Double fauxBcommitQty, Double fauxCommitQty, Double fauxInvoiceQty, Double fauxPrice, Double fauxQty,
 			Double funiDiscount, Double ffinalAmount, Integer fsourceEntryId, Integer fhaveMrp, Double fstockQty, Double fauxStockQty, String fbatchNo, Double fcess,
@@ -344,10 +344,9 @@ public class SeorderEntry implements EntityInterfaceHBT
 		this.fentrySelfS0164 = fentrySelfS0164;
 	}
 
-	// Property accessors
-	@GenericGenerator(name = "generator", strategy = "uuid.string")
-	@Id
-	@GeneratedValue(generator = "generator")
+	// Property accessors 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id 
 	@Column(name = "FDetailID", unique = true, nullable = false)
 	public Integer getFdetailId()
 		{
@@ -361,13 +360,13 @@ public class SeorderEntry implements EntityInterfaceHBT
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(
-	{ @JoinColumn(name = "FBrNO", referencedColumnName = "FBrNo", nullable = false), @JoinColumn(name = "FInterID", referencedColumnName = "FInterID", nullable = false) })
-	public Seorder getSeorder()
+	{ @JoinColumn(name = "FBrNO", referencedColumnName = "FBrNo", nullable = false, updatable = false), @JoinColumn(name = "FInterID", referencedColumnName = "FInterID", nullable = false, updatable = false) })
+	public SeOrder getSeorder()
 		{
 			return this.seorder;
 		}
 
-	public void setSeorder(Seorder seorder)
+	public void setSeorder(SeOrder seorder)
 		{
 			this.seorder = seorder;
 		}
@@ -1428,5 +1427,12 @@ public class SeorderEntry implements EntityInterfaceHBT
 		{
 			this.fentrySelfS0164 = fentrySelfS0164;
 		}
-
+	
+	
+@Override
+public Object  clone() throws CloneNotSupportedException
+		{
+		return (SeOrderEntry)super.clone();  
+	}
+	
 }
