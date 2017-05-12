@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

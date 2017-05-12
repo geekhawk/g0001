@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.sql.Timestamp;
 import java.util.HashSet;

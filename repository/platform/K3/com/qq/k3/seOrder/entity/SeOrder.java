@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.util.Date;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,7 +14,6 @@ import javax.persistence.Table;
 
 
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
  * TDepartment entity. @author MyEclipse Persistence Tools
@@ -27,6 +25,10 @@ public class TDepartment extends BaseEntityHBT<TDepartment>
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer fitemId;
 	private String fbrNo;
 	private Integer fmanager;

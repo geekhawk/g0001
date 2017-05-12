@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -8,17 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
  * TBaseUser entity. @author MyEclipse Persistence Tools
@@ -28,8 +24,8 @@ import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 public class TBaseUser extends BaseEntityHBT<TBaseUser>
 {
 
-	// Fields
-
+	// Fields 
+	private static final long serialVersionUID = 1L;
 	private Integer fuserId;
 	private String fname;
 	private String fsid;

@@ -22,8 +22,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/qq/k3/seOrder/">销售订单列表</a></li>
 		<shiro:hasPermission name="qq:k3:seOrder:edit">
-			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单添加</a></li>
-			
+			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单添加</a></li> 
 		</shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/" method="post" class="breadcrumb form-search">
@@ -68,22 +67,23 @@
 				<th>日期</th>
 				<th>摘要</th>
 				<th>制单人</th>
+				<th>状态</th>
 				<shiro:hasPermission name="qq:k3:seOrder:edit">
-					<th>操作</th>
+				<th>操作</th>
 				</shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${page.list}" var="seOrder">
-				<tr>
-					<td><a href="${ctx}/qq/k3/seOrder/form?id= "> ${seOrder.fbillNo} </a></td>
+				<tr> 
+				    <td><a href="${ctx}/qq/k3/seOrder/form?id.fbrNo=${seOrder.id.fbrNo}&id.finterId=${seOrder.id.finterId}"> ${seOrder.fbillNo} </a></td>
 					<td>${seOrder.TDepartment.fname}</td>
 					<td>${seOrder.TOrganization.fname}</td>
 					<td>${seOrder.TBaseEmp.fname}</td>
 					<td>${seOrder.fdate}</td>
-					<td>${seOrder.fnote}</td>
+					<td>${seOrder.fexplanation}</td>
 					<td>${seOrder.TBaseUser.fname}</td>
-				 
+					<td>${seOrder.fstatus}</td> 
 				</tr>
 			</c:forEach>
 		</tbody>

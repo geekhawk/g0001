@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -8,15 +8,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-
+import javax.persistence.Table; 
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
  * TOrganization entity. @author MyEclipse Persistence Tools
@@ -28,6 +23,10 @@ public class TOrganization extends BaseEntityHBT<TOrganization>
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer fitemId;
 	private String faddress;
 	private String fcity;

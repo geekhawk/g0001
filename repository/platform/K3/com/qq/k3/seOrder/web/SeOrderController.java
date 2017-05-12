@@ -4,10 +4,10 @@
 package com.qq.k3.seOrder.web;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List; 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse; 
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.hibernate.criterion.Criterion;
@@ -20,30 +20,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.sys.entity.User;
-import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
-import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
-import com.platform.supplychain.entity.base.SpcCustomerBase;
-import com.platform.supplychain.entity.base.SpcCustomerPerson;
-import com.platform.supplychain.entity.base.SpcMeasureunit;
-import com.platform.supplychain.entity.sale.SpcSaleorder;
-import com.platform.supplychain.service.base.SpcCustomerBaseService;
-import com.platform.supplychain.service.base.SpcCustomerPersonService;
-import com.platform.supplychain.service.base.SpcMeasureunitService;
-import com.qq.k3.seOrder.pojo.SeOrder;
-import com.qq.k3.seOrder.pojo.SeOrderId;
-import com.qq.k3.seOrder.pojo.TBaseEmp;
-import com.qq.k3.seOrder.pojo.TDepartment;
-import com.qq.k3.seOrder.pojo.TOrganization;
+import com.qq.k3.seOrder.entity.SeOrder;
+import com.qq.k3.seOrder.entity.SeOrderId;
+import com.qq.k3.seOrder.entity.TBaseEmp;
+import com.qq.k3.seOrder.entity.TDepartment;
+import com.qq.k3.seOrder.entity.TMeasureUnit;
+import com.qq.k3.seOrder.entity.TOrganization;
 import com.qq.k3.seOrder.service.SeOrderService;
 import com.qq.k3.seOrder.service.TBaseEmpService;
 import com.qq.k3.seOrder.service.TDepartmentService;
+import com.qq.k3.seOrder.service.TMeasureUnitService;
 import com.qq.k3.seOrder.service.TOrganizationService;
 
 /**
@@ -65,10 +55,23 @@ public class SeOrderController extends BaseController
 	TDepartmentService tDepartmentService;
 	@Autowired
 	TBaseEmpService tBaseEmpService;
+	@Autowired
+	TMeasureUnitService tMeasureUnitService;
 	
 	@ModelAttribute
-	public SeOrder get(@RequestParam(required = false) Integer finterId)
+	public SeOrder get(@RequestParam(required = false) Integer finterId,Model model)
 		{
+			
+			//添加客户
+			List<TOrganization>  tOrganizationList =   tOrganizationService.findList(new TOrganization(), null, null) ;
+			model.addAttribute("tOrganizationList", tOrganizationList);
+			//添加部门
+			List<TDepartment>  tDepartmentList =    tDepartmentService.findList(new TDepartment(), null, null) ;
+			model.addAttribute("tDepartmentList", tDepartmentList);
+			//添加业务员
+			List<TBaseEmp> tBaseEmpList =    tBaseEmpService.findList(new TBaseEmp(), null, null) ;
+			model.addAttribute("tBaseEmpList", tBaseEmpList);	
+			
 			SeOrder entity = null;
 			if (finterId != null)
 			{
@@ -88,15 +91,7 @@ public class SeOrderController extends BaseController
 		{
 			//添加前台过滤条件
 			//添加客户
-			List<TOrganization>  tOrganizationList =   tOrganizationService.findList(new TOrganization(), null, null) ;
-			model.addAttribute("tOrganizationList", tOrganizationList);
-			//添加部门
-			List<TDepartment>  tDepartmentList =    tDepartmentService.findList(new TDepartment(), null, null) ;
-			model.addAttribute("tDepartmentList", tDepartmentList);
-			//添加业务员
-			List<TBaseEmp> tBaseEmpList =    tBaseEmpService.findList(new TBaseEmp(), null, null) ;
-			model.addAttribute("tBaseEmpList", tBaseEmpList);
-			
+			 
 			//添加后台过滤条件，添加排序
 			List<Criterion> criterionList = new ArrayList<Criterion>();
 			if(seOrder!=null)
@@ -125,9 +120,7 @@ public class SeOrderController extends BaseController
 			{
 			   orderList.add(Order.desc("fdate")); 
 			 }
-			
-			
-			
+			 
 			Page<SeOrder> page = seOrderService.findPage(new Page<SeOrder>(request, response),seOrder, orderList, criterionList);
 			model.addAttribute("page", page); 
 			//添加显示页面过滤条件选择
@@ -139,13 +132,19 @@ public class SeOrderController extends BaseController
 	@RequiresPermissions("qq:k3:seOrder:edit")
 	@RequestMapping(value = "form")
 	public String form(SeOrder seOrder, Model model)
-		{ // 先获取包含当前用户的人员客户
-
+		{   
+			seOrder = seOrderService.findById(seOrder.getId());
+			//添加计量单位
+			List<TMeasureUnit> tMeasureUnitList =    tMeasureUnitService.findList(new TMeasureUnit(), null, null) ;
+			model.addAttribute("tMeasureUnitList", tMeasureUnitList);	
+			
+			
 			model.addAttribute("seOrder", seOrder);
 			return "qq/k3/seOrderForm";
 		}
  
 
+ 
 /*
 	 * @RequiresPermissions("supplychain:sale:seOrder:edit")
 	 * 

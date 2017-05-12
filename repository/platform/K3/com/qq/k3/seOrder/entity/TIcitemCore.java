@@ -1,4 +1,4 @@
-package com.qq.k3.seOrder.pojo;
+package com.qq.k3.seOrder.entity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,15 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
  * TIcitemCore entity. @author MyEclipse Persistence Tools
@@ -27,6 +24,10 @@ public class TIcitemCore  extends BaseEntityHBT<TIcitemCore>
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer fitemId;
 	private String fmodel;
 	private String fname;
@@ -363,7 +364,7 @@ public class TIcitemCore  extends BaseEntityHBT<TIcitemCore>
 		{
 			this.fplanClass = fplanClass;
 		}
-
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TIcitemCore")
 	public Set<SeOrderEntry> getSeorderEntries()
 		{

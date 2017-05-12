@@ -9,7 +9,7 @@
 <%@page import="org.springframework.web.context.ContextLoader"%>
 <%@page import="org.springframework.web.context.WebApplicationContext"%>
 <%@page import="com.qq.k3.seOrder.service.*"%>
-<%@page import="com.qq.k3.seOrder.pojo.*"%>
+<%@page import="com.qq.k3.seOrder.entity.*"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>

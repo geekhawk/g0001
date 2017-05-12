@@ -153,7 +153,7 @@ public class SpcMaterialBaseController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "getMaterialInfo")
 	public Map<String, Object> getMaterialInfo(@RequestParam(required = true) String materialid, HttpServletResponse response)
-	{  System.out.println("materialid:"+materialid);
+	{  
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		SpcMaterialBase spcMaterialBase = new SpcMaterialBase();
 
