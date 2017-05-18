@@ -150,23 +150,23 @@
 								<shiro:hasPermission name="supplychain:sale:spcSaleorder:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
 							</tr>
 						</thead>
-						<tbody id="spcSaleorderEntries">
+						<tbody id="spcSaleorderEntryList">
 						</tbody>
 						<shiro:hasPermission name="supplychain:sale:spcSaleorder:edit"><tfoot>
-							<tr><td colspan="13"><a href="javascript:" onclick="addRow('#spcSaleorderEntries', spcSaleorderEntryRowIdx, spcSaleorderEntryTpl); " class="btn">新增</a></td></tr>
+							<tr><td colspan="13"><a href="javascript:" onclick="addRow('#spcSaleorderEntryList', spcSaleorderEntryRowIdx, spcSaleorderEntryTpl); " class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="spcSaleorderEntryTpl">//<!--
-						<tr id="spcSaleorderEntries{{idx}}">
+						<tr id="spcSaleorderEntryList{{idx}}">
 							<td class="hide">
-								<input id="spcSaleorderEntries{{idx}}_id" name="spcSaleorderEntries[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-								<input id="spcSaleorderEntries{{idx}}_delFlag" name="spcSaleorderEntries[{{idx}}].delFlag" type="hidden" value="0"/>
+								<input id="spcSaleorderEntryList{{idx}}_id" name="spcSaleorderEntryList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
+								<input id="spcSaleorderEntryList{{idx}}_delFlag" name="spcSaleorderEntryList[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
 							<td>
-								<sys:treeselectSyn id="spcSaleorderEntries{{idx}}_material" 
-name="spcSaleorderEntries[{{idx}}].material.id" 
+								<sys:treeselectSyn id="spcSaleorderEntryList{{idx}}_material" 
+name="spcSaleorderEntryList[{{idx}}].material.id" 
 value="{{row.material.id}}" 
-labelName="spcSaleorderEntries{{idx}}.material.name" 
+labelName="spcSaleorderEntryList{{idx}}.material.name" 
 labelValue="{{row.material.name}}" 
 parentIds="" 
 urlSyn="/supplychain/base/spcMaterialBase/treeDataSyn"
@@ -175,11 +175,11 @@ url="/supplychain/base/spcMaterialGroupBase/treeData"
 cssClass="required" 
 allowClear="true" 
 notAllowSelectParent="true" 
-onChange="getMaterialInfo($(spcSaleorderEntries{{idx}}_materialId).val(),{{idx}});" 
+onChange="getMaterialInfo($(spcSaleorderEntryList{{idx}}_materialId).val(),{{idx}});" 
 />
 							</td>
 							<td>
-								<select id="spcSaleorderEntries{{idx}}_measureunit" name="spcSaleorderEntries[{{idx}}].measureunit.id" data-value="{{row.measureunit.id}}" class="input-small required">
+								<select id="spcSaleorderEntryList{{idx}}_measureunit" name="spcSaleorderEntryList[{{idx}}].measureunit.id" data-value="{{row.measureunit.id}}" class="input-small required">
 									<option value=""></option>
 									<c:forEach items="${spcMeasureunitList}"  var="measureunit" >
 										<option value="${measureunit.id}">${measureunit.name}</option>
@@ -188,47 +188,47 @@ onChange="getMaterialInfo($(spcSaleorderEntries{{idx}}_materialId).val(),{{idx}}
 							</td>
 							<td>
 								<c:forEach items="${fns:getDictList('isgiftFLag')}" var="dict" varStatus="dictStatus">
-									<span><input id="spcSaleorderEntries{{idx}}_isgift${dictStatus.index}" name="spcSaleorderEntries[{{idx}}].isgift" type="radio" value="${dict.value}" data-value="{{row.isgift}}"
+									<span><input id="spcSaleorderEntryList{{idx}}_isgift${dictStatus.index}" name="spcSaleorderEntryList[{{idx}}].isgift" type="radio" value="${dict.value}" data-value="{{row.isgift}}"
  <c:if  test="${row.isgift==null&&dict.value=='0'}"> checked="checked"</c:if>  
 >
-                                            <label for="spcSaleorderEntries{{idx}}_isgift${dictStatus.index}">${dict.label}</label></span>
+                                            <label for="spcSaleorderEntryList{{idx}}_isgift${dictStatus.index}">${dict.label}</label></span>
 								</c:forEach>
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_qty" name="spcSaleorderEntries[{{idx}}].qty" type="text" value="{{row.qty}}" class="input-mini required number" onChange="compute();"/>
+								<input id="spcSaleorderEntryList{{idx}}_qty" name="spcSaleorderEntryList[{{idx}}].qty" type="text" value="{{row.qty}}" class="input-mini required number" onChange="compute();"/>
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_price" name="spcSaleorderEntries[{{idx}}].price" type="text" value="{{row.price}}" class="input-small required number" onChange="compute();"/>
+								<input id="spcSaleorderEntryList{{idx}}_price" name="spcSaleorderEntryList[{{idx}}].price" type="text" value="{{row.price}}" class="input-small required number" onChange="compute();"/>
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_amount" name="spcSaleorderEntries[{{idx}}].amount" type="text" value="{{row.amount}}" class="input-small required number"  readonly="true" />
+								<input id="spcSaleorderEntryList{{idx}}_amount" name="spcSaleorderEntryList[{{idx}}].amount" type="text" value="{{row.amount}}" class="input-small required number"  readonly="true" />
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_unitvolume" name="spcSaleorderEntries[{{idx}}].unitvolume" type="text" value="{{row.unitvolume}}" class="input-mini  number"  onChange="compute();"/>
+								<input id="spcSaleorderEntryList{{idx}}_unitvolume" name="spcSaleorderEntryList[{{idx}}].unitvolume" type="text" value="{{row.unitvolume}}" class="input-mini  number"  onChange="compute();"/>
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_volume" name="spcSaleorderEntries[{{idx}}].volume" type="text" value="{{row.volume}}" class="input-small  number"  readonly="true"/>
+								<input id="spcSaleorderEntryList{{idx}}_volume" name="spcSaleorderEntryList[{{idx}}].volume" type="text" value="{{row.volume}}" class="input-small  number"  readonly="true"/>
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_unitweight" name="spcSaleorderEntries[{{idx}}].unitweight" type="text" value="{{row.unitweight}}" class="input-mini  number" onChange="compute();"  />
+								<input id="spcSaleorderEntryList{{idx}}_unitweight" name="spcSaleorderEntryList[{{idx}}].unitweight" type="text" value="{{row.unitweight}}" class="input-mini  number" onChange="compute();"  />
 							</td>
 							<td>
-								<input id="spcSaleorderEntries{{idx}}_weight" name="spcSaleorderEntries[{{idx}}].weight" type="text" value="{{row.weight}}" class="input-small  number"  readonly="true"/>
+								<input id="spcSaleorderEntryList{{idx}}_weight" name="spcSaleorderEntryList[{{idx}}].weight" type="text" value="{{row.weight}}" class="input-small  number"  readonly="true"/>
 							</td>
 							<td>
-								<textarea id="spcSaleorderEntries{{idx}}_remarks" name="spcSaleorderEntries[{{idx}}].remarks" rows="1" maxlength="255" class="input-small ">{{row.remarks}}</textarea>
+								<textarea id="spcSaleorderEntryList{{idx}}_remarks" name="spcSaleorderEntryList[{{idx}}].remarks" rows="1" maxlength="255" class="input-small ">{{row.remarks}}</textarea>
 							</td>
 							<shiro:hasPermission name="supplychain:sale:spcSaleorder:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#spcSaleorderEntries{{idx}}')" title="删除">&times;</span>{{/delBtn}}
+								{{#delBtn}}<span class="close" onclick="delRow(this, '#spcSaleorderEntryList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
 							</td></shiro:hasPermission>
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
 						var spcSaleorderEntryRowIdx = 0, spcSaleorderEntryTpl = $("#spcSaleorderEntryTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
 						$(document).ready(function() {
-							var data = ${fns:toJson(spcSaleorder.spcSaleorderEntries)};
+							var data = ${fns:toJson(spcSaleorder.spcSaleorderEntryList)};
 							for (var i=0; i<data.length; i++){
-								addRow('#spcSaleorderEntries', spcSaleorderEntryRowIdx, spcSaleorderEntryTpl, data[i]);
+								addRow('#spcSaleorderEntryList', spcSaleorderEntryRowIdx, spcSaleorderEntryTpl, data[i]);
 							 
 							}compute();
 						});
@@ -241,22 +241,22 @@ onChange="getMaterialInfo($(spcSaleorderEntries{{idx}}_materialId).val(),{{idx}}
 						    var totalWeight = 0; 
 						   for(var i=0;i<spcSaleorderEntryRowIdx;i++)
 						  {
-						   if( $("#spcSaleorderEntries"+i+"_delFlag").val()=="0")
+						   if( $("#spcSaleorderEntryList"+i+"_delFlag").val()=="0")
 						   {
 						   
 						  //行金额计算
-						    var amount = $("#spcSaleorderEntries"+i+"_qty").val()* $("#spcSaleorderEntries"+i+"_price").val()
-						    $("#spcSaleorderEntries"+i+"_amount").val(amount.toFixed(4));
+						    var amount = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_price").val()
+						    $("#spcSaleorderEntryList"+i+"_amount").val(amount.toFixed(4));
 						    totalAmount += amount;
 						    
 						    //行体积计算
-						    var volume = $("#spcSaleorderEntries"+i+"_qty").val()* $("#spcSaleorderEntries"+i+"_unitvolume").val()
-						    $("#spcSaleorderEntries"+i+"_volume").val(volume.toFixed(4));
+						    var volume = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_unitvolume").val()
+						    $("#spcSaleorderEntryList"+i+"_volume").val(volume.toFixed(4));
 						    totalVolume  +=  volume;
 						    
 						    //行重量计算
-						    var weight = $("#spcSaleorderEntries"+i+"_qty").val()* $("#spcSaleorderEntries"+i+"_unitweight").val()
-						    $("#spcSaleorderEntries"+i+"_weight").val(weight.toFixed(4));
+						    var weight = $("#spcSaleorderEntryList"+i+"_qty").val()* $("#spcSaleorderEntryList"+i+"_unitweight").val()
+						    $("#spcSaleorderEntryList"+i+"_weight").val(weight.toFixed(4));
 						    totalWeight +=  weight;
 						    }
 						  }
@@ -277,10 +277,10 @@ onChange="getMaterialInfo($(spcSaleorderEntries{{idx}}_materialId).val(),{{idx}}
 											strs, function(result)
 											{  
 											 
-											  $("#spcSaleorderEntries"+idx+"_measureunit").val(result.mearureunit.id);
-											  $("#spcSaleorderEntries"+idx+"_price").val(result.price);
-											  $("#spcSaleorderEntries"+idx+"_unitvolume").val(result.volume);
-											  $("#spcSaleorderEntries"+idx+"_unitweight").val(result.weight);
+											  $("#spcSaleorderEntryList"+idx+"_measureunit").val(result.mearureunit.id);
+											  $("#spcSaleorderEntryList"+idx+"_price").val(result.price);
+											  $("#spcSaleorderEntryList"+idx+"_unitvolume").val(result.volume);
+											  $("#spcSaleorderEntryList"+idx+"_unitweight").val(result.weight);
 											    compute();
 											});
 

@@ -27,6 +27,7 @@ import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.BillorderUtils;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.qq.k3.seOrder.entity.SeOrder;
 import com.qq.k3.seOrder.entity.SeOrderId;
@@ -132,6 +133,13 @@ public class SeOrderController extends BaseController
 			{
 			   orderList.add(Order.desc("fdate")); 
 			 }
+			
+			
+			
+			//添加强制过滤条件，只能看到自己业务范围之内的
+			User currentUser = UserUtils.getUser();
+			  criterionList.add(Restrictions.eq("TBaseUser.fuserId", Integer.parseInt(currentUser.getNo()))); 
+			
 			 
 			Page<SeOrder> page = seOrderService.findPage(new Page<SeOrder>(request, response),seOrder, orderList, criterionList);
 			model.addAttribute("page", page); 
@@ -145,11 +153,15 @@ public class SeOrderController extends BaseController
 	@RequestMapping(value = "form")
 	public String form(SeOrder seOrder, Model model)
 		{
-			 if (null != seOrder.getId())
-			 	seOrder = seOrderService.findById(seOrder.getId());
-			 else
-			 	seOrder = new SeOrder();
-			    model.addAttribute("seOrder", seOrder);
+			if (null != seOrder.getId())
+				seOrder = seOrderService.findById(seOrder.getId());
+			else
+				seOrder = new SeOrder();
+			model.addAttribute("seOrder", seOrder);
+			if (seOrder.getFbillNo() == null)
+			{
+				seOrder.setFbillNo(BillorderUtils.createCode("BMGZ00000006"));
+			}
 			return "qq/k3/seOrderForm";
 		}
  
@@ -167,19 +179,19 @@ public class SeOrderController extends BaseController
 				return form(seOrder, model);
 			}
 			User currentUser = UserUtils.getUser();
-			TBaseUser  tBaseUser =  new TBaseUser();
-		 
+			TBaseUser  tBaseUser =  new TBaseUser(); 
 			tBaseUser = tBaseUserService.findById(Integer.parseInt(currentUser.getNo()));
 			seOrder.setTBaseUser(tBaseUser);
 			seOrderService.add(seOrder);
 			addMessage(redirectAttributes, "保存销售订单成功");
-			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/list";
+			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/form?id.fbrNo="+seOrder.getId().getFbrNo()+"&id.finterId="+seOrder.getId().getFinterId();
 		}
 
 	@RequiresPermissions("qq:k3:seOrder:edit")
 	@RequestMapping(value = "delete")
 	public String delete(SeOrder seOrder, RedirectAttributes redirectAttributes)
-		{
+		{ if (null != seOrder.getId())
+			seOrder = seOrderService.findById(seOrder.getId());
 			seOrderService.delete(seOrder);
 			addMessage(redirectAttributes, "删除销售订单成功");
 			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/list";

@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table; 
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT; 
@@ -23,6 +26,8 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  */
 @Entity
 @Table(name = "SEOrderEntry", schema = "dbo", catalog = "AIS20170502093932")
+@DynamicUpdate(true)
+@SelectBeforeUpdate(value=true)
 public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 {
 
@@ -126,6 +131,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	private Double fentrySelfS0162;
 	private Double fentrySelfS0163;
 	private Integer fentrySelfS0164;
+	private Double fentrySelfS0165;
 	private  String delFlag;
 
 	// Constructors////赠品
@@ -1436,7 +1442,17 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	
 	
 	
-	
+	@Column(name = "FEntrySelfS0165")
+	public Double getFentrySelfS0165()
+		{
+			return fentrySelfS0165;
+		}
+
+	public void setFentrySelfS0165(Double fentrySelfS0165)
+		{
+			this.fentrySelfS0165 = fentrySelfS0165;
+		}
+
 	@Transient
     public String getDelFlag()
 		{

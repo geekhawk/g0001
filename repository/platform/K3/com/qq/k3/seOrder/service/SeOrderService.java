@@ -59,8 +59,7 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 			seorder.setFbclosed((short) 0);
 			seorder.setFsettleId(0);
 			seorder.setFexchangeRate((double) 1);
-			seorder.setFdiscountType(false);
-			seorder.setFstatus((short) 0);
+			seorder.setFdiscountType(false); 
 			seorder.setFcancellation(false);
 			seorder.setFtransitAheadTime((float) 0);
 			seorder.setFpoordBillNo("");
@@ -68,6 +67,7 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 			seorder.setFimport(0);
 			seorder.setForderAffirm(0);
 			seorder.setFtranStatus(0);
+			if(seorder.getFuuid()==null)
 			seorder.setFuuid(UUID.randomUUID().toString());
 			byte[] foperDate = null;
 			seorder.setFoperDate(foperDate);
@@ -87,7 +87,7 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 			for (SeOrderEntry seorderEntry : seorder.getSeorderEntries())
 			{
 				
-				// 1.seorderEntry非空属性补全
+				// 1.seorderEntry非空属性补全 
 				seorderEntry.setFcommitQty((double) 0);
 				seorderEntry.setFtaxRate((double) 0);
 				seorderEntry.setFtaxAmount((double) 0);
@@ -150,15 +150,11 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 				seorderEntry.setFgoodsDesc("");
 				seorderEntry.setFamountAfterDiscount((double) 0);
 				seorderEntry.setFinformCommitQty((double) 0);
-				
-				
-				
 				seorderEntry.setFauxInformCommitQty((double) 0);
 				seorderEntry.setFsecInformCommitQty((double) 0);
 				seorderEntry.setFpurCommitQty((double) 0);
 				seorderEntry.setFauxPurCommitQty((double) 0);
 				seorderEntry.setFsecPurCommitQty((double) 0);
-				
 				seorderEntry.setFmrpAutoClosed(0);
 				seorderEntry.setFsecStockQty((double) 0);
 				seorderEntry.setFsecInvoiceQty((double) 0);
@@ -184,6 +180,8 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 				seorderEntry.setSeorder(seorder);
 				
 			}
+			
+			
 			super.saveOrUpdate(seorder);
 		}
 

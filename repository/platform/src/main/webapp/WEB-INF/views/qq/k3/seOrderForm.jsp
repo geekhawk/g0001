@@ -68,7 +68,7 @@
 	<ul class="nav nav-tabs">
 		 </ul><br/>
 	<form:form id="inputForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/save" method="post" class="form-horizontal">
-		<form:hidden path="id.fbrNo"/>  <form:hidden path="id.finterId"/>   
+		<form:hidden path="id.fbrNo"/>  <form:hidden path="id.finterId"/>   <form:hidden path="fstatus"/>    
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">编码：</label>
@@ -127,6 +127,28 @@
 				<input name="fdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${seOrder.fdate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		
+			<div class="control-group">
+			<label class="control-label">金额合计：</label>
+			<div class="controls">
+				<form:input path="sumAmount" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+			<div class="control-group">
+			<label class="control-label">体积合计：</label>
+			<div class="controls">
+				<form:input path="sumVolume" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+			<div class="control-group">
+			<label class="control-label">外配合计：</label>
+			<div class="controls">
+				<form:input path="sumWaipei" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -220,7 +242,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								<input id="seorderEntries{{idx}}_famount" name="seorderEntries[{{idx}}].famount" type="text" value="{{row.famount}}" class="input-small required number"  readonly="true" />
 							</td>
 							<td>
-								<input id="seorderEntries{{idx}}_unitvolume" name="seorderEntries[{{idx}}].unitvolume" type="text" value="{{row.unitvolume}}" class="input-mini  number"  onChange="compute();"/>
+								<input id="seorderEntries{{idx}}_fentrySelfS0165" name="seorderEntries[{{idx}}].fentrySelfS0165" type="text" value="{{row.fentrySelfS0165}}" class="input-mini  number"  onChange="compute();"/>
 							</td>
 							<td>
 								<input id="seorderEntries{{idx}}_fentrySelfS0161" name="seorderEntries[{{idx}}].fentrySelfS0161" type="text" value="{{row.fentrySelfS0161}}" class="input-small  number"  readonly="true"/>
@@ -274,7 +296,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								totalAmount += amount;
 
 								//行体积计算
-								var volume = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_unitvolume").val()
+								var volume = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fentrySelfS0165").val()
 								$("#seorderEntries" + i + "_fentrySelfS0161").val(volume.toFixed(4));
 								totalVolume += volume;
 
@@ -284,9 +306,9 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								totalWaipei += weight;
 
 							}
-							// $("#totalamount").val(totalAmount.toFixed(4));
-							// $("#totalvolume").val(totalVolume.toFixed(4));
-							// $("#fentrySelfS0163").val(totalWaipei.toFixed(4));
+							 $("#sumAmount").val(totalAmount.toFixed(4));
+							  $("#sumVolume").val(totalVolume.toFixed(4));
+							  $("#sumWaipei").val(totalWaipei.toFixed(4));
 						}
 
 						//选取物料时从后台获取物料信息
@@ -297,12 +319,26 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							$.post("${ctx}/qq/k3/tItem/getIcitemInfo", strs, function(result)
 							{
 								$("#seorderEntries" + idx + "_fprice").val(result.price);
-								$("#seorderEntries" + idx + "_unitvolume").val(result.volume);
+								$("#seorderEntries" + idx + "_fentrySelfS0165").val(result.volume);
 								$("#seorderEntries" + idx + "_tmeasureUnit").val(result.measureUnit);
 								compute();
 							});
 
 						}
+						// 
+						function submits()
+						{
+						$("#fstatus").val(0);
+						compute();
+						}
+						
+						function save()
+						{
+						$("#fstatus").val(-1);
+						compute();
+						}
+						
+						
 					</script>
 				</div>
 			 
@@ -310,7 +346,20 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 				  
 			 
 		<div class="form-actions">
-			<shiro:hasPermission name="qq:k3:seOrder:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" onClick="compute();" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="qq:k3:seOrder:edit">
+			 <td>
+			 
+			        <c:if test="${seOrder.fstatus ==-1||seOrder.fstatus ==null}">
+							<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="save();" value="保 存"/>&nbsp;
+							<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="submits()" value="提交"/>&nbsp;
+					 </c:if>
+					 
+					 <c:if test="${seOrder.fstatus !=-1&&seOrder.fstatus !=null}">
+							 已提交的订单，不允许修改
+					 </c:if>
+					 
+					 </td>
+			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

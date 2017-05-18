@@ -1,10 +1,7 @@
 package com.qq.k3.seOrder.entity;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
@@ -13,14 +10,15 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT; 
@@ -30,6 +28,8 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  */
 @Entity
 @Table(name = "SEOrder", schema = "dbo", catalog = "AIS20170502093932")
+@DynamicUpdate(true)
+@SelectBeforeUpdate(value=true)
 public class SeOrder extends BaseEntityHBT<SeOrder>
 {
 
@@ -99,9 +99,11 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 	private Integer fareaPs;
 	private Integer fclassTypeId;
 	private Integer fmanageType;
-	private Short fsysStatus;
+	private Short fsysStatus; 
 	private List<SeOrderEntry> seorderEntries = Lists.newArrayList();
-
+	private Double sumAmount;
+	private Double sumVolume;
+	private Double sumWaipei;
 	// Constructors
 
 	/** default constructor */
@@ -714,7 +716,7 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 			this.ftranStatus = ftranStatus;
 		}
 
-	@Column(name = "FUUID", nullable = false, length = 36)
+	@Column(name = "FUUID", nullable = false, length = 36,updatable=false)
 	public String getFuuid()
 		{
 			return this.fuuid;
@@ -899,6 +901,36 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 	public void setfEnddate(Date fEnddate)
 		{
 			this.fEnddate = fEnddate;
+		}
+	@Transient
+	public Double getSumAmount()
+		{
+			return sumAmount;
+		}
+
+	public void setSumAmount(Double sumAmount)
+		{
+			this.sumAmount = sumAmount;
+		}
+	@Transient
+	public Double getSumVolume()
+		{
+			return sumVolume;
+		}
+
+	public void setSumVolume(Double sumVolume)
+		{
+			this.sumVolume = sumVolume;
+		}
+	@Transient
+	public Double getSumWaipei()
+		{
+			return sumWaipei;
+		}
+
+	public void setSumWaipei(Double sumWaipei)
+		{
+			this.sumWaipei = sumWaipei;
 		}
 
 	

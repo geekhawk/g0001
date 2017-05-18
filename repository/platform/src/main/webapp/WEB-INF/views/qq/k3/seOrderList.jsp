@@ -22,7 +22,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/qq/k3/seOrder/">销售订单列表</a></li>
 		<shiro:hasPermission name="qq:k3:seOrder:edit">
-			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单添加</a></li> 
+			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单添加</a></li>
 		</shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/" method="post" class="breadcrumb form-search">
@@ -69,21 +69,32 @@
 				<th>制单人</th>
 				<th>状态</th>
 				<shiro:hasPermission name="qq:k3:seOrder:edit">
-				<th>操作</th>
+					<th>操作</th>
 				</shiro:hasPermission>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${page.list}" var="seOrder">
-				<tr> 
-				    <td><a href="${ctx}/qq/k3/seOrder/form?id.fbrNo=${seOrder.id.fbrNo}&id.finterId=${seOrder.id.finterId}"> ${seOrder.fbillNo} </a></td>
+				<tr>
+					<td><a href="${ctx}/qq/k3/seOrder/form?id.fbrNo=${seOrder.id.fbrNo}&id.finterId=${seOrder.id.finterId}"> ${seOrder.fbillNo} </a></td>
 					<td>${seOrder.TDepartment.fname}</td>
 					<td>${seOrder.TOrganization.fname}</td>
 					<td>${seOrder.TBaseEmp.fname}</td>
 					<td>${seOrder.fdate}</td>
 					<td>${seOrder.fexplanation}</td>
 					<td>${seOrder.TBaseUser.fname}</td>
-					<td>${seOrder.fstatus}</td> 
+					<td><c:if test="${seOrder.fstatus ==-1}">
+							保存
+					 </c:if> <c:if test="${seOrder.fstatus!=-1}">
+							提交
+					 </c:if></td>
+					<shiro:hasPermission name="qq:k3:seOrder:edit">
+						<td><c:if test="${seOrder.fstatus ==-1}">
+								<a href="${ctx}/qq/k3/seOrder/form?id.fbrNo=${seOrder.id.fbrNo}&id.finterId=${seOrder.id.finterId}">修改</a>
+								<a href="${ctx}/qq/k3/seOrder/delete?id.fbrNo=${seOrder.id.fbrNo}&id.finterId=${seOrder.id.finterId}"" onclick="return confirmx('确认要删除该销售订单吗？', this.href)">删除</a>
+							</c:if></td>
+
+					</shiro:hasPermission>
 				</tr>
 			</c:forEach>
 		</tbody>
