@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table; 
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,7 +30,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	private static final long serialVersionUID = 1L;
 	private Integer fdetailId;
 	private SeOrder seorder;
-	private TIcitemCore TIcitemCore;
+	private TIcitemCore ticitemCore;
 	private Integer fentryId;
 	private Double fqty;
 	private Double fcommitQty;
@@ -47,7 +48,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	private Integer ftranLeadTime;
 	private Integer fatpdeduct;
 	private Integer fcostObjectId;
-	private TMeasureUnit  TMeasureUnit;
+	private TMeasureUnit  tmeasureUnit;
 	private Double fauxBcommitQty;
 	private Double fauxCommitQty;
 	private Double fauxInvoiceQty;
@@ -125,6 +126,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	private Double fentrySelfS0162;
 	private Double fentrySelfS0163;
 	private Integer fentrySelfS0164;
+	private  String delFlag;
 
 	// Constructors////赠品
 
@@ -133,7 +135,8 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	{
 	}
 
-	/** minimal constructor */
+	/** minimal constructor 
+	 * @param TMeasureUnit */
 	public SeOrderEntry(SeOrder seorder, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxAmount, Double ftax, Double finvoiceQty,
 			Double fbcommitQty, Integer ftranLeadTime, Integer fatpdeduct, Integer fcostObjectId,   Double fauxBcommitQty, Double fauxCommitQty,
 			Double fauxInvoiceQty, Double fauxPrice, Double fauxQty, Double funiDiscount, Double ffinalAmount, Integer fsourceEntryId, Double fstockQty, Double fauxStockQty,
@@ -145,7 +148,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 			Double finCommitQty, Double fsecInCommitQty, Double fapplyCommitQty, Double fauxApplyCommitQty, Double fsecApplyCommitQty, Integer fevaluated, Integer fpackUnitId,
 			Integer fpackCount, Double fpackType, Integer fmapId, String fgoodsDesc, Double famountAfterDiscount, Double finformCommitQty, Double fauxInformCommitQty,
 			Double fsecInformCommitQty, Double fpurCommitQty, Double fauxPurCommitQty, Double fsecPurCommitQty, Double fsecStockQty, Double fsecInvoiceQty,
-			Double fsecCommitInstall, Integer fplanMode, String fmtono)
+			Double fsecCommitInstall, Integer fplanMode, String fmtono, com.qq.k3.seOrder.entity.TMeasureUnit TMeasureUnit)
 	{
 		this.seorder = seorder;
 		this.fentryId = fentryId;
@@ -160,7 +163,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 		this.ftranLeadTime = ftranLeadTime;
 		this.fatpdeduct = fatpdeduct;
 		this.fcostObjectId = fcostObjectId;
-		this.TMeasureUnit = TMeasureUnit;
+		this.tmeasureUnit = TMeasureUnit;
 		this.fauxBcommitQty = fauxBcommitQty;
 		this.fauxCommitQty = fauxCommitQty;
 		this.fauxInvoiceQty = fauxInvoiceQty;
@@ -231,8 +234,9 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 		this.fmtono = fmtono;
 	}
 
-	/** full constructor */
-	public SeOrderEntry(SeOrder seorder, TIcitemCore TIcitemCore, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxRate,
+	/** full constructor 
+	 * @param TMeasureUnit */
+	public SeOrderEntry(SeOrder seorder, TIcitemCore ticitemCore, Integer fentryId, Double fqty, Double fcommitQty, Double fprice, Double famount, Double ftaxRate,
 			Double ftaxAmount, Double ftax, Float fdiscount, String fnote, Date fdate, Double fdiscountAmount, Double finvoiceQty, Double fbcommitQty, Integer ftranLeadTime,
 			Integer fatpdeduct, Integer fcostObjectId,   Double fauxBcommitQty, Double fauxCommitQty, Double fauxInvoiceQty, Double fauxPrice, Double fauxQty,
 			Double funiDiscount, Double ffinalAmount, Integer fsourceEntryId, Integer fhaveMrp, Double fstockQty, Double fauxStockQty, String fbatchNo, Double fcess,
@@ -244,10 +248,10 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 			Double finCommitQty, Double fsecInCommitQty, Double fapplyCommitQty, Double fauxApplyCommitQty, Double fsecApplyCommitQty, Integer fevaluated, Integer fpackUnitId,
 			Integer fpackCount, Double fpackType, Integer fmapId, String fgoodsDesc, Double famountAfterDiscount, Double finformCommitQty, Double fauxInformCommitQty,
 			Double fsecInformCommitQty, Double fpurCommitQty, Double fauxPurCommitQty, Double fsecPurCommitQty, Integer fmrpAutoClosed, Double fsecStockQty, Double fsecInvoiceQty,
-			Double fsecCommitInstall, Integer fplanMode, String fmtono, Double fentrySelfS0161, Double fentrySelfS0162, Double fentrySelfS0163, Integer fentrySelfS0164)
+			Double fsecCommitInstall, Integer fplanMode, String fmtono, Double fentrySelfS0161, Double fentrySelfS0162, Double fentrySelfS0163, Integer fentrySelfS0164, com.qq.k3.seOrder.entity.TMeasureUnit TMeasureUnit)
 	{
 		this.seorder = seorder;
-		this.TIcitemCore = TIcitemCore;
+		this.ticitemCore = ticitemCore;
 		this.fentryId = fentryId;
 		this.fqty = fqty;
 		this.fcommitQty = fcommitQty;
@@ -265,7 +269,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 		this.ftranLeadTime = ftranLeadTime;
 		this.fatpdeduct = fatpdeduct;
 		this.fcostObjectId = fcostObjectId;
-		this.TMeasureUnit = TMeasureUnit;
+		this.tmeasureUnit = TMeasureUnit;
 		this.fauxBcommitQty = fauxBcommitQty;
 		this.fauxCommitQty = fauxCommitQty;
 		this.fauxInvoiceQty = fauxInvoiceQty;
@@ -374,14 +378,14 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FItemID")
-	public TIcitemCore getTIcitemCore()
+	public TIcitemCore getTicitemCore()
 		{
-			return this.TIcitemCore;
+			return this.ticitemCore;
 		}
 
-	public void setTIcitemCore(TIcitemCore TIcitemCore)
+	public void setTicitemCore(TIcitemCore TIcitemCore)
 		{
-			this.TIcitemCore = TIcitemCore;
+			this.ticitemCore = TIcitemCore;
 		}
 
 	@Column(name = "FEntryID", nullable = false)
@@ -573,14 +577,14 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FUnitID", nullable = false)
-	public TMeasureUnit getTMeasureUnit()
+	public TMeasureUnit getTmeasureUnit()
 		{
-			return this.TMeasureUnit;
+			return this.tmeasureUnit;
 		}
 
-	public void setTMeasureUnit(TMeasureUnit TMeasureUnit)
+	public void setTmeasureUnit(TMeasureUnit TMeasureUnit)
 		{
-			this.TMeasureUnit = TMeasureUnit;
+			this.tmeasureUnit = TMeasureUnit;
 		}
 
 	@Column(name = "FAuxBCommitQty", nullable = false, precision = 28, scale = 10)
@@ -1431,6 +1435,21 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 		}
 	
 	
+	
+	
+	@Transient
+    public String getDelFlag()
+		{
+			if(this.delFlag==null)
+				this.delFlag = "0";
+			 return delFlag;
+		}
+
+	public void setDelFlag(String delFlag)
+		{
+			this.delFlag = delFlag;
+		}
+
 @Override
 public Object  clone() throws CloneNotSupportedException
 		{

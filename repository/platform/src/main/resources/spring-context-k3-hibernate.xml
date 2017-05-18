@@ -122,5 +122,7 @@
 		<aop:pointcut id="serviceOperationK3" expression="execution(* com.qq.k3.*.service.*Service.*(..))" />
 		<aop:advisor advice-ref="txAdviceK3" pointcut-ref="serviceOperationK3" />
 	</aop:config>
-	
+	<bean id="jdbcTemplateK3" class="org.springframework.jdbc.core.JdbcTemplate">  
+        <property name = "dataSource" ref="dataSourceK3"/>
+        </bean>
 </beans>

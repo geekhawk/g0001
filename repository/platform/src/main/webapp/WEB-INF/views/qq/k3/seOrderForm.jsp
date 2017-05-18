@@ -39,12 +39,11 @@
 					}
 				}
 			}); 
-			 
-			seOrderEntryRowIdx++;
+			$("#seorderEntries" + idx + "_fentryId").val(++seOrderEntryRowIdx); 
 			compute();
 		}
 		function delRow(obj, prefix){
-			var id = $(prefix+"_id");
+			var id = $(prefix+"_fdetailId");
 			var delFlag = $(prefix+"_delFlag");
 			if (id.val() == ""){
 				$(obj).parent().parent().remove();
@@ -69,12 +68,12 @@
 	<ul class="nav nav-tabs">
 		 </ul><br/>
 	<form:form id="inputForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/save" method="post" class="form-horizontal">
-		<form:hidden path="id"/>
+		<form:hidden path="id.fbrNo"/>  <form:hidden path="id.finterId"/>   
 		<sys:message content="${message}"/>		
 		<div class="control-group">
 			<label class="control-label">编码：</label>
 			<div class="controls">
-				<form:input path="fbillNo" htmlEscape="false" maxlength="60" class="input-xlarge required" readonly="true"/>
+				<form:input path="fbillNo" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -125,7 +124,7 @@
 		<div class="control-group">
 			<label class="control-label">下单日期：</label>
 			<div class="controls">
-				<input name="orderdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+				<input name="fdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${seOrder.fdate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -144,6 +143,7 @@
 						<thead>
 							<tr>
 								<th class="hide"></th>
+								<th>#</th>
 								<th>产品</th>
 								<th>计量单位</th>
 								<th>出库类型</th>
@@ -151,9 +151,10 @@
 								<th>单价</th>
 								<th>金额</th>
 								<th>单位体积</th>
-								<th>体积</th>
+								<th>总体积</th>
+							<!--  
 								<th>单位重量</th>
-								<th>重量</th>
+								<th>总重量</th>--> 
 								<th>外配</th>
 								<th>外配总金额</th>
 								<th>备注信息</th>
@@ -170,10 +171,12 @@
 						<tr id="seorderEntries{{idx}}">
 							<td class="hide">
 								<input id="seorderEntries{{idx}}_fdetailId" name="seorderEntries[{{idx}}].fdetailId" type="hidden" value="{{row.fdetailId}}"/> 
+                                <input id="seorderEntries{{idx}}_delFlag" name="seorderEntries[{{idx}}].delFlag" type="hidden" value="0"/>
 							</td>
-
-
-							<td>
+ <td>
+<input id="seorderEntries{{idx}}_fentryId" name="seorderEntries[{{idx}}].fentryId" style="width:20px" type="text" value="{{row.fentryId}}"  readonly="true"   class="input-mini required number" onChange="compute();"/>
+ 							</td>
+                            <td>
 								<sys:treeselectSyn id="seorderEntries{{idx}}_ticitemCore" 
 name="seorderEntries[{{idx}}].ticitemCore.fitemId" 
 value="{{row.ticitemCore.fitemId}}" 
@@ -186,25 +189,21 @@ url="/qq/k3/tItem/treeData"
 cssClass="required" 
 allowClear="true" 
 notAllowSelectParent="true"  
-onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCore).val(),{{idx}});" 
+onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}});" 
 />
 							</td>
-
-
 							<td>
-
-	<select id="spcSaleorderEntryList{{idx}}_tmeasureUnit" name="spcSaleorderEntryList[{{idx}}].tmeasureUnit.fmeasureUnitId" data-value="{{row.tmeasureUnit.fmeasureUnitId}}" class="input-small required">
-									<option value=""></option> fentrySelfS0164
+	<select id="seorderEntries{{idx}}_tmeasureUnit" name="seorderEntries[{{idx}}].tmeasureUnit.fmeasureUnitId" data-value="{{row.tmeasureUnit.fmeasureUnitId}}" class="input-mini required">
+									<option value=""></option>  
 									<c:forEach items="${tMeasureUnitList}"  var="tMeasureUnit" >
 										<option value="${tMeasureUnit.fmeasureUnitId}">${tMeasureUnit.fname}</option>
 									</c:forEach>
 								</select>
 							</td>
 
-
 							<td>
-	<select id="spcSaleorderEntryList{{idx}}_fentrySelfS0164" name="spcSaleorderEntryList[{{idx}}].fentrySelfS0164" data-value="{{row.fentrySelfS0164}}" class="input-small required">
-									<option value=""></option> fentrySelfS0164
+	<select id="seorderEntries{{idx}}_fentrySelfS0164" name="seorderEntries[{{idx}}].fentrySelfS0164" data-value="{{row.fentrySelfS0164}}" class="input-mini required">
+									<option value=""></option> 
 									<c:forEach items="${fns:getDictList('K3chukuleixing')}"  var="dict" >
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
@@ -218,19 +217,27 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCore).val(),{{idx}});"
 								<input id="seorderEntries{{idx}}_fprice" name="seorderEntries[{{idx}}].fprice" type="text" value="{{row.fprice}}" class="input-small required number" onChange="compute();"/>
 							</td>
 							<td>
-								<input id="seorderEntries{{idx}}_amount" name="seorderEntries[{{idx}}].famount" type="text" value="{{row.famount}}" class="input-small required number"  readonly="true" />
+								<input id="seorderEntries{{idx}}_famount" name="seorderEntries[{{idx}}].famount" type="text" value="{{row.famount}}" class="input-small required number"  readonly="true" />
 							</td>
 							<td>
 								<input id="seorderEntries{{idx}}_unitvolume" name="seorderEntries[{{idx}}].unitvolume" type="text" value="{{row.unitvolume}}" class="input-mini  number"  onChange="compute();"/>
 							</td>
 							<td>
-								<input id="seorderEntries{{idx}}_volume" name="seorderEntries[{{idx}}].fentrySelfS0161" type="text" value="{{row.fentrySelfS0161}}" class="input-small  number"  readonly="true"/>
+								<input id="seorderEntries{{idx}}_fentrySelfS0161" name="seorderEntries[{{idx}}].fentrySelfS0161" type="text" value="{{row.fentrySelfS0161}}" class="input-small  number"  readonly="true"/>
 							</td>
+<!--
 							<td>
 								<input id="seorderEntries{{idx}}_unitweight" name="seorderEntries[{{idx}}].unitweight" type="text" value="{{row.unitweight}}" class="input-mini  number" onChange="compute();"  />
 							</td>
 							<td>
 								<input id="seorderEntries{{idx}}_weight" name="seorderEntries[{{idx}}].weight" type="text" value="{{row.weight}}" class="input-small  number"  readonly="true"/>
+							</td>
+--> 
+                              <td> 
+                                <input id="seorderEntries{{idx}}_fentrySelfS0162" name="seorderEntries[{{idx}}].fentrySelfS0162" type="text" value="{{row.fentrySelfS0162}}" class="input-mini  number" onChange="compute();"  />
+							</td>
+							<td>
+								<input id="seorderEntries{{idx}}_fentrySelfS0163" name="seorderEntries[{{idx}}].fentrySelfS0163" type="text" value="{{row.fentrySelfS0163}}" class="input-small  number"  readonly="true"/>
 							</td>
 							<td>
 								<textarea id="seorderEntries{{idx}}_fnote" name="seorderEntries[{{idx}}].fnote" rows="1" maxlength="255" class="input-small ">{{row.fnote}}</textarea>
@@ -241,63 +248,59 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCore).val(),{{idx}});"
 						</tr>//-->
 					</script>
 					<script type="text/javascript">
-						var seOrderEntryRowIdx = 0, seOrderEntryTpl = $("#seOrderEntryTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g,"");
-						$(document).ready(function() {
-							var data = ${fns:toJson(seOrder.seorderEntries)};
-							for (var i=0; i<data.length; i++){
-								addRow('#seorderEntries', seOrderEntryRowIdx, seOrderEntryTpl, data[i]);
-							 
-							}compute();
-						});
 						
-					 
-						function compute()
-						 {
-						    var totalAmount = 0;
-						    var totalVolume = 0;
-						    var totalWeight = 0; 
-						   for(var i=0;i<seOrderEntryRowIdx;i++)
-						  {
-						   if( $("#seorderEntries"+i+"_delFlag").val()=="0")
-						   {
-						   
-						  //行金额计算
-						    var amount = $("#seorderEntries"+i+"_fqty").val()* $("#seorderEntries"+i+"_price").val()
-						    $("#seorderEntries"+i+"_amount").val(amount.toFixed(4));
-						    totalAmount += amount;
-						    
-						    //行体积计算
-						    var volume = $("#seorderEntries"+i+"_fqty").val()* $("#seorderEntries"+i+"_unitvolume").val()
-						    $("#seorderEntries"+i+"_volume").val(volume.toFixed(4));
-						    totalVolume  +=  volume;
-						    
-						    //行重量计算
-						    var weight = $("#seorderEntries"+i+"_fqty").val()* $("#seorderEntries"+i+"_unitweight").val()
-						    $("#seorderEntries"+i+"_weight").val(weight.toFixed(4));
-						    totalWeight +=  weight;
-						    }
-						  }
-						 $("#totalamount").val(totalAmount.toFixed(4));
-						 $("#totalvolume").val(totalVolume.toFixed(4));
-						 $("#totalweight").val(totalWeight.toFixed(4));
-						}
-						
-						
-						
-						function getMaterialInfo(fitemid,idx)
+						var seOrderEntryRowIdx = 0, seOrderEntryTpl = $("#seOrderEntryTpl").html().replace(/(\/\/\<!\-\-)|(\/\/\-\->)/g, "");
+						$(document).ready(function()
 						{
-							 
-							strs = {};
-							strs['fitemid'] = fitemid  ;
+							var data = ${fns:toJson(seOrder.seorderEntries)};
+							for (var i = 0; i < data.length; i++)
+							{
+								addRow('#seorderEntries', seOrderEntryRowIdx, seOrderEntryTpl, data[i]);
 
-							$.post( "${ctx}/qq/k3/tItem/getIcitemInfo",
-											strs, function(result)
-											{  
-											  
-											  $("#seorderEntries"+idx+"_fprice").val(result.price);
-											  $("#seorderEntries"+idx+"_unitvolume").val(result.volume); 
-											    compute();
-											});
+							}
+							compute();
+						});
+
+						function compute()
+						{
+							var totalAmount = 0;
+							var totalVolume = 0;
+							var totalWaipei = 0;
+							for (var i = 0; i < seOrderEntryRowIdx; i++)
+							{
+								//行金额计算
+								var amount = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fprice").val()
+								$("#seorderEntries" + i + "_famount").val(amount.toFixed(4));
+								totalAmount += amount;
+
+								//行体积计算
+								var volume = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_unitvolume").val()
+								$("#seorderEntries" + i + "_fentrySelfS0161").val(volume.toFixed(4));
+								totalVolume += volume;
+
+								//行重量计算
+								var weight = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fentrySelfS0162").val()
+								$("#seorderEntries" + i + "_fentrySelfS0163").val(weight.toFixed(4));
+								totalWaipei += weight;
+
+							}
+							// $("#totalamount").val(totalAmount.toFixed(4));
+							// $("#totalvolume").val(totalVolume.toFixed(4));
+							// $("#fentrySelfS0163").val(totalWaipei.toFixed(4));
+						}
+
+						//选取物料时从后台获取物料信息
+						function getMaterialInfo(fitemid, idx)
+						{
+							strs = {};
+							strs['fitemid'] = fitemid;
+							$.post("${ctx}/qq/k3/tItem/getIcitemInfo", strs, function(result)
+							{
+								$("#seorderEntries" + idx + "_fprice").val(result.price);
+								$("#seorderEntries" + idx + "_unitvolume").val(result.volume);
+								$("#seorderEntries" + idx + "_tmeasureUnit").val(result.measureUnit);
+								compute();
+							});
 
 						}
 					</script>
@@ -307,7 +310,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCore).val(),{{idx}});"
 				  
 			 
 		<div class="form-actions">
-			<shiro:hasPermission name="supplychain:sale:seOrder:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" onClick="compute();" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="qq:k3:seOrder:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" onClick="compute();" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

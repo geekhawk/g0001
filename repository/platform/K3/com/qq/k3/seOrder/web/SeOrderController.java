@@ -20,18 +20,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.qq.k3.seOrder.entity.SeOrder;
 import com.qq.k3.seOrder.entity.SeOrderId;
 import com.qq.k3.seOrder.entity.TBaseEmp;
+import com.qq.k3.seOrder.entity.TBaseUser;
 import com.qq.k3.seOrder.entity.TDepartment;
 import com.qq.k3.seOrder.entity.TMeasureUnit;
 import com.qq.k3.seOrder.entity.TOrganization;
 import com.qq.k3.seOrder.service.SeOrderService;
 import com.qq.k3.seOrder.service.TBaseEmpService;
+import com.qq.k3.seOrder.service.TBaseUserService;
 import com.qq.k3.seOrder.service.TDepartmentService;
 import com.qq.k3.seOrder.service.TMeasureUnitService;
 import com.qq.k3.seOrder.service.TOrganizationService;
@@ -57,20 +63,26 @@ public class SeOrderController extends BaseController
 	TBaseEmpService tBaseEmpService;
 	@Autowired
 	TMeasureUnitService tMeasureUnitService;
+	@Autowired
+	TBaseUserService tBaseUserService;
 	
 	@ModelAttribute
 	public SeOrder get(@RequestParam(required = false) Integer finterId,Model model)
 		{
-			
-			//添加客户
-			List<TOrganization>  tOrganizationList =   tOrganizationService.findList(new TOrganization(), null, null) ;
+
+			// 添加客户
+			List<TOrganization> tOrganizationList = tOrganizationService.findList(new TOrganization(), null, null);
 			model.addAttribute("tOrganizationList", tOrganizationList);
-			//添加部门
-			List<TDepartment>  tDepartmentList =    tDepartmentService.findList(new TDepartment(), null, null) ;
+			// 添加部门
+			List<TDepartment> tDepartmentList = tDepartmentService.findList(new TDepartment(), null, null);
 			model.addAttribute("tDepartmentList", tDepartmentList);
-			//添加业务员
-			List<TBaseEmp> tBaseEmpList =    tBaseEmpService.findList(new TBaseEmp(), null, null) ;
-			model.addAttribute("tBaseEmpList", tBaseEmpList);	
+			// 添加业务员
+			List<TBaseEmp> tBaseEmpList = tBaseEmpService.findList(new TBaseEmp(), null, null);
+			model.addAttribute("tBaseEmpList", tBaseEmpList);
+			// 添加计量单位
+			List<TMeasureUnit> tMeasureUnitList = tMeasureUnitService.findList(new TMeasureUnit(), null, null);
+			model.addAttribute("tMeasureUnitList", tMeasureUnitList);
+			
 			
 			SeOrder entity = null;
 			if (finterId != null)
@@ -132,34 +144,45 @@ public class SeOrderController extends BaseController
 	@RequiresPermissions("qq:k3:seOrder:edit")
 	@RequestMapping(value = "form")
 	public String form(SeOrder seOrder, Model model)
-		{   
-			seOrder = seOrderService.findById(seOrder.getId());
-			//添加计量单位
-			List<TMeasureUnit> tMeasureUnitList =    tMeasureUnitService.findList(new TMeasureUnit(), null, null) ;
-			model.addAttribute("tMeasureUnitList", tMeasureUnitList);	
-			
-			
-			model.addAttribute("seOrder", seOrder);
+		{
+			 if (null != seOrder.getId())
+			 	seOrder = seOrderService.findById(seOrder.getId());
+			 else
+			 	seOrder = new SeOrder();
+			    model.addAttribute("seOrder", seOrder);
 			return "qq/k3/seOrderForm";
 		}
  
 
  
-/*
-	 * @RequiresPermissions("supplychain:sale:seOrder:edit")
-	 * 
-	 * @RequestMapping(value = "save") public String save(Seorder seOrder, Model
-	 * model, RedirectAttributes redirectAttributes) { if (!beanValidator(model,
-	 * seOrder)){ return form(seOrder, model); } seOrderService.save(seOrder);
-	 * addMessage(redirectAttributes, "保存销售订单成功"); return
-	 * "redirect:"+Global.getAdminPath()+"/supplychain/sale/seOrder/?repage"; }
-	 * 
-	 * @RequiresPermissions("supplychain:sale:seOrder:edit")
-	 * 
-	 * @RequestMapping(value = "delete") public String delete(Seorder seOrder,
-	 * RedirectAttributes redirectAttributes) { seOrderService.delete(seOrder);
-	 * addMessage(redirectAttributes, "删除销售订单成功"); return
-	 * "redirect:"+Global.getAdminPath()+"/supplychain/sale/seOrder/?repage"; }
-	 */
+ /*
+ * 
+ */
+	@RequiresPermissions("qq:k3:seOrder:edit")
+	@RequestMapping(value = "save")
+	public String save(SeOrder seOrder, Model model, RedirectAttributes redirectAttributes)
+		{   
+			if (!beanValidator(model, seOrder))
+			{
+				return form(seOrder, model);
+			}
+			User currentUser = UserUtils.getUser();
+			TBaseUser  tBaseUser =  new TBaseUser();
+		 
+			tBaseUser = tBaseUserService.findById(Integer.parseInt(currentUser.getNo()));
+			seOrder.setTBaseUser(tBaseUser);
+			seOrderService.add(seOrder);
+			addMessage(redirectAttributes, "保存销售订单成功");
+			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/list";
+		}
+
+	@RequiresPermissions("qq:k3:seOrder:edit")
+	@RequestMapping(value = "delete")
+	public String delete(SeOrder seOrder, RedirectAttributes redirectAttributes)
+		{
+			seOrderService.delete(seOrder);
+			addMessage(redirectAttributes, "删除销售订单成功");
+			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/list";
+		}
 
 }

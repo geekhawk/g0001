@@ -2,6 +2,7 @@ package com.qq.k3.seOrder.entity;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -11,12 +12,17 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import com.google.common.collect.Lists;
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT; 
 
 /**
@@ -94,7 +100,7 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 	private Integer fclassTypeId;
 	private Integer fmanageType;
 	private Short fsysStatus;
-	private Set<SeOrderEntry> seorderEntries = new HashSet<SeOrderEntry>(0);
+	private List<SeOrderEntry> seorderEntries = Lists.newArrayList();
 
 	// Constructors
 
@@ -138,7 +144,7 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 			Date fmultiCheckDate4, Date fmultiCheckDate5, Date fmultiCheckDate6, Integer fcurCheckLevel, Float ftransitAheadTime, String fpoordBillNo,
 			Integer frelateBrId, Integer fimport, Integer forderAffirm, Integer ftranStatus, String fuuid, byte[] foperDate, Integer fsystemType, String fcashDiscount,
 			Date fcheckDate, String fexplanation, Date fsettleDate, Integer fselTranType, Integer fchildren, Integer fbrId, Integer fareaPs, Integer fclassTypeId,
-			Integer fmanageType, Short fsysStatus, Set<SeOrderEntry> seorderEntries)
+			Integer fmanageType, Short fsysStatus, List<SeOrderEntry> seorderEntries)
 	{
 		this.id = id;
 		this.TDepartment = TDepartment;
@@ -203,6 +209,9 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 	}
 
 	// Property accessors
+	 
+	@GeneratedValue(generator = "idGenerator")
+	@GenericGenerator(name = "idGenerator", strategy = "com.qq.k3.seOrder.utils.SeOrderIdGenerator")
 	@EmbeddedId
 	@AttributeOverrides(
 	{ @AttributeOverride(name = "fbrNo", column = @Column(name = "FBrNo", nullable = false, length = 10)),
@@ -860,12 +869,12 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 		}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "seorder")
-	public Set<SeOrderEntry> getSeorderEntries()
+	public List<SeOrderEntry> getSeorderEntries()
 		{
 			return this.seorderEntries;
 		}
 
-	public void setSeorderEntries(Set<SeOrderEntry> seorderEntries)
+	public void setSeorderEntries(List<SeOrderEntry> seorderEntries)
 		{
 			this.seorderEntries = seorderEntries;
 		}

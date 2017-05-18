@@ -365,7 +365,7 @@ public class TIcitemCore  extends BaseEntityHBT<TIcitemCore>
 			this.fplanClass = fplanClass;
 		}
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TIcitemCore")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ticitemCore")
 	public Set<SeOrderEntry> getSeorderEntries()
 		{
 			return this.seorderEntries;

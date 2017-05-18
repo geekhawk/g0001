@@ -125,6 +125,7 @@ public class TItemController extends BaseController
 		Map<String, Object> map = Maps.newHashMap(); 
 		map.put("price", vIcitem.getForderPrice());
 		map.put("volume", vIcitem.getF102());  
+		map.put("measureUnit", vIcitem.getFunitId());  
 		mapList.add(map);
 
 		return map;
