@@ -13,14 +13,14 @@
             <li data-icon="next" data-selected="selected">
                 <span class="icon user"></span>
                 <a href="#user_section?test=abc" data-target="section">
-                    <strong>用户管理</strong>
+                    <strong>个人信息</strong>
                 </a>
             </li>
             
             <li data-icon="next" data-selected="selected">
                 <span class="icon user"></span>
-                <a href="${ctx}/supplychain/base/spcMaterialBase/form" >
-                    <strong>用户管理</strong>
+                <a href="${ctx}/qq/k3/seOrder" >
+                    <strong>订单管理</strong>
                 </a>
             </li>
         </ul>

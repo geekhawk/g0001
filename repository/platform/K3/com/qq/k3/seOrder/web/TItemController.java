@@ -3,11 +3,15 @@
  */
 package com.qq.k3.seOrder.web;
 
+import java.util.ArrayList;
 import java.util.List; 
 import java.util.Map;  
 
 import javax.servlet.http.HttpServletResponse;   
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -86,20 +90,25 @@ public class TItemController extends BaseController
 		{
 			List<Map<String, Object>> mapList = Lists.newArrayList();
 			TItem tItem = new TItem();
-
+			List<TItem> list = new ArrayList<TItem>();;
 			if (!"".equals(pId) && pId != null)
 			{
 
 				tItem.setFparentId(pId);
+				list = tItemService.findListByExample(tItem);
 			} else if (!"".equals(nameLike) && nameLike != null)
 			{
 
-				tItem.setFname(nameLike);
+				List<Criterion> criterionList = new ArrayList<Criterion>();
+				criterionList.add(Restrictions.ilike("fname", nameLike, MatchMode.ANYWHERE));
+				criterionList.add(Restrictions.eq("fItemClassID", 4));
+				list = tItemService.findList(tItem, null, criterionList);
+
 			} else
 			{
 				return mapList;
 			}
-			List<TItem> list = tItemService.findListByExample(tItem);
+
 			for (int i = 0; i < list.size(); i++)
 			{
 				TItem e = list.get(i);
@@ -110,7 +119,7 @@ public class TItemController extends BaseController
 				map.put("isParent", false);
 				map.put("title", e.getFfullName());
 				mapList.add(map);
-			} 
+			}
 			return mapList;
 		}
  

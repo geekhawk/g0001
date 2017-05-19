@@ -4,6 +4,7 @@
 <head>
 	<title>销售订单管理</title>
 	<meta name="decorator" content="default"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<script type="text/javascript">
 		$(document).ready(function() {
 			//$("#name").focus();
@@ -74,18 +75,18 @@
 	<form:form id="inputForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/save" method="post" class="form-horizontal">
 		<form:hidden path="id.fbrNo"/>  <form:hidden path="id.finterId"/>   <form:hidden path="fstatus"/>    
 		<sys:message content="${message}"/>		
-		<div class="control-group">
-			<label class="control-label">编码：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">编码：</label>
+			<div class="">
 				<form:input path="fbillNo" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		 
 		
-		<div class="control-group">
-			<label class="control-label">客户：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">客户：</label>
+			<div class="">
 				<form:select path="TOrganization.fitemId" class="input-xlarge required">
 					<form:option value="" label=""/>
 					<form:options items="${tOrganizationList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
@@ -94,17 +95,17 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
-			<label class="control-label">交货地点：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">交货地点：</label>
+			<div class="">
 				<form:input path="ffetchAdd" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		
-		<div class="control-group">
-			<label class="control-label">部门：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">部门：</label>
+			<div class="">
 				<form:select path="TDepartment.fitemId" class="input-xlarge required">
 					<form:option value="" label=""/>
 					<form:options items="${tDepartmentList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
@@ -114,9 +115,9 @@
 		</div>
 		
 		
-		<div class="control-group">
-			<label class="control-label">业务员：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">业务员：</label>
+			<div class="">
 				<form:select path="TBaseEmp.fitemId" class="input-xlarge required">
 					<form:option value="" label=""/>
 					<form:options items="${tBaseEmpList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
@@ -125,9 +126,9 @@
 			</div>
 		</div>
 		
-		<div class="control-group">
-			<label class="control-label">下单日期：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">下单日期：</label>
+			<div class="">
 				<input name="fdate" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${seOrder.fdate}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
@@ -135,32 +136,32 @@
 			</div>
 		</div>
 		
-			<div class="control-group">
-			<label class="control-label">金额合计：</label>
-			<div class="controls">
+			<div class="">
+			<label class="">金额合计：</label>
+			<div class="">
 				<form:input path="sumAmount" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-			<div class="control-group">
-			<label class="control-label">体积合计：</label>
-			<div class="controls">
+			<div class="">
+			<label class="">体积合计：</label>
+			<div class="">
 				<form:input path="sumVolume" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-			<div class="control-group">
-			<label class="control-label">外配合计：</label>
-			<div class="controls">
+			<div class="">
+			<label class="">外配合计：</label>
+			<div class="">
 				<form:input path="sumWaipei" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		
 		 
-		<div class="control-group">
-			<label class="control-label">备注信息：</label>
-			<div class="controls">
+		<div class="">
+			<label class="">备注信息：</label>
+			<div class="">
 				<form:textarea path="fexplanation" htmlEscape="false" rows="4" maxlength="255" class="input-xxlarge "/>
 			</div>
 		</div> 

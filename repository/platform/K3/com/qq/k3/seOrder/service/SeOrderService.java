@@ -178,6 +178,7 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 				seorderEntry.setFauxTaxPrice(seorderEntry.getFprice());
 				seorderEntry.setFtaxPrice(seorderEntry.getFprice());
 				seorderEntry.setSeorder(seorder);
+				seorderEntry.setFdate(seorder.getFdate());
 				
 			}
 			

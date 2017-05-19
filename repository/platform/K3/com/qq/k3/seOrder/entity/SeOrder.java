@@ -870,7 +870,7 @@ public class SeOrder extends BaseEntityHBT<SeOrder>
 			this.fsysStatus = fsysStatus;
 		}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "seorder")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "seorder")
 	public List<SeOrderEntry> getSeorderEntries()
 		{
 			return this.seorderEntries;
