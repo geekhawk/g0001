@@ -42,18 +42,15 @@ public class User extends DataEntity<User> {
 	private String loginIp;	// 最后登陆IP
 	private Date loginDate;	// 最后登陆日期
 	private String loginFlag;	// 是否允许登陆
-	private String photo;	// 头像
-
+	private String photo;	// 头像 
 	private String oldLoginName;// 原登录名
-	private String newPassword;	// 新密码
-	
+	private String newPassword;	// 新密码 
 	private String oldLoginIp;	// 上次登陆IP
-	private Date oldLoginDate;	// 上次登陆日期
-	
-	private Role role;	// 根据角色查询用户条件
-	
+	private Date oldLoginDate;	// 上次登陆日期 
+	private Role role;	// 根据角色查询用户条件 
 	private List<Role> roleList = Lists.newArrayList(); // 拥有角色列表
-
+    private Integer K3EmployeeId;
+    private Integer K3UserId;
 	public User() {
 		super();
 		this.loginFlag = Global.YES;
@@ -321,4 +318,27 @@ public class User extends DataEntity<User> {
 	public String toString() {
 		return id;
 	}
+
+	public Integer getK3EmployeeId()
+		{
+			return K3EmployeeId;
+		}
+
+	public void setK3EmployeeId(Integer k3EmployeeId)
+		{
+			K3EmployeeId = k3EmployeeId;
+		}
+
+	public Integer getK3UserId()
+		{
+			return K3UserId;
+		}
+
+	public void setK3UserId(Integer k3UserId)
+		{
+			K3UserId = k3UserId;
+		}
+	
+	
+	
 }

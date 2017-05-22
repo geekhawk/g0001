@@ -101,13 +101,15 @@
     	ou.id AS "office.primaryPerson.id",
     	ou.name AS "office.primaryPerson.name",
     	ou2.id AS "office.deputyPerson.id",
-    	ou2.name AS "office.deputyPerson.name"<!-- ,
+    	ou2.name AS "office.deputyPerson.name",<!-- ,
         r.id AS "roleList.id",
         r.office_id AS "roleList.office.id",
         r.name AS "roleList.name",
         r.enname AS "roleList.enname",
         r.role_type AS "roleList.roleType",
         r.data_scope AS "roleList.dataScope" -->
+        a.K3EmployeeId,
+        a.K3UserId
     </sql>
     
     <sql id="userJoins">
@@ -244,7 +246,9 @@
 			remarks, 
 			login_flag, 
 			photo, 
-			del_flag
+			del_flag,
+			K3EmployeeId,
+            K3UserId
 		) VALUES (
 			#{id}, 
 			#{company.id}, 
@@ -264,7 +268,9 @@
 			#{remarks}, 
 			#{loginFlag}, 
 			#{photo}, 
-			#{delFlag}
+			#{delFlag}, 
+			#{K3EmployeeId}, 
+			#{K3UserId}
 		)
 	</insert>
 	
@@ -285,7 +291,9 @@
 			update_date = #{updateDate}, 
 			remarks = #{remarks},
 			login_flag = #{loginFlag},
-			photo = #{photo}
+			photo = #{photo}, 
+			K3EmployeeId=#{K3EmployeeId}, 
+			K3UserId=#{K3UserId}
 		WHERE id = #{id}
 	</update>
 	

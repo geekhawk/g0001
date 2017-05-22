@@ -70,13 +70,16 @@ public class SeOrderController extends BaseController
 	public SeOrder get(@RequestParam(required = false) Integer finterId,Model model)
 		{
 			// 添加客户
-			List<TOrganization> tOrganizationList = tOrganizationService.findList(new TOrganization(), null, null);
+			 User currentUser = UserUtils.getUser();
+			 model.addAttribute("currentUser", currentUser);
+			List<TOrganization> tOrganizationList = tBaseEmpService.getReleationCus(currentUser.getK3EmployeeId());
 			model.addAttribute("tOrganizationList", tOrganizationList);
 			// 添加部门
 			List<TDepartment> tDepartmentList = tDepartmentService.findList(new TDepartment(), null, null);
 			model.addAttribute("tDepartmentList", tDepartmentList);
 			// 添加业务员
-			List<TBaseEmp> tBaseEmpList = tBaseEmpService.findList(new TBaseEmp(), null, null);
+			List<TBaseEmp> tBaseEmpList= new ArrayList<TBaseEmp>();
+			tBaseEmpList.add(tBaseEmpService.findById(currentUser.getK3EmployeeId())) ;
 			model.addAttribute("tBaseEmpList", tBaseEmpList);
 			// 添加计量单位
 			List<TMeasureUnit> tMeasureUnitList = tMeasureUnitService.findList(new TMeasureUnit(), null, null);
@@ -136,7 +139,7 @@ public class SeOrderController extends BaseController
 			
 			//添加强制过滤条件，只能看到自己业务范围之内的
 			User currentUser = UserUtils.getUser();
-			  criterionList.add(Restrictions.eq("TBaseEmp.fitemId", Integer.parseInt(currentUser.getNo()))); 
+			  criterionList.add(Restrictions.eq("TBaseEmp.fitemId", currentUser.getK3EmployeeId())); 
 			
 			 
 			Page<SeOrder> page = seOrderService.findPage(new Page<SeOrder>(request, response),seOrder, orderList, criterionList);
@@ -174,10 +177,7 @@ public class SeOrderController extends BaseController
 			{
 				return form(seOrder, model);
 			}
-			//User currentUser = UserUtils.getUser();
-			//TBaseUser  tBaseUser =  new TBaseUser(); 
-			//tBaseUser = tBaseUserService.findById(Integer.parseInt(currentUser.getNo()));
-			//seOrder.setTBaseUser(tBaseUser);
+		 
 			seOrderService.add(seOrder);
 			addMessage(redirectAttributes, "保存销售订单成功");
 			return "redirect:" + Global.getAdminPath() + "/qq/k3/seOrder/form?id.fbrNo="+seOrder.getId().getFbrNo()+"&id.finterId="+seOrder.getId().getFinterId();

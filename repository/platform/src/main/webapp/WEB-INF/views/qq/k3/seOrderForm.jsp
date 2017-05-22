@@ -86,7 +86,7 @@
 		<div class="control-group">
 			<label class="control-label">客户：</label>
 			<div class="controls">
-				<form:select path="TOrganization.fitemId" class="input-xlarge required">
+				<form:select path="TOrganization.fitemId" class="input-xlarge required"  onChange="getCustomerInfo($(this).val())">
 					<form:option value="" label=""/>
 					<form:options items="${tOrganizationList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
 				</form:select>
@@ -105,7 +105,7 @@
 		<div class="control-group">
 			<label class="control-label">部门：</label>
 			<div class="controls">
-				<form:select path="TDepartment.fitemId" class="input-xlarge required">
+				<form:select path="TDepartment.fitemId" class="input-xlarge">
 					<form:option value="" label=""/>
 					<form:options items="${tDepartmentList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
 				</form:select>
@@ -117,13 +117,13 @@
 		<div class="control-group">
 			<label class="control-label">业务员：</label>
 			<div class="controls">
-				<form:select path="TBaseEmp.fitemId" class="input-xlarge required">
-					<form:option value="" label=""/>
+				<form:select path="TBaseEmp.fitemId" class="input-xlarge required"      >
+				 
 					<form:options items="${tBaseEmpList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
 				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-		</div>
+		</div> 
 		
 		<div class="control-group">
 			<label class="control-label">下单日期：</label>
@@ -246,7 +246,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								<input id="seorderEntries{{idx}}_famount" name="seorderEntries[{{idx}}].famount" type="text" value="{{row.famount}}" class="input-small required number"  readonly="true" />
 							</td>
 							<td>
-								<input id="seorderEntries{{idx}}_fentrySelfS0165" name="seorderEntries[{{idx}}].fentrySelfS0165" type="text" value="{{row.fentrySelfS0165}}" class="input-mini  number"  onChange="compute();"/>
+								<input id="seorderEntries{{idx}}_fentrySelfS0166" name="seorderEntries[{{idx}}].fentrySelfS0166" type="text" value="{{row.fentrySelfS0166}}" class="input-mini  number"  onChange="compute();"/>
 							</td>
 							<td>
 								<input id="seorderEntries{{idx}}_fentrySelfS0161" name="seorderEntries[{{idx}}].fentrySelfS0161" type="text" value="{{row.fentrySelfS0161}}" class="input-small  number"  readonly="true"/>
@@ -300,7 +300,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								totalAmount += amount;
 
 								//行体积计算
-								var volume = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fentrySelfS0165").val()
+								var volume = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fentrySelfS0166").val()
 								$("#seorderEntries" + i + "_fentrySelfS0161").val(volume.toFixed(4));
 								totalVolume += volume;
 
@@ -323,12 +323,29 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							$.post("${ctx}/qq/k3/tItem/getIcitemInfo", strs, function(result)
 							{
 								$("#seorderEntries" + idx + "_fprice").val(result.price);
-								$("#seorderEntries" + idx + "_fentrySelfS0165").val(result.volume);
+								$("#seorderEntries" + idx + "_fentrySelfS0166").val(result.volume);
 								$("#seorderEntries" + idx + "_tmeasureUnit").val(result.measureUnit);
 								compute();
 							});
 
 						}
+						
+						//选取物料时从后台获取物料信息
+						function getCustomerInfo(fitemid )
+						{
+							strs = {};
+							strs['fitemid'] = fitemid;
+							$.post("${ctx}/qq/k3/tOrganization/getTOrganizationInfo", strs, function(result)
+							{
+								$("#ffetchAdd").val(result.faddress);
+								//alert(result.fdepartment);
+								//$("#TDepartment.fitemId").val(result.fdepartment); 
+								 
+							});
+
+						}
+						
+						
 						// 
 						function submits()
 						{
@@ -341,6 +358,8 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 						$("#fstatus").val(-1);
 						compute();
 						}
+						
+						
 						
 						
 					</script>

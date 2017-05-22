@@ -3,6 +3,7 @@ package com.qq.k3.seOrder.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional; 
 
@@ -18,12 +19,12 @@ public class TBaseEmpService extends BaseServiceHBT<TBaseEmp, TBaseEmpDao>
 {
 	private static final long serialVersionUID = 1L;
  
-	 public List<TOrganization>   getReleationCus(TBaseEmp tBaseEmp)
-		{
+	 public List<TOrganization>   getReleationCus(Integer  tBaseEmpId)
+		{   TBaseEmp  tBaseEmp = this.findById(tBaseEmpId); 
 			List<TOrganization> organizationList = new ArrayList<TOrganization>();
 			List<EmployeeCusReleationEntry> employeeCusReleationEntrys = tBaseEmp.getEmployeeCusReleations().get(0).getEmployeeCusReleationEntries();
 			for (EmployeeCusReleationEntry employeeCusReleationEntry : employeeCusReleationEntrys)
-			{
+			{ employeeCusReleationEntry.getTOrganization().getFname();
 				organizationList.add(employeeCusReleationEntry.getTOrganization());
 
 			}

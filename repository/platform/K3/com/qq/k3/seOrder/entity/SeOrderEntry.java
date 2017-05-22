@@ -131,7 +131,7 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	private Double fentrySelfS0162;
 	private Double fentrySelfS0163;
 	private Integer fentrySelfS0164;
-	private Double fentrySelfS0165;
+	private Double fentrySelfS0166;
 	private  String delFlag;
 
 	// Constructors////赠品
@@ -1442,15 +1442,15 @@ public class SeOrderEntry  extends BaseEntityHBT<SeOrderEntry>
 	
 	
 	
-	@Column(name = "FEntrySelfS0165")
-	public Double getFentrySelfS0165()
+	@Column(name = "fentrySelfS0166")
+	public Double getfentrySelfS0166()
 		{
-			return fentrySelfS0165;
+			return fentrySelfS0166;
 		}
 
-	public void setFentrySelfS0165(Double fentrySelfS0165)
+	public void setfentrySelfS0166(Double fentrySelfS0166)
 		{
-			this.fentrySelfS0165 = fentrySelfS0165;
+			this.fentrySelfS0166 = fentrySelfS0166;
 		}
 
 	@Transient
