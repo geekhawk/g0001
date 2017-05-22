@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  * TItem entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_Item", schema = "dbo", catalog = "AIS20170502093932", uniqueConstraints = @UniqueConstraint(columnNames =
+@Table(name = "t_Item", schema = "dbo", catalog = "AIS20170520090131", uniqueConstraints = @UniqueConstraint(columnNames =
 { "FItemClassID", "FNumber" }))
 public class TItem extends BaseEntityHBT<TItem>
 {

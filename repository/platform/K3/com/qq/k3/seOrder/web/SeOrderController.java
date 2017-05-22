@@ -32,7 +32,6 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 import com.qq.k3.seOrder.entity.SeOrder;
 import com.qq.k3.seOrder.entity.SeOrderId;
 import com.qq.k3.seOrder.entity.TBaseEmp;
-import com.qq.k3.seOrder.entity.TBaseUser;
 import com.qq.k3.seOrder.entity.TDepartment;
 import com.qq.k3.seOrder.entity.TMeasureUnit;
 import com.qq.k3.seOrder.entity.TOrganization;
@@ -70,7 +69,6 @@ public class SeOrderController extends BaseController
 	@ModelAttribute
 	public SeOrder get(@RequestParam(required = false) Integer finterId,Model model)
 		{
-
 			// 添加客户
 			List<TOrganization> tOrganizationList = tOrganizationService.findList(new TOrganization(), null, null);
 			model.addAttribute("tOrganizationList", tOrganizationList);

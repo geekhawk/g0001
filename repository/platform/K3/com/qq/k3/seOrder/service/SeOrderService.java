@@ -22,6 +22,8 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 
 	@Autowired
 	SeOrderEntryDao seorderEntryDao;
+	@Autowired
+	SeOrderEntryService seorderEntryService;
 
 	@Transactional(readOnly = true)
 	public SeOrder findById(SeOrderId seorderId)
@@ -84,9 +86,9 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 
 			
 
-			for (SeOrderEntry seorderEntry : seorder.getSeorderEntries())
+			for ( int i=0;i< seorder.getSeorderEntries().size();i++   )
 			{
-				
+				  SeOrderEntry seorderEntry =  seorder.getSeorderEntries().get(i);
 				// 1.seorderEntry非空属性补全 
 				seorderEntry.setFcommitQty((double) 0);
 				seorderEntry.setFtaxRate((double) 0);
@@ -161,9 +163,7 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 				seorderEntry.setFsecCommitInstall((double) 0);
 				seorderEntry.setFplanMode(14036);
 				seorderEntry.setFmtono("");
-				
-				
-				
+				 
 				
 				
 				
@@ -180,6 +180,13 @@ public class SeOrderService extends BaseServiceHBT<SeOrder, SeOrderDao>
 				seorderEntry.setSeorder(seorder);
 				seorderEntry.setFdate(seorder.getFdate());
 				
+				//删除分录
+				if(seorderEntry.getDelFlag().equals("1"))
+				{
+					seorder.getSeorderEntries().remove(seorderEntry);
+					i--;
+					seorderEntryService.delete(seorderEntry);
+				}
 			}
 			
 			

@@ -1,33 +1,35 @@
 package com.qq.k3.seOrder.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
-import com.thinkgem.jeesite.common.hibernate.persistence.EntityInterfaceHBT;
 
 /**
  * TBaseEmp entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_Base_Emp", schema = "dbo", catalog = "AIS20170502093932")
+@Table(name = "t_Base_Emp", schema = "dbo", catalog = "AIS20170520090131")
 public class TBaseEmp  extends BaseEntityHBT<TBaseEmp>
 {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer fitemId;
 	private Integer fgender;
 	private Timestamp fbirthday;
@@ -68,6 +70,7 @@ public class TBaseEmp  extends BaseEntityHBT<TBaseEmp>
 	private String fmobilePhone;
 	private String fmodifyTime;
 	private Set<SeOrder> seorders = new HashSet<SeOrder>(0);
+	private List<EmployeeCusReleation> employeeCusReleations = new ArrayList<EmployeeCusReleation>(0);
 
 	// Constructors
 
@@ -571,5 +574,17 @@ public class TBaseEmp  extends BaseEntityHBT<TBaseEmp>
 		{
 			this.seorders = seorders;
 		}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "TBaseEmp")
+	public List<EmployeeCusReleation> getEmployeeCusReleations()
+		{
+			return this.employeeCusReleations;
+		}
 
+	public void setEmployeeCusReleations(List<EmployeeCusReleation> employeeCusReleations)
+		{
+			this.employeeCusReleations = employeeCusReleations;
+		}
+	
+	
 }

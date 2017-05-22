@@ -18,7 +18,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  * TIcitemCore entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_ICItemCore", schema = "dbo", catalog = "AIS20170502093932")
+@Table(name = "t_ICItemCore", schema = "dbo", catalog = "AIS20170520090131")
 public class TIcitemCore  extends BaseEntityHBT<TIcitemCore>
 {
 
