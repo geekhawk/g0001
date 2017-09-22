@@ -46,6 +46,9 @@
 	            	<div>&nbsp;</div>
 	            	<input type="hidden" name="mobileLogin" value="true">
 	                <button id="btn" class="submit block" data-icon="key">登录</button>
+	                <div>&nbsp;</div>
+	                <label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
+		
 	            </form>
 	        </div>
 	    </article>

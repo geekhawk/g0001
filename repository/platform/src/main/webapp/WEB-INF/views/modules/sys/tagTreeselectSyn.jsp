@@ -133,8 +133,8 @@ function initTree(url)
         selectCheckNode();
 	});
 	key = $("#key");
-	key.bind("focus", focusKey).bind("blur", blurKey).bind(
-			"change cut input propertychange", searchNode);
+	//key.bind("focus", focusKey).bind("blur", blurKey).bind( "change cut input propertychange", searchNode);
+	key.bind("focus", focusKey).bind("blur", blurKey).bind( " propertychange", searchNode);
 	key.bind('keydown', function(e)
 	{
 		if (e.which == 13)
@@ -314,6 +314,8 @@ function search()
 		onclick="search();">
 		<i class="icon-search"></i><label id="txt">搜索</label>
 	</div>
+	
+	
 	<div id="search" class="form-search hide"
 		style="padding:10px 0 0 13px;">
 		<label for="key" class="control-label" style="padding:5px 5px 3px 0;">关键字：</label>

@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * EmployeeCusReleationEntry entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_BOS200000001Entry2", schema = "dbo", catalog = "AIS20170520090131")
+@Table(name = "t_BOS200000001Entry2", schema = "dbo", catalog = "AIS20170527080305")
 public class EmployeeCusReleationEntry implements java.io.Serializable
 {
 

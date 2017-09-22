@@ -26,6 +26,7 @@
 			
 		});
 		function addRow(list, idx, tpl, row){
+		 if(!checkCus())return false;
 			$(list).append(Mustache.render(tpl, {
 				idx: idx, delBtn: true, row: row
 			}));
@@ -106,11 +107,11 @@
 		<div class="">
 			<label class="">部门：</label>
 			<div class="">
-				<form:select path="TDepartment.fitemId" class="input-xlarge">
+				<form:select path="TDepartment.fitemId" class="input-xlarge  required">
 					<form:option value="" label=""/>
 					<form:options items="${tDepartmentList}" itemLabel="fname" itemValue="fitemId" htmlEscape="false"/>
 				</form:select>
-				 
+				 <span class=""><font color="red">*</font> </span>
 			</div>
 		</div>
 		
@@ -139,21 +140,21 @@
 			<div class="">
 			<label class="">金额合计：</label>
 			<div class="">
-				<form:input path="sumAmount" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
+				<form:input path="sumAmount" htmlEscape="false" maxlength="60" class="input-xlarge required"  readonly="true" />
 				<span class=""><font color="red">*</font> </span>
 			</div>
 		</div>
 			<div class="">
 			<label class="">体积合计：</label>
 			<div class="">
-				<form:input path="sumVolume" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
+				<form:input path="sumVolume" htmlEscape="false" maxlength="60" class="input-xlarge required"  readonly="true"/>
 				<span class=""><font color="red">*</font> </span>
 			</div>
 		</div>
 			<div class="">
 			<label class="">外配合计：</label>
 			<div class="">
-				<form:input path="sumWaipei" htmlEscape="false" maxlength="60" class="input-xlarge required"  />
+				<form:input path="sumWaipei" htmlEscape="false" maxlength="60" class="input-xlarge required"  readonly="true"/>
 				<span class=""><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -195,7 +196,7 @@
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="seOrderEntryTpl">//<!--
-						<tr id="seorderEntries{{idx}}">
+					<tr id="seorderEntries{{idx}}">
 							<td class="hide">
 								<input id="seorderEntries{{idx}}_fdetailId" name="seorderEntries[{{idx}}].fdetailId" type="hidden" value="{{row.fdetailId}}"/> 
                                 <input id="seorderEntries{{idx}}_delFlag" name="seorderEntries[{{idx}}].delFlag" type="hidden" value="0"/>
@@ -229,8 +230,8 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							</td>
 
 							<td>
-	<select id="seorderEntries{{idx}}_fentrySelfS0164" name="seorderEntries[{{idx}}].fentrySelfS0164" data-value="{{row.fentrySelfS0164}}" class="input-mini required">
-									<option value=""></option> 
+	<select id="seorderEntries{{idx}}_fentrySelfS0164" name="seorderEntries[{{idx}}].fentrySelfS0164" data-value="{{row.fentrySelfS0164}}" class="input-mini required" onChange="compute();cusSynItemInfo();">
+									 
 									<c:forEach items="${fns:getDictList('K3chukuleixing')}"  var="dict" >
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
@@ -261,7 +262,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							</td>
 --> 
                               <td> 
-                                <input id="seorderEntries{{idx}}_fentrySelfS0162" name="seorderEntries[{{idx}}].fentrySelfS0162" type="text" value="{{row.fentrySelfS0162}}" class="input-mini  number" onChange="compute();"  />
+                                <input id="seorderEntries{{idx}}_fentrySelfS0162" name="seorderEntries[{{idx}}].fentrySelfS0162" type="text" value="{{row.fentrySelfS0162}}" class="input-mini  number" onChange="compute();"   readonly="true" />
 							</td>
 							<td>
 								<input id="seorderEntries{{idx}}_fentrySelfS0163" name="seorderEntries[{{idx}}].fentrySelfS0163" type="text" value="{{row.fentrySelfS0163}}" class="input-small  number"  readonly="true"/>
@@ -280,6 +281,13 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 						$(document).ready(function()
 						{
 							var data = ${fns:toJson(seOrder.seorderEntries)};
+							var cusid = document.getElementsByName("TOrganization.fitemId")[0].value;
+							if (cusid == null || cusid == "")
+							if(data.length>0&&(cusid == null || cusid == ""))
+							{
+							  alert("您已被取消此客户的查看权限，若需要查看请找销管添加权限！");
+								return;
+							}
 							for (var i = 0; i < data.length; i++)
 							{
 								addRow('#seorderEntries', seOrderEntryRowIdx, seOrderEntryTpl, data[i]);
@@ -287,7 +295,7 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							}
 							compute();
 						});
-
+						//计算页面上需要计算的信息
 						function compute()
 						{
 							var totalAmount = 0;
@@ -295,6 +303,8 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							var totalWaipei = 0;
 							for (var i = 0; i < seOrderEntryRowIdx; i++)
 							{
+								if ($("#seorderEntries" + i + "_fentrySelfS0164").val() == '40002')
+									$("#seorderEntries" + i + "_fprice").val('0');
 								//行金额计算
 								var amount = $("#seorderEntries" + i + "_fqty").val() * $("#seorderEntries" + i + "_fprice").val()
 								$("#seorderEntries" + i + "_famount").val(amount.toFixed(4));
@@ -311,16 +321,24 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 								totalWaipei += weight;
 
 							}
-							 $("#sumAmount").val(totalAmount.toFixed(4));
-							  $("#sumVolume").val(totalVolume.toFixed(4));
-							  $("#sumWaipei").val(totalWaipei.toFixed(4));
+							$("#sumAmount").val(totalAmount.toFixed(4));
+							$("#sumVolume").val(totalVolume.toFixed(4));
+							$("#sumWaipei").val(totalWaipei.toFixed(4));
 						}
 
 						//选取物料时从后台获取物料信息
 						function getMaterialInfo(fitemid, idx)
 						{
+							var cusid = document.getElementsByName("TOrganization.fitemId")[0].value;
+							if (cusid == null || cusid == "")
+							{
+								alert("请先选择客户");
+								return;
+							}
+
 							strs = {};
 							strs['fitemid'] = fitemid;
+							strs['fcusid'] = cusid;
 							$.post("${ctx}/qq/k3/tItem/getIcitemInfo", strs, function(result)
 							{
 								$("#seorderEntries" + idx + "_fprice").val(result.price);
@@ -330,61 +348,73 @@ onChange=" getMaterialInfo($(seorderEntries{{idx}}_ticitemCoreId).val(),{{idx}})
 							});
 
 						}
-						
-						//选取物料时从后台获取物料信息
-						function getCustomerInfo(fitemid )
+
+						//检查客户是否已经选择
+						function checkCus()
+						{
+							var cusid = document.getElementsByName("TOrganization.fitemId")[0].value;
+							if (cusid == null || cusid == "")
+							{
+								alert("请先选择客户");
+								return false;
+							} else
+								return true;
+						}
+
+						//选取客户获取客户地址
+						function getCustomerInfo(fitemid)
 						{
 							strs = {};
 							strs['fitemid'] = fitemid;
 							$.post("${ctx}/qq/k3/tOrganization/getTOrganizationInfo", strs, function(result)
 							{
 								$("#ffetchAdd").val(result.faddress);
-								//alert(result.fdepartment);
-								//$("#TDepartment.fitemId").val(result.fdepartment); 
-								 
+
 							});
+							cusSynItemInfo();
 
 						}
-						
-						
-						// 
+
+						//重选客户后重新带出所有的物料单价
+						function cusSynItemInfo()
+						{
+							for (var i = 0; i < seOrderEntryRowIdx; i++)
+							{
+
+								var fitemid = $("#seorderEntries" + i + "_ticitemCoreId").val();
+								getMaterialInfo(fitemid, i);
+
+							}
+						}
+
+						//提交状态为0 
 						function submits()
 						{
-						$("#fstatus").val(0);
-						compute();
+							$("#fstatus").val(0);
+							compute();
 						}
-						
+						//保存状态为 -1
 						function save()
 						{
-						$("#fstatus").val(-1);
-						compute();
+							$("#fstatus").val(-1);
+							compute();
 						}
-						
-						
-						
-						
 					</script>
 				</div>
-			 
-			 
-				  
-			 
+
+
+
+
 		<div class="form-actions">
 			<shiro:hasPermission name="qq:k3:seOrder:edit">
-			 <td>
-			 
-			        <c:if test="${seOrder.fstatus ==-1||seOrder.fstatus ==null}">
-							<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="save();" value="保 存"/>&nbsp;
-							<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="submits()" value="提交"/>&nbsp;
-					 </c:if>
-					 
-					 <c:if test="${seOrder.fstatus !=-1&&seOrder.fstatus !=null}">
+				<td><c:if test="${seOrder.fstatus ==-1||seOrder.fstatus ==null}">
+						<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="save();" value="保 存" />&nbsp;&nbsp;&nbsp;
+							<input id="btnSubmit" class="btn btn-primary" type="submit" onClick="submits()" value="提交" />&nbsp;&nbsp;&nbsp;
+					 </c:if> <c:if test="${seOrder.fstatus !=-1&&seOrder.fstatus !=null}">
 							 已提交的订单，不允许修改
-					 </c:if>
-					 <input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
-					 </td>
+					 </c:if><br/><br/><br/><input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)" /></td>
 			</shiro:hasPermission>
-			
+
 		</div>
 	</form:form>
 </body>

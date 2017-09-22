@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="t_BOS200000001"
     ,schema="dbo"
-    ,catalog="AIS20170520090131"
+    ,catalog="AIS20170527080305"
 )
 
 public class EmployeeCusReleation  implements java.io.Serializable {

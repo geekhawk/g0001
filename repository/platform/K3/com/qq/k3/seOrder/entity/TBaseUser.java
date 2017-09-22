@@ -20,7 +20,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  * TBaseUser entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_Base_User", schema = "dbo", catalog = "AIS20170520090131", uniqueConstraints = @UniqueConstraint(columnNames = "FName"))
+@Table(name = "t_Base_User", schema = "dbo", catalog = "AIS20170527080305", uniqueConstraints = @UniqueConstraint(columnNames = "FName"))
 public class TBaseUser extends BaseEntityHBT<TBaseUser>
 {
 

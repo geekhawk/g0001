@@ -23,7 +23,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/qq/k3/seOrder/">销售订单列表</a></li>
 		<shiro:hasPermission name="qq:k3:seOrder:edit">
-			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单维护</a></li>
+			<li><a href="${ctx}/qq/k3/seOrder/form">销售订单添加</a></li>
 		</shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="seOrder" action="${ctx}/qq/k3/seOrder/" method="post" class="breadcrumb form-search">

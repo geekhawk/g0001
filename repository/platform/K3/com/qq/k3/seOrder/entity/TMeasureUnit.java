@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
 @Entity
 @Table(name="t_MeasureUnit"
     ,schema="dbo"
-    ,catalog="AIS20170520090131"
+    ,catalog="AIS20170527080305"
 , uniqueConstraints = {@UniqueConstraint(columnNames={"FUnitGroupID", "FName"}), @UniqueConstraint(columnNames={"FUnitGroupID", "FNumber"})}
 )
 

@@ -133,8 +133,8 @@ function initTree(url)
         selectCheckNode();
 	});
 	key = $("#key");
-	key.bind("focus", focusKey).bind("blur", blurKey).bind(
-			"change cut input propertychange", searchNode);
+	//key.bind("focus", focusKey).bind("blur", blurKey).bind( "change cut input propertychange", searchNode);
+	key.bind("focus", focusKey).bind("blur", blurKey).bind( " propertychange", searchNode);
 	key.bind('keydown', function(e)
 	{
 		if (e.which == 13)

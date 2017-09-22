@@ -19,7 +19,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  * TDepartment entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "t_Department", schema = "dbo", catalog = "AIS20170520090131")
+@Table(name = "t_Department", schema = "dbo", catalog = "AIS20170527080305")
 public class TDepartment extends BaseEntityHBT<TDepartment>
 {
 

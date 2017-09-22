@@ -27,7 +27,7 @@ import com.thinkgem.jeesite.common.hibernate.persistence.BaseEntityHBT;
  * Seorder entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "SEOrder", schema = "dbo", catalog = "AIS20170520090131")
+@Table(name = "SEOrder", schema = "dbo", catalog = "AIS20170527080305")
 @DynamicUpdate(true)
 @SelectBeforeUpdate(value=true)
 public class SeOrder extends BaseEntityHBT<SeOrder>

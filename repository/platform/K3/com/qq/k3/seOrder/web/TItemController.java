@@ -24,9 +24,12 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps; 
 import com.qq.k3.seOrder.entity.TItem;
+import com.qq.k3.seOrder.entity.TOrganization;
 import com.qq.k3.seOrder.entity.VIcitem;
 import com.qq.k3.seOrder.service.TItemService;
+import com.qq.k3.seOrder.service.TOrganizationService;
 import com.qq.k3.seOrder.service.VIcitemService;
+import com.qq.k3.seOrder.utils.IcitemUtil;
 
 /**
  * 销售订单Controller
@@ -43,7 +46,8 @@ public class TItemController extends BaseController
 	private TItemService tItemService; 
 	@Autowired
 	private VIcitemService vIcitemService;
-	 
+	@Autowired
+	private TOrganizationService tOrganizationService;
 	
 	@ModelAttribute
 	public TItem get(@RequestParam(required = false) Integer fitemId)
@@ -126,19 +130,27 @@ public class TItemController extends BaseController
 	
 	@ResponseBody
 	@RequestMapping(value = "getIcitemInfo")
-	public Map<String, Object> getMaterialInfo(@RequestParam(required = true) Integer fitemid, HttpServletResponse response)
+	public Map<String, Object> getMaterialInfo(@RequestParam(required = true) Integer fitemid, @RequestParam(required = true) Integer fcusid, HttpServletResponse response)
 	{  
 		List<Map<String, Object>> mapList = Lists.newArrayList();
 		VIcitem  vIcitem = new VIcitem(); 
 		vIcitem =vIcitemService.findById(fitemid); 
 		Map<String, Object> map = Maps.newHashMap(); 
-		map.put("price", vIcitem.getForderPrice());
+		//map.put("price", vIcitem.getForderPrice());
+		TOrganization tOrganization  = tOrganizationService.findById(fcusid);
+		double price =  IcitemUtil.getPrice(tOrganization, fitemid);
+		map.put("price", price);
 		map.put("volume", vIcitem.getF102());  
 		map.put("measureUnit", vIcitem.getFunitId());  
 		mapList.add(map);
 
 		return map;
 	}
+	
+	
+	
+	 
+	
 	
 
 }

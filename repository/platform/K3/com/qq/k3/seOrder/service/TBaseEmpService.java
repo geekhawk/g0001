@@ -22,11 +22,13 @@ public class TBaseEmpService extends BaseServiceHBT<TBaseEmp, TBaseEmpDao>
 	 public List<TOrganization>   getReleationCus(Integer  tBaseEmpId)
 		{   TBaseEmp  tBaseEmp = this.findById(tBaseEmpId); 
 			List<TOrganization> organizationList = new ArrayList<TOrganization>();
+			if(tBaseEmp.getEmployeeCusReleations().size()>0)
+			{
 			List<EmployeeCusReleationEntry> employeeCusReleationEntrys = tBaseEmp.getEmployeeCusReleations().get(0).getEmployeeCusReleationEntries();
 			for (EmployeeCusReleationEntry employeeCusReleationEntry : employeeCusReleationEntrys)
 			{ employeeCusReleationEntry.getTOrganization().getFname();
-				organizationList.add(employeeCusReleationEntry.getTOrganization());
-
+				organizationList.add(employeeCusReleationEntry.getTOrganization()); 
+			}
 			}
 
 			return organizationList;

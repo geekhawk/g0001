@@ -51,9 +51,6 @@ public class TOrganizationController extends BaseController
 			}
 			return entity;
 		}
-
-	 
- 
 	
 	@ResponseBody
 	@RequestMapping(value = "getTOrganizationInfo")
@@ -64,10 +61,8 @@ public class TOrganizationController extends BaseController
 		tOrganization =tOrganizationService.findById(fitemid); 
 		Map<String, Object> map = Maps.newHashMap(); 
 		map.put("faddress", tOrganization.getFaddress());
-		map.put("fdepartment", tOrganization.getFdepartment());  
-		   
+		map.put("fdepartment", tOrganization.getFdepartment());
 		mapList.add(map);
-
 		return map;
 	}
 	
